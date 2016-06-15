@@ -11,6 +11,11 @@ mkdir user-service/ssh-keys
 cp ~/.ssh/* user-service/ssh-keys
 
 git clone git@github.com:seedtag/studio.git
+
+# Studio-service specific procedure:
+mkdir studio/ssh-keys
+cp ~/.ssh/* studio/ssh-keys
+
 git clone git@github.com:seedtag/backoffice.git
 git clone git@github.com:seedtag/tag-manager.git
 

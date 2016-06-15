@@ -28,11 +28,32 @@ user-service:
       SEEDTAG_JWT_COOKIE_NOT_SECURE: 'true' # Should not be defined in production
       NODE_ENV: 'development'
 
+studio-service:
+  build: ./studio/server
+  expose:
+    - "3010"
+  volumes:
+    - ./studio/server/src:/code/src
+    - ./studio/creatives:/creatives
+  command: npm run dev
+
+studio-client:
+  build: ./studio/client
+  volumes:
+    - ./studio/client/src:/code/src
+    - ./studio/server/src/template/lib:/template_lib
+    - ./studio/creatives:/creatives
+  expose:
+    - "3011"
+  command: bash -c "nginx; npm run watch"
+
 nginx:
     build: ./nginx
     ports:
         - "80:80"
     links:
         - user-service
+        - studio-client
+        - studio-service
     volumes:
         - ./nginx/conf:/etc/nginx
