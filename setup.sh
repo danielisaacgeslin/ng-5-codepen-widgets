@@ -7,17 +7,29 @@ echo
 git clone git@github.com:seedtag/user-service.git
 
 # User-service specific procedure:
-mkdir user-service/ssh-keys
+mkdir user-service/server/ssh-keys
 cp ~/.ssh/* user-service/ssh-keys
 
 git clone git@github.com:seedtag/studio.git
 
 # Studio-service specific procedure:
 mkdir studio/ssh-keys
-cp ~/.ssh/* studio/ssh-keys
+cp ~/.ssh/* studio
 
-git clone git@github.com:seedtag/backoffice.git
-git clone git@github.com:seedtag/tag-manager.git
+repositories=("backoffice" "tag-manager" "image-service")
+
+for repository in "${repositories[@]}"; do
+  if [ ! -d "$repository" ]; then
+    echo "Cloning $repository"
+    git clone git@github.com:seedtag/$repository.git
+  else
+    echo "Updating $repository"
+    cd $repository
+    git checkout master
+    git pull
+    cd ..
+  fi
+done
 
 docker-compose build
 
