@@ -16,7 +16,7 @@ git clone git@github.com:seedtag/studio.git
 mkdir studio/ssh-keys
 cp ~/.ssh/* studio
 
-repositories=("backoffice" "tag-manager" "image-service")
+repositories=("backoffice" "tag-manager" "sherlock-service")
 
 for repository in "${repositories[@]}"; do
   if [ ! -d "$repository" ]; then

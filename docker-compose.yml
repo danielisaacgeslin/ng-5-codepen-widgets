@@ -57,3 +57,14 @@ nginx:
         - studio-service
     volumes:
         - ./nginx/conf:/etc/nginx
+
+sherlock-service:
+  build: ./sherlock-service
+  expose:
+    - "3020"
+  volumes:
+    - ./sherlock-service:/code
+  command: bash -c "npm run dev"
+  environment:
+    MAIN_DATABASE_SERVICE_HOST: "mongo"
+    MAIN_DATABASE_SERVICE_PORT: "27017"
