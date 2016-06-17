@@ -5,8 +5,10 @@ studio
 tag-manager
 user-service
 image-service
+loadbalancer
 
 landing
+
 hoe
 environment
 client
