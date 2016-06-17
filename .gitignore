@@ -5,8 +5,10 @@ studio
 tag-manager
 user-service
 sherlock-service
+loadbalancer
 
 landing
+
 hoe
 environment
 client
