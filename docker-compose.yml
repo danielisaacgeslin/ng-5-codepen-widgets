@@ -48,9 +48,9 @@ studio-client:
   command: bash -c "nginx; npm run watch"
 
 email-service:
-  build: .
+  build: ./email-service
   ports:
-      - "3050:3050"
+      - "3020:3020"
   links:
       - mongo
   volumes:
