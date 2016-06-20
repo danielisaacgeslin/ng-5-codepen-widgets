@@ -47,6 +47,24 @@ studio-client:
     - "3011"
   command: bash -c "nginx; npm run watch"
 
+email-service:
+  build: .
+  ports:
+      - "3050:3050"
+  links:
+      - mongo
+  volumes:
+      - ./email-service:/code
+      - /code/node_modules
+  command: bash -c "npm run dev"
+  environment:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      NODE_ENV: 'development'
+      # Mailgun credentials must be defined in your local env
+      MAILGUN_DOMAIN:
+      MAILGUN_API_KEY:
+
 nginx:
     build: ./nginx
     ports:
