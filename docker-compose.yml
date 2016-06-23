@@ -9,11 +9,11 @@ mongo:
 user-service:
   build: ./user-service
   ports:
-      - "3000:3000"
-      - "5858:5858"
-      - "9876:9876"
-      - "8080:8080"
+      - "3040:3040"
+      - "3041:3041"
+      - "3042:3042"
   links:
+      - email-service
       - mongo
   volumes:
       - ./user-service:/code
@@ -32,6 +32,8 @@ studio-service:
   build: ./studio/server
   expose:
     - "3010"
+  links:
+      - email-service
   volumes:
     - ./studio/server/src:/code/src
     - ./studio/creatives:/creatives
