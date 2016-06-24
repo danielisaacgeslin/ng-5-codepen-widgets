@@ -4,8 +4,11 @@ backoffice
 studio
 tag-manager
 user-service
-image-service
+user-middleware
+sherlock-service
 loadbalancer
+systems
+webpack-dev-server
 
 landing
 
@@ -15,3 +18,4 @@ client
 client2
 web
 chrome-extension
+email-service

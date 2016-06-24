@@ -9,11 +9,11 @@ mongo:
 user-service:
   build: ./user-service
   ports:
-      - "3000:3000"
-      - "5858:5858"
-      - "9876:9876"
-      - "8080:8080"
+      - "3040:3040"
+      - "3041:3041"
+      - "3042:3042"
   links:
+      - email-service
       - mongo
   volumes:
       - ./user-service:/code
@@ -32,9 +32,14 @@ studio-service:
   build: ./studio/server
   expose:
     - "3010"
+  environment:
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+  links:
+      - email-service
   volumes:
     - ./studio/server/src:/code/src
-    - ./studio/creatives:/creatives
+    - ./studio/server/src/template/lib:/template_lib
+    - ./studio/creatives:/creatives/content
   command: npm run dev
   environment:
       PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
@@ -46,9 +51,27 @@ studio-client:
     - ./studio/client/src:/code/src
     - ./studio/server/src/template/lib:/template_lib
     - ./studio/creatives:/creatives
-  expose:
-    - "3011"
-  command: bash -c "nginx; npm run watch"
+  ports:
+    - "3003:3003"
+  command: bash -c "npm run server:dev"
+
+email-service:
+  build: ./email-service
+  ports:
+      - "3020:3020"
+  links:
+      - mongo
+  volumes:
+      - ./email-service:/code
+      - /code/node_modules
+  command: bash -c "npm run dev"
+  environment:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      NODE_ENV: 'development'
+      # Mailgun credentials must be defined in your local env
+      MAILGUN_DOMAIN:
+      MAILGUN_API_KEY:
 
 nginx:
     build: ./nginx
@@ -60,3 +83,13 @@ nginx:
         - studio-service
     volumes:
         - ./nginx/conf:/etc/nginx
+
+sherlock-service:
+  build: ./sherlock-service
+  volumes:
+    - ./sherlock-service:/code
+  environment:
+    MAIN_DATABASE_SERVICE_HOST: "mongo"
+    MAIN_DATABASE_SERVICE_PORT: "27017"
+    NODE_ENV: 'development'
+  command: npm run dev

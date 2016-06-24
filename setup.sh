@@ -4,19 +4,7 @@ echo -e "\n\x1B[0;32mSeedtag local environment will be installed in "$INSTALL_DI
 read -p "[Enter] if OK, [Ctrl+C] for abort"
 echo
 
-git clone git@github.com:seedtag/user-service.git
-
-# User-service specific procedure:
-mkdir user-service/server/ssh-keys
-cp ~/.ssh/* user-service/ssh-keys
-
-git clone git@github.com:seedtag/studio.git
-
-# Studio-service specific procedure:
-mkdir studio/ssh-keys
-cp ~/.ssh/* studio
-
-repositories=("backoffice" "tag-manager" "image-service")
+repositories=("backoffice" "tag-manager" "studio" "user-service" "sherlock-service" "email-service")
 
 for repository in "${repositories[@]}"; do
   if [ ! -d "$repository" ]; then
@@ -30,6 +18,19 @@ for repository in "${repositories[@]}"; do
     cd ..
   fi
 done
+
+if [ ! -d "user-service/ssh-keys" ]; then
+# User-service specific procedure:
+  mkdir user-service/ssh-keys
+fi
+cp ~/.ssh/* user-service/ssh-keys
+
+# Studio-service specific procedure:
+if [ ! -d "studio/server/ssh-keys" ]; then
+# User-service specific procedure:
+  mkdir studio/server/ssh-keys
+fi
+cp ~/.ssh/* studio/server/ssh-keys
 
 docker-compose build
 
