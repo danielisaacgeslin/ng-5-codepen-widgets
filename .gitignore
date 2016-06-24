@@ -8,6 +8,7 @@ user-middleware
 sherlock-service
 loadbalancer
 systems
+webpack-dev-server
 
 landing
 
