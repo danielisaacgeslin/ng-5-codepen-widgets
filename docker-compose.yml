@@ -1,6 +1,5 @@
 mongo:
-  image: mongo:2.6
-  command: "--smallfiles"
+  image: mongo:3.2
   expose:
       - "27017"
   ports:
