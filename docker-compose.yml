@@ -31,6 +31,8 @@ studio-service:
   build: ./studio/server
   ports:
       - "3010:3000"
+      - "3011:5858"
+      - "3012:8080"
   links:
       - email-service
   volumes:
@@ -55,6 +57,8 @@ email-service:
   build: ./email-service
   ports:
       - "3020:3000"
+      - "3021:5858"
+      - "3022:8080"
   links:
       - mongo
   volumes:
