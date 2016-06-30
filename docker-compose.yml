@@ -50,8 +50,16 @@ studio-client:
   volumes:
     - ./studio/client/src:/code/src
   ports:
-    - "3003:3003"
-  command: bash -c "npm run server:dev"
+    - "3050:3000"
+  command: bash -c "npm run server"
+
+backoffice-client:
+    build: ./backoffice
+    volumes:
+      - ./backoffice/src:/code/src
+    ports:
+      - "3060:3000"
+    command: bash -c "npm run server"
 
 email-service:
   build: ./email-service
@@ -79,8 +87,8 @@ nginx:
         - "80:80"
     links:
         - user-service
-        - studio-client
-        - studio-service
+        - backoffice-client
+        - tag-manager-service
     volumes:
         - ./nginx/conf:/etc/nginx
 
@@ -93,3 +101,20 @@ sherlock-service:
     MAIN_DATABASE_SERVICE_PORT: "27017"
     NODE_ENV: 'development'
   command: npm run dev
+
+tag-manager-service:
+    build: ./tag-manager-service
+    ports:
+        - "3000:3000"
+        - "3001:5858"
+        - "3002:8080"
+    links:
+        - mongo
+    volumes:
+      - ./tag-manager-service:/code
+      - /code/node_modules
+    environment:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      NODE_ENV: 'development'
+    command: bash -c "npm run dev"

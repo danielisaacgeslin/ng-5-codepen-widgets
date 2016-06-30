@@ -1,21 +1,26 @@
 .DS_Store
 
+loadbalancer
+
 backoffice
 studio
-tag-manager
+landing
+client2
+
+# Services
+tag-manager-service
 user-service
-user-middleware
 sherlock-service
-loadbalancer
+email-service
+
+# Other repositories
+user-middleware
 systems
 webpack-dev-server
 
-landing
-
+# Old repositories
 hoe
 environment
 client
-client2
 web
 chrome-extension
-email-service
