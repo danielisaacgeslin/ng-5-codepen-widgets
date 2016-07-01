@@ -76,9 +76,9 @@ sherlock-service:
 tag-manager-service:
   build: ./tag-manager-service
   ports:
-    - "3000:3000"
-    - "3001:5858"
-    - "3002:8080"
+    - "3030:3000"
+    - "3031:5858"
+    - "3032:8080"
   links:
     - mongo
   volumes:
