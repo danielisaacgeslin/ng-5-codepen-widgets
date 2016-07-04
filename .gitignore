@@ -17,6 +17,7 @@ email-service
 user-middleware
 systems
 webpack-dev-server
+docker-images
 
 # Old repositories
 hoe
