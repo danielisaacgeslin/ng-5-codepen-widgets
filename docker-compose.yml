@@ -16,6 +16,7 @@ nginx:
     - tag-manager-service
     - studio-client
     - studio-service
+    - sherlock-service
   volumes:
     - ./nginx/conf:/etc/nginx
 
@@ -133,7 +134,7 @@ sherlock-service:
   links:
     - google-cloud-emulator
   volumes:
-    - .:/code
+    - ./sherlock-service:/code
     - /code/node_modules
   environment:
     NODE_ENV: 'development'
