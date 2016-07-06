@@ -1,3 +1,4 @@
+#!/bin/bash
 cd "$(dirname "$0")"
 INSTALL_DIRECTORY=`pwd`
 echo -e "\n\x1B[0;32mSeedtag local environment will be installed in "$INSTALL_DIRECTORY"\x1B[0m"
