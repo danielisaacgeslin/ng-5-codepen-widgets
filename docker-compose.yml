@@ -72,6 +72,7 @@ tag-manager-service:
     - "3002:8080"
   links:
     - mongo
+    - sherlock-service
   volumes:
     - ./tag-manager-service:/code
     - /code/node_modules

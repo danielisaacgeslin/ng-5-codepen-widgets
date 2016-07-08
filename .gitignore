@@ -12,11 +12,13 @@ tag-manager-service
 user-service
 sherlock-service
 email-service
+adserver-proxy-service
 
 # Other repositories
 user-middleware
 systems
 webpack-dev-server
+seedtag-node-logger
 docker-images
 
 # Old repositories
