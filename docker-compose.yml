@@ -64,6 +64,39 @@ email-service:
     MAILGUN_DOMAIN:
     MAILGUN_API_KEY:
 
+sherlock-service:
+  build: ./sherlock-service
+  ports:
+    - "3030:3000"
+  links:
+    - google-cloud-emulator
+  volumes:
+    - ./sherlock-service:/code
+    - /code/node_modules
+  environment:
+    NODE_ENV: 'development'
+    DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
+    GCLOUD_PROJECT: 'testing-project'
+  command: bash -c "npm run dev"
+
+google-cloud-emulator:
+  build: ./sherlock-service/google-cloud-emulator
+  container_name: google-cloud-emulator
+  expose:
+    - "8888"
+  ports:
+    - "8888:8888"
+  environment:
+    CLOUDSDK_CORE_PROJECT: 'testing-project'
+
+adserver-proxy-service:
+  build: ./adserver-proxy-service
+  ports:
+   - "88:3000"
+  volumes:
+   - ./adserver-proxy-service:/code
+  command: bash -c "npm run start-dev"
+
 tag-manager-service:
   build: ./tag-manager-service
   ports:
@@ -73,6 +106,7 @@ tag-manager-service:
   links:
     - mongo
     - sherlock-service
+    - adserver-proxy-service
   volumes:
     - ./tag-manager-service:/code
     - /code/node_modules
@@ -80,7 +114,7 @@ tag-manager-service:
     MAIN_DATABASE_SERVICE_HOST: "mongo"
     MAIN_DATABASE_SERVICE_PORT: "27017"
     NODE_ENV: 'development'
-  command: bash -c "npm run dev"
+  command: bash -c "npm run start-dev"
 
 studio-service:
   build: ./studio/server
@@ -113,32 +147,8 @@ studio-client:
 backoffice-client:
   build: ./backoffice
   volumes:
-    - ./backoffice/src:/code/src
+    - ./backoffice:/code
+    - /code/node_modules
   ports:
     - "3060:3000"
   command: bash -c "npm run server"
-
-google-cloud-emulator:
-  build: ./sherlock-service/google-cloud-emulator
-  container_name: google-cloud-emulator
-  expose:
-    - "8888"
-  ports:
-    - "8888:8888"
-  environment:
-    CLOUDSDK_CORE_PROJECT: 'testing-project'
-
-sherlock-service:
-  build: ./sherlock-service
-  ports:
-    - "3030:3000"
-  links:
-    - google-cloud-emulator
-  volumes:
-    - ./sherlock-service:/code
-    - /code/node_modules
-  environment:
-    NODE_ENV: 'development'
-    DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
-    GCLOUD_PROJECT: 'testing-project'
-  command: bash -c "npm run dev"
