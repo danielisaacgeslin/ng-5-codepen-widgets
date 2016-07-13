@@ -92,7 +92,7 @@ google-cloud-emulator:
 adserver-proxy-service:
   build: ./adserver-proxy-service
   ports:
-   - "88:3000"
+   - "3070:3000"
   volumes:
    - ./adserver-proxy-service:/code
   command: bash -c "npm run start-dev"
