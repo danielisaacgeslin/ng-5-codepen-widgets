@@ -13,6 +13,7 @@ user-service
 sherlock-service
 email-service
 adserver-proxy-service
+tagging-service
 
 # Other repositories
 user-middleware
