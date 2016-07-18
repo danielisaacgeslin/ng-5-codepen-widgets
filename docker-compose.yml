@@ -6,6 +6,7 @@ mongo:
       - "27017:27017"
 
 # Load balancer for dev-environment
+# Ensure each nginx server-config is linking with docker #
 nginx:
   build: ./nginx
   ports:
@@ -14,6 +15,7 @@ nginx:
     - user-service
     - backoffice-client
     - tag-manager-service
+    - tagging-service
     - studio-client
     - studio-service
     - sherlock-service
@@ -141,7 +143,7 @@ studio-service:
 
 tagging-service:
   build: ./tagging-service
-  ports: 
+  ports:
     - "3080:3000"
   links:
     - sherlock-service
