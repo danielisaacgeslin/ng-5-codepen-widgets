@@ -8,8 +8,6 @@ services:
     ports:
         - "27017:27017"
 
-  # Load balancer for dev-environment
-  # Ensure each nginx server-config is linking with docker #
   nginx:
     build: ./nginx
     ports:
@@ -18,7 +16,6 @@ services:
       - ./nginx/conf:/etc/nginx
 
   # Services #
-
   user-service:
     build: ./user-service
     ports:
@@ -133,7 +130,6 @@ services:
     command: bash -c "npm run start-dev"
 
   #Clients
-
   studio-client:
     build: ./studio/client
     volumes:
