@@ -1,173 +1,152 @@
-mongo:
-  image: mongo:3.0
-  expose:
-      - "27017"
-  ports:
-      - "27017:27017"
+version: '2'
 
-# Load balancer for dev-environment
-# Ensure each nginx server-config is linking with docker #
-nginx:
-  build: ./nginx
-  ports:
-    - "80:80"
-  links:
-    - user-service
-    - backoffice-client
-    - tag-manager-service
-    - tagging-service
-    - studio-client
-    - studio-service
-    - sherlock-service
-  volumes:
-    - ./nginx/conf:/etc/nginx
+services:
+  mongo:
+    image: mongo:3.0
+    expose:
+        - "27017"
+    ports:
+        - "27017:27017"
 
-# Services #
+  # Load balancer for dev-environment
+  # Ensure each nginx server-config is linking with docker #
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf:/etc/nginx
 
-user-service:
-  build: ./user-service
-  ports:
-    - "3040:3000"
-    - "3041:5858"
-    - "3042:8080"
-  links:
-    - email-service
-    - mongo
-  volumes:
-    - ./user-service:/code
-    - /code/node_modules
-  command: bash -c "npm run dev"
-  environment:
-    PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
-    PRIVATE_SIGNING_KEY: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9Rzw\nQc1WzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3\nY4nw7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTO\nZALPQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8\nTSRgbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSw\ng2N3gvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQABAoIBAFudszh3YdvPa+1u\n7TrwTFNwFl5bwFQDwvvAvUEqrf2p8z9OKxoS6FcaekXvbcptdyFE4itxJpbuseXq\ni67d9PK5hAmicppYYNLEwrBHbfQFgnzFZMx/1GNG5QIAHN3FGZYnKE9IT9MQu8hH\nMFxGLFGcj71ort4Y5DDtpyRsCGUZDLBN45IFLP5oRhaKDFSWD4exev8GeQDpJkgK\nsb6w1n0KJLqShvvM8SMkNsKLnxT9jgz5o3PK5wjPIS1q+bxJH4edIi37sOtrnCak\n6E2Qh/ZpRMnyKS9MYjFGLoSESKrojBoRWqat6ygQKheep82wZRKsRNptov7YlQ8t\nJOsI6PkCgYEAxPx6esAE1EnLpPupRgf5ki9zH8t5JDYlAPOQpHDZKvLZCB35D5O3\n+8FLCju190g5AC0jwgbcr6d7CvPrSfVH8w3e+gv0dyuUysoXBG0ZuWtKYc/SVZ2e\niN/qp/5leRpV2wQzK6mSBTrrs55ykHPSpBarpUHpR7W1/e83T6uyi9MCgYEAxIUE\n+EGCiDi9BZXja5RbwOxPp3oUKAPcrFH1n5nNwCrr7kP8ncY11JJC5nKLtCm624gt\nMB+h0dbaO7WGQ29gVABpiVvbAOckMpo+xC4S8xgus6/4aKvYWIffe6M3x/nuQfS5\n6HMsC9HT0zeaUsm7BcoES0Pueq5Zi8INhdtm40cCgYAqi8m8d3rTizjT4pM2EATk\ngSEhbeY1XwhxAyprigAt2ZPsv+SKa8JiOuaFSE5OIahGFHnTr3285rSZsgNQzwyC\nP624XhqoHp6dijaceyACP10qcSOh4FBcidh5/mVWWczPaEHRHWfvf0FnY0KlVo7Z\naBgcsna7SVEMjr1olNIUhwKBgCjH8eASuCPMom0mTatlfiTq5Ry8GLK1GnYoC/Cy\n2h+myI8JTMLw/vq932QzIQqiHkSwXbA+4DXLgD4jzVjxI+xKqZv3k9r8HGbj22Ka\nrRQFUKu5OLN/9cVpbNcbZ9f35ZmKT4oNXHaXdH3AbCYB9u2cnod/8V1EEREPk/7T\nKObBAoGBAI2xZOE2SFqjS4IoTFinJkGr/WjnP13vyoQPfIqThQCawv2KAaSfD4Lv\nS/r+6dYXU6oteol1bSLMmkXN4lWBxgpqAC+Gbvv982SgEq6+WdbI1IpPnqtbC8F4\nH3s8bB3nKjE1KA8UXzavsQa9tbel3SO/wQhMVTBvml52+ieAhK0w\n-----END RSA PRIVATE KEY-----"
-    MAIN_DATABASE_SERVICE_HOST: "mongo"
-    MAIN_DATABASE_SERVICE_PORT: "27017"
-    SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
-    SEEDTAG_JWT_COOKIE_NOT_SECURE: 'true' # Should not be defined in production
-    NODE_ENV: 'development'
+  # Services #
 
-email-service:
-  build: ./email-service
-  ports:
-    - "3020:3000"
-    - "3021:5858"
-    - "3022:8080"
-  links:
-    - mongo
-  volumes:
-    - ./email-service:/code
-    - /code/node_modules
-  command: bash -c "npm run dev"
-  environment:
-    MAIN_DATABASE_SERVICE_HOST: "mongo"
-    MAIN_DATABASE_SERVICE_PORT: "27017"
-    NODE_ENV: 'development'
-    # Mailgun credentials must be defined in your local env
-    MAILGUN_DOMAIN:
-    MAILGUN_API_KEY:
+  user-service:
+    build: ./user-service
+    ports:
+      - "3040:3000"
+      - "3041:5858"
+      - "3042:8080"
+    volumes:
+      - ./user-service:/code
+      - /code/node_modules
+    command: bash -c "npm run dev"
+    environment:
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+      PRIVATE_SIGNING_KEY: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9Rzw\nQc1WzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3\nY4nw7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTO\nZALPQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8\nTSRgbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSw\ng2N3gvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQABAoIBAFudszh3YdvPa+1u\n7TrwTFNwFl5bwFQDwvvAvUEqrf2p8z9OKxoS6FcaekXvbcptdyFE4itxJpbuseXq\ni67d9PK5hAmicppYYNLEwrBHbfQFgnzFZMx/1GNG5QIAHN3FGZYnKE9IT9MQu8hH\nMFxGLFGcj71ort4Y5DDtpyRsCGUZDLBN45IFLP5oRhaKDFSWD4exev8GeQDpJkgK\nsb6w1n0KJLqShvvM8SMkNsKLnxT9jgz5o3PK5wjPIS1q+bxJH4edIi37sOtrnCak\n6E2Qh/ZpRMnyKS9MYjFGLoSESKrojBoRWqat6ygQKheep82wZRKsRNptov7YlQ8t\nJOsI6PkCgYEAxPx6esAE1EnLpPupRgf5ki9zH8t5JDYlAPOQpHDZKvLZCB35D5O3\n+8FLCju190g5AC0jwgbcr6d7CvPrSfVH8w3e+gv0dyuUysoXBG0ZuWtKYc/SVZ2e\niN/qp/5leRpV2wQzK6mSBTrrs55ykHPSpBarpUHpR7W1/e83T6uyi9MCgYEAxIUE\n+EGCiDi9BZXja5RbwOxPp3oUKAPcrFH1n5nNwCrr7kP8ncY11JJC5nKLtCm624gt\nMB+h0dbaO7WGQ29gVABpiVvbAOckMpo+xC4S8xgus6/4aKvYWIffe6M3x/nuQfS5\n6HMsC9HT0zeaUsm7BcoES0Pueq5Zi8INhdtm40cCgYAqi8m8d3rTizjT4pM2EATk\ngSEhbeY1XwhxAyprigAt2ZPsv+SKa8JiOuaFSE5OIahGFHnTr3285rSZsgNQzwyC\nP624XhqoHp6dijaceyACP10qcSOh4FBcidh5/mVWWczPaEHRHWfvf0FnY0KlVo7Z\naBgcsna7SVEMjr1olNIUhwKBgCjH8eASuCPMom0mTatlfiTq5Ry8GLK1GnYoC/Cy\n2h+myI8JTMLw/vq932QzIQqiHkSwXbA+4DXLgD4jzVjxI+xKqZv3k9r8HGbj22Ka\nrRQFUKu5OLN/9cVpbNcbZ9f35ZmKT4oNXHaXdH3AbCYB9u2cnod/8V1EEREPk/7T\nKObBAoGBAI2xZOE2SFqjS4IoTFinJkGr/WjnP13vyoQPfIqThQCawv2KAaSfD4Lv\nS/r+6dYXU6oteol1bSLMmkXN4lWBxgpqAC+Gbvv982SgEq6+WdbI1IpPnqtbC8F4\nH3s8bB3nKjE1KA8UXzavsQa9tbel3SO/wQhMVTBvml52+ieAhK0w\n-----END RSA PRIVATE KEY-----"
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
+      SEEDTAG_JWT_COOKIE_NOT_SECURE: 'true' # Should not be defined in production
+      NODE_ENV: 'development'
 
-sherlock-service:
-  build: ./sherlock-service
-  ports:
-    - "3030:3000"
-  links:
-    - google-cloud-emulator
-  volumes:
-    - ./sherlock-service:/code
-    - /code/node_modules
-  environment:
-    NODE_ENV: 'development'
-    DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
-    GCLOUD_PROJECT: 'testing-project'
-  command: bash -c "npm run dev"
+  email-service:
+    build: ./email-service
+    ports:
+      - "3020:3000"
+      - "3021:5858"
+      - "3022:8080"
+    volumes:
+      - ./email-service:/code
+      - /code/node_modules
+    command: bash -c "npm run dev"
+    environment:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      NODE_ENV: 'development'
+      # Mailgun credentials must be defined in your local env
+      MAILGUN_DOMAIN:
+      MAILGUN_API_KEY:
 
-google-cloud-emulator:
-  build: ./sherlock-service/google-cloud-emulator
-  container_name: google-cloud-emulator
-  expose:
-    - "8888"
-  ports:
-    - "8888:8888"
-  environment:
-    CLOUDSDK_CORE_PROJECT: 'testing-project'
+  sherlock-service:
+    build: ./sherlock-service
+    ports:
+      - "3030:3000"
+    volumes:
+      - ./sherlock-service:/code
+      - /code/node_modules
+    environment:
+      NODE_ENV: 'development'
+      DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
+      GCLOUD_PROJECT: 'testing-project'
+    command: bash -c "npm run dev"
 
-adserver-proxy-service:
-  build: ./adserver-proxy-service
-  ports:
-   - "3070:3000"
-  volumes:
-   - ./adserver-proxy-service:/code
-   - /code/node_modules
-  environment:
-    APPNEXUS_ENDPOINT:
-    APPNEXUS_USERNAME:
-    APPNEXUS_PASSWORD:
-  command: bash -c "npm run start-dev"
+  google-cloud-emulator:
+    build: ./sherlock-service/google-cloud-emulator
+    container_name: google-cloud-emulator
+    expose:
+      - "8888"
+    ports:
+      - "8888:8888"
+    environment:
+      CLOUDSDK_CORE_PROJECT: 'testing-project'
 
-tag-manager-service:
-  build: ./tag-manager-service
-  ports:
-    - "3000:3000"
-    - "3001:5858"
-    - "3002:8080"
-  links:
-    - mongo
-    - sherlock-service
-    - adserver-proxy-service
-  volumes:
-    - ./tag-manager-service:/code
-    - /code/node_modules
-  environment:
-    MAIN_DATABASE_SERVICE_HOST: "mongo"
-    MAIN_DATABASE_SERVICE_PORT: "27017"
-    NODE_ENV: 'development'
-    PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
-  command: bash -c "npm run start-dev"
+  adserver-proxy-service:
+    build: ./adserver-proxy-service
+    ports:
+     - "3070:3000"
+    volumes:
+     - ./adserver-proxy-service:/code
+     - /code/node_modules
+    environment:
+      APPNEXUS_ENDPOINT:
+      APPNEXUS_USERNAME:
+      APPNEXUS_PASSWORD:
+    command: bash -c "npm run start-dev"
 
-studio-service:
-  build: ./studio/server
-  ports:
-    - "3010:3000"
-    - "3011:5858"
-    - "3012:8080"
-  links:
-    - email-service
-  volumes:
-    - ./studio/server:/code
-    - ./studio/server/src/template/lib:/template_lib
-    - ./studio/creatives:/creatives
-    - /code/node_modules
-  command: npm run dev
-  environment:
-    PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+  tag-manager-service:
+    build: ./tag-manager-service
+    ports:
+      - "3000:3000"
+      - "3001:5858"
+      - "3002:8080"
+    volumes:
+      - ./tag-manager-service:/code
+      - /code/node_modules
+    environment:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
+      NODE_ENV: 'development'
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+    command: bash -c "npm run start-dev"
 
-tagging-service:
-  build: ./tagging-service
-  ports:
-    - "3080:3000"
-  links:
-    - sherlock-service
-    - adserver-proxy-service
-  volumes:
-    - ./tagging-service:/code
-    - /code/node_modules
-  command: bash -c "npm run start-dev"
+  studio-service:
+    build: ./studio/server
+    ports:
+      - "3010:3000"
+      - "3011:5858"
+      - "3012:8080"
+    volumes:
+      - ./studio/server:/code
+      - ./studio/server/src/template/lib:/template_lib
+      - ./studio/creatives:/creatives
+      - /code/node_modules
+    command: npm run dev
+    environment:
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
 
-#Clients
+  tagging-service:
+    build: ./tagging-service
+    ports:
+      - "3080:3000"
+    volumes:
+      - ./tagging-service:/code
+      - /code/node_modules
+    command: bash -c "npm run start-dev"
 
-studio-client:
-  build: ./studio/client
-  volumes:
-    - ./studio/client/src:/code/src
-  ports:
-    - "3050:3000"
-  command: bash -c "npm run server"
+  #Clients
 
-backoffice-client:
-  build: ./backoffice
-  volumes:
-    - ./backoffice:/code
-    - /code/node_modules
-  ports:
-    - "3060:3000"
-  command: bash -c "npm run server"
+  studio-client:
+    build: ./studio/client
+    volumes:
+      - ./studio/client/src:/code/src
+    ports:
+      - "3050:3000"
+    command: bash -c "npm run server"
+
+  backoffice-client:
+    build: ./backoffice
+    volumes:
+      - ./backoffice:/code
+      - /code/node_modules
+    ports:
+      - "3060:3000"
+    command: bash -c "npm run server"
