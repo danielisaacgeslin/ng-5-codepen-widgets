@@ -32,7 +32,6 @@ services:
       MAIN_DATABASE_SERVICE_HOST: "mongo"
       MAIN_DATABASE_SERVICE_PORT: "27017"
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
-      SEEDTAG_JWT_COOKIE_NOT_SECURE: 'true' # Should not be defined in production
       NODE_ENV: 'development'
 
   email-service:
@@ -64,6 +63,7 @@ services:
       NODE_ENV: 'development'
       DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
       GCLOUD_PROJECT: 'testing-project'
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
     command: bash -c "npm run dev"
 
   google-cloud-emulator:
@@ -103,6 +103,7 @@ services:
       MAIN_DATABASE_SERVICE_PORT: "27017"
       NODE_ENV: 'development'
       PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
     command: bash -c "npm run start-dev"
 
   studio-service:
@@ -119,6 +120,7 @@ services:
     command: npm run dev
     environment:
       PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
 
   tagging-service:
     build: ./tagging-service
