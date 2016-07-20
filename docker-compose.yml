@@ -130,6 +130,10 @@ services:
       - ./tagging-service:/code
       - /code/node_modules
     command: bash -c "npm run start-dev"
+    environment:
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
+
 
   #Clients
   studio-client:
