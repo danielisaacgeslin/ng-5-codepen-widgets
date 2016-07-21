@@ -87,6 +87,8 @@ services:
       APPNEXUS_ENDPOINT:
       APPNEXUS_USERNAME:
       APPNEXUS_PASSWORD:
+      MAIN_DATABASE_SERVICE_HOST: "mongo"
+      MAIN_DATABASE_SERVICE_PORT: "27017"
     command: bash -c "npm run start-dev"
 
   tag-manager-service:
