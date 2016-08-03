@@ -64,7 +64,14 @@ services:
       DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
       GCLOUD_PROJECT: 'testing-project'
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
     command: npm run dev
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
 
   google-cloud-emulator:
     build: ./sherlock-service/google-cloud-emulator
