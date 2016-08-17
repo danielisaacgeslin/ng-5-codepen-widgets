@@ -23,6 +23,7 @@ user-middleware
 systems
 webpack-dev-server
 seedtag-node-logger
+seedtag-request
 docker-images
 
 # Old repositories
