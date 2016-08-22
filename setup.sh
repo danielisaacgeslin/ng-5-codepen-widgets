@@ -5,7 +5,7 @@ echo -e "\n\x1B[0;32mSeedtag local environment will be installed in "$INSTALL_DI
 read -p "[Enter] if OK, [Ctrl+C] for abort"
 echo
 
-repositories=("backoffice" "studio" "user-service" "sherlock-service" "email-service" "tag-manager-service" "tagging-service" "adserver-proxy-service")
+repositories=("backoffice" "studio" "user-service" "sherlock-service" "email-service" "tag-manager-service" "tagging-service" "adserver-proxy-service" "event-service")
 
 for repository in "${repositories[@]}"; do
   if [ ! -d "$repository" ]; then

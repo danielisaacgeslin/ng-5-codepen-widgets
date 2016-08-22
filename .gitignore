@@ -17,6 +17,7 @@ sherlock-service
 email-service
 adserver-proxy-service
 tagging-service
+event-service
 
 # Other repositories
 user-middleware

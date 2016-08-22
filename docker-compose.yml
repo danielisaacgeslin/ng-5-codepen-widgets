@@ -144,6 +144,16 @@ services:
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
 
 
+  event-service:
+    build: ./event-service
+    ports:
+     - "3090:3000"
+    volumes:
+     - ./event-service:/code
+    environment:
+     - PHP_ENV=development
+
+
   #Clients
   studio-client:
     build: ./studio/client
