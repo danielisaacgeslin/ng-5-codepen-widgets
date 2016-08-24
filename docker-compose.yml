@@ -152,6 +152,9 @@ services:
      - ./event-service:/code
     environment:
      - PHP_ENV=development
+    links:
+     - "mongo:analytics-database"
+     - "redis:analytics-redis"
 
 
   #Clients
