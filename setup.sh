@@ -12,11 +12,7 @@ for repository in "${repositories[@]}"; do
     echo "Cloning $repository"
     git clone git@github.com:seedtag/$repository.git
   else
-    echo "Updating $repository"
-    cd $repository
-    git checkout master
-    git pull
-    cd ..
+    echo "Skipping $repository"
   fi
 done
 
