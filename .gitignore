@@ -6,6 +6,7 @@ servicekey.json
 loadbalancer
 
 backoffice
+publisher-panel
 studio
 landing
 client2
@@ -27,6 +28,9 @@ webpack-dev-server
 seedtag-node-logger
 seedtag-request
 docker-images
+
+angular2-boilerplate
+angular2-datatable
 
 # Old repositories
 hoe
