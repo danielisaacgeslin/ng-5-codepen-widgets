@@ -20,6 +20,7 @@ email-service
 adserver-proxy-service
 tagging-service
 event-service
+error-service
 
 # Other repositories
 user-middleware
