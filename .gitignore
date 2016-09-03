@@ -21,6 +21,7 @@ adserver-proxy-service
 tagging-service
 event-service
 error-service
+aggregation-service
 
 # Other repositories
 user-middleware
