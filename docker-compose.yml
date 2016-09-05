@@ -186,11 +186,20 @@ services:
       - "3050:3000"
     command: npm run server
 
-  backoffice-client:
-    build: ./backoffice
-    volumes:
-      - ./backoffice:/code
-      - /code/node_modules
-    ports:
-      - "3060:3000"
-    command: npm run server
+  # backoffice-client:
+  #   build: ./backoffice
+  #   volumes:
+  #     - ./backoffice:/code
+  #     - /code/node_modules
+  #   ports:
+  #     - "3060:3000"
+  #   command: npm run server
+
+  # publisher-panel-client:
+  #   build: ./publisher-panel
+  #   volumes:
+  #     - ./publisher-panel:/code
+  #     - /code/node_modules
+  #   ports:
+  #     - "3090:3000"
+  #   command: npm run server
