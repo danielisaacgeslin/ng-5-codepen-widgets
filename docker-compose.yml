@@ -113,6 +113,8 @@ services:
       - ./tag-manager-service:/code
       - /code/node_modules
     environment:
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
       MAIN_DATABASE_SERVICE_HOST: "mongo"
       MAIN_DATABASE_SERVICE_PORT: "27017"
       NODE_ENV: 'development'
