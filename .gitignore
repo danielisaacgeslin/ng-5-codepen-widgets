@@ -24,6 +24,7 @@ error-service
 aggregation-service
 topurls-service
 event-bigdata-service
+analytics-service
 
 # Other repositories
 user-middleware
