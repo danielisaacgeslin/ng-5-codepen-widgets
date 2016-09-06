@@ -159,6 +159,29 @@ services:
       - /code/node_modules
     command: npm run dev
 
+  kafka:
+    image: spotify/kafka
+    expose:
+        - "2181"
+        - "9092"
+    ports:
+        - "2181:2181"
+        - "9092:9092"
+
+  event-bigdata-service:
+    build: ./event-bigdata-service
+    ports:
+      - "3110:3000"
+    volumes:
+      - ./event-bigdata-service:/code
+      - /code/node_modules
+    environment:
+      ZOOKEEPER_HOST: "kafka:2181"
+      PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
+      ANALYTICS_DATABASE_SERVICE_HOST: "mongo"
+      ANALYTICS_DATABASE_SERVICE_PORT: "27017"
+    command: npm run dev
+
   event-service:
     build: ./event-service/nginx
     ports:

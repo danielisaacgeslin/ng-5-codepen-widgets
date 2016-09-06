@@ -22,6 +22,8 @@ tagging-service
 event-service
 error-service
 aggregation-service
+topurls-service
+event-bigdata-service
 
 # Other repositories
 user-middleware
