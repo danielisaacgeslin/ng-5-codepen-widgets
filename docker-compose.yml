@@ -190,26 +190,6 @@ services:
       - kafka
     command: npm run dev
 
-  event-service:
-    build: ./event-service/nginx
-    ports:
-     - "3090:3000"
-    depends_on:
-     - event-service-backend
-
-  event-service-backend:
-    build: ./event-service
-    ports:
-     - "9000:9000"
-    volumes:
-     - ./event-service:/code
-    environment:
-      PHP_ENV: development
-      PUBLIC_SIGNING_KEY_X509: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDt\nfooC9K3dXPWClQ/UER+z7Evg9RzwQc1WzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+I\nCAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXu\nBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALPQgDwZiWKiyj0V9gZEQcxOJA14vNARboM\niewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRgbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4s\nuDHcaLDOajORBGYqJc3FodvJvZSwg2N3gvaMukeh7j0nTJYlnXgddPaIxn64J5Lg\nhQIDAQAB\n-----END PUBLIC KEY-----\n"
-    links:
-     - "mongo:analytics-database"
-     - "redis:analytics-redis"
-
   #Clients
   studio-client:
     build: ./studio/client
