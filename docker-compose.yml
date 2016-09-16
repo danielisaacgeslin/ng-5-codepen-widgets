@@ -190,6 +190,21 @@ services:
       - kafka
     command: npm run dev
 
+  analytics-service:
+    build: ./analytics-service
+    ports:
+        - "3130:3000"
+    volumes:
+        - ./analytics-service:/code
+        - /code/node_modules
+    command: npm run dev
+    environment:
+        NODE_ENV: 'development'
+        ANALYTICS_DATABASE_SERVICE_HOST: "analytics-database"
+        ANALYTICS_DATABASE_SERVICE_PORT: "27017"
+    links:
+     - "mongo:analytics-database"
+
   #Clients
   studio-client:
     build: ./studio/client
