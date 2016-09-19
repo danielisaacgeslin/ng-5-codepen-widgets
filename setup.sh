@@ -38,5 +38,5 @@ cp ~/.ssh/* studio/server/ssh-keys
 docker-compose build
 
 echo -e "\x1B[0;32mNow run (if you haven't already done it)\x1B[0m"
-echo '        printf "127.0.0.1\tlogin.seedtag.local\n127.0.0.1\tstudio.seedtag.local\n127.0.0.1\tstudio.api.seedtag.local\n127.0.0.1\tadmin.seedtag.local\n127.0.0.1\ttms.api.seedtag.local\n127.0.0.1\tsherlock.api.seedtag.local\n127.0.0.1\ttagging.api.seedtag.local\n127.0.0.1\terrors.api.seedtag.local\n\tpanel.seedtag.local\n\te2.seedtag.local\n" | sudo tee -a /etc/hosts'
+echo '        printf "127.0.0.1\tlogin.seedtag.local\n127.0.0.1\tstudio.seedtag.local\n127.0.0.1\tstudio.api.seedtag.local\n127.0.0.1\tadmin.seedtag.local\n127.0.0.1\ttms.api.seedtag.local\n127.0.0.1\tsherlock.api.seedtag.local\n127.0.0.1\ttagging.api.seedtag.local\n127.0.0.1\terrors.api.seedtag.local\n\tpublishers.seedtag.local\n\te2.seedtag.local\n" | sudo tee -a /etc/hosts'
 echo -e "\x1B[0;32mAnd your installation will be finished, you will be able to do 'docker-compose up' in "$INSTALL_DIRECTORY" and browse seedtag services\x1B[0m"
