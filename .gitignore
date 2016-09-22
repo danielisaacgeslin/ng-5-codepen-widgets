@@ -25,6 +25,7 @@ aggregation-service
 topurls-service
 event-bigdata-service
 analytics-service
+adserver-report-extraction-task
 
 # Other repositories
 user-middleware
