@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 docker_changes=()
 npm_changes=()
