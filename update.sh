@@ -1,5 +1,13 @@
 #!/bin/bash
 
+GC_FILE=~/.st_docker_gc
+if [ ! -e $GC_FILE ] || test `find "$GC_FILE" -mtime +15`; then
+    echo "Cleaning up docker"
+    docker rmi -f $(docker images --filter='dangling=true' -q)
+    docker volume rm $(docker volume ls -qf dangling=true)
+    touch $GC_FILE
+fi
+
 docker_changes=()
 npm_changes=()
 
