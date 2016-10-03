@@ -36,8 +36,9 @@ seedtag-request
 docker-images
 
 angular2-boilerplate
-angular2-datatable
 angular2-data-table
+seedtag-ui2
+eslint-config-seedtag-base
 
 # Old repositories
 hoe
