@@ -17,6 +17,7 @@ repositories=(
 "adserver-proxy-service"
 "event-bigdata-service"
 "error-service"
+"watson-service"
 )
 
 for repository in "${repositories[@]}"; do

@@ -26,6 +26,7 @@ topurls-service
 event-bigdata-service
 analytics-service
 adserver-report-extraction-task
+watson-service
 
 # Other repositories
 user-middleware
