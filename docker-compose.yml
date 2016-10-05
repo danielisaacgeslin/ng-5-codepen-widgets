@@ -217,6 +217,7 @@ services:
     command: npm run dev
     environment:
       NODE_ENV: 'development'
+      ZOOKEEPER_HOST: "kafka:2181"
 
   # #Clients
   # studio-client:
