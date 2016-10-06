@@ -215,6 +215,8 @@ services:
       - ./watson-service:/code
       - /code/node_modules
     command: npm run dev
+    depends_on:
+      - kafka
     environment:
       NODE_ENV: 'development'
       ZOOKEEPER_HOST: "kafka:2181"
