@@ -71,7 +71,7 @@ services:
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
       REDIS_HOST: 'redis'
       REDIS_PORT: '6379'
-      ZOOKEEPER_HOST: 'zookeeper:2181'
+      ZOOKEEPER_HOSTS: 'zookeeper:2181'
     depends_on:
       - google-cloud-emulator
       - redis
@@ -249,15 +249,15 @@ services:
     environment:
       NODE_ENV: "development"
     command: npm run start
-
-  backoffice-client:
-    build: ./backoffice
-    volumes:
-      - ./backoffice:/code
-      - /code/node_modules
-    ports:
-      - "3060:3000"
-    command: npm run start
+  #
+  # backoffice-client:
+  #   build: ./backoffice
+  #   volumes:
+  #     - ./backoffice:/code
+  #     - /code/node_modules
+  #   ports:
+  #     - "3060:3000"
+  #   command: npm run start
 
   # publisher-panel-client:
   #   build: ./publisher-panel
