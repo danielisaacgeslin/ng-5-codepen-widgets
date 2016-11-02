@@ -275,11 +275,11 @@ services:
   #     - "3090:3000"
   #   command: npm run start
 
-  client:
-    build: ./gohan
-    volumes:
-      - ./gohan:/code
-      - /code/node_modules
-    ports:
-      - "8886:8886"
-    command: npm run start
+  # client:
+  #   build: ./gohan
+  #   volumes:
+  #     - ./gohan:/code
+  #     - /code/node_modules
+  #   ports:
+  #     - "8886:8886"
+  #   command: npm run start
