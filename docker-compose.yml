@@ -20,7 +20,10 @@ services:
       - email-service
       - sherlock-service
 
-  # Services #
+  ################
+  ### Services ###
+  ################
+
   user-service:
     build: ./user-service
     ports:
@@ -217,6 +220,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+      MONGO_ANALYTICS_HOSTS: ""
       ANALYTICS_DATABASE_SERVICE_HOST: "analytics-database"
       ANALYTICS_DATABASE_SERVICE_PORT: "27017"
     links:
@@ -236,20 +240,23 @@ services:
       NODE_ENV: 'development'
       ZOOKEEPER_HOSTS: 'zookeeper:2181'
       DEBUG: 'kafka-node:ConsumerGroup'
-      PEER39_CLIENT_CODE:
-      PEER39_URL:
+      PEER39_CLIENT_CODE: ''
+      PEER39_URL: ''
 
-  #Clients
-  studio-client:
-    build: ./studio/client
-    volumes:
-      - ./studio/client/src:/code/src
-    ports:
-      - "3050:3000"
-    environment:
-      NODE_ENV: "development"
-    command: npm run start
-  #
+  ###############
+  ### Clients ###
+  ###############
+
+  # studio-client:
+  #   build: ./studio/client
+  #   volumes:
+  #     - ./studio/client/src:/code/src
+  #   ports:
+  #     - "3050:3000"
+  #   environment:
+  #     NODE_ENV: "development"
+  #   command: npm run start
+
   # backoffice-client:
   #   build: ./backoffice
   #   volumes:
@@ -267,3 +274,12 @@ services:
   #   ports:
   #     - "3090:3000"
   #   command: npm run start
+
+  client:
+    build: ./gohan
+    volumes:
+      - ./gohan:/code
+      - /code/node_modules
+    ports:
+      - "8886:8886"
+    command: npm run start
