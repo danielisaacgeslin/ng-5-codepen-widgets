@@ -223,7 +223,7 @@ services:
       NODE_ENV: 'development'
       MONGO_ANALYTICS_HOSTS: "mongo:27017"
       MONGO_ANALYTICS_PARAMS: ""
-      SEEDTAG_API_KEY: "0ea379cde85ab53286612b9f38b5ead41e52998a0783704cad5d979bda8ded267fcc5f5ddad61a9e6290b60757f30a25"
+      SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
     links:
       - "mongo:analytics-database"
     depends_on:
@@ -264,7 +264,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
-      SEEDTAG_API_KEY: "80b379d93f64535553e36863bdac71c79b19bb9a9d0321eadb9a1232ddc2b7d2aa231490106b5521c36dfb3713d26903"
+      SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
 
   ###############
   ### Clients ###
