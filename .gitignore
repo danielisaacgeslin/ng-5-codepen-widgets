@@ -28,6 +28,9 @@ event-bigdata-service
 analytics-service
 adserver-report-extraction-task
 watson-service
+boilerplate-service
+boilerplate-swagger-service
+campaign-service
 
 # Other repositories
 user-middleware
