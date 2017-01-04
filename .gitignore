@@ -42,6 +42,8 @@ docker-images
 
 angular2-boilerplate
 seedtag-ui2
+ng2-components
+angular-2-dropdown-multiselect
 eslint-config-seedtag-base
 
 # Old repositories

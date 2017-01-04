@@ -282,14 +282,14 @@ services:
   #     NODE_ENV: "development"
   #   command: npm run start
 
-  # backoffice-client:
-  #   build: ./backoffice
-  #   volumes:
-  #     - ./backoffice:/code
-  #     - /code/node_modules
-  #   ports:
-  #     - "3060:3000"
-  #   command: npm run start
+  backoffice-client:
+    build: ./backoffice
+    volumes:
+      - ./backoffice:/code
+      - /code/node_modules
+    ports:
+      - "3060:3000"
+    command: yarn start
 
   # publisher-panel-client:
   #   build: ./publisher-panel
@@ -298,9 +298,9 @@ services:
   #     - /code/node_modules
   #   ports:
   #     - "3090:3000"
-  #   command: npm run start
+  #   command: yarn start
 
-  # client:
+  # gohan-client:
   #   build: ./gohan
   #   volumes:
   #     - ./gohan:/code
