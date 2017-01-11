@@ -12,8 +12,11 @@ services:
 
   # topurls-service:
   #   image: gettyimages/spark
+  #   environment:
+  #     DEBUG_ENV: "true"
   #   volumes:
   #     - ./topurls-service:/topurls-service
+  #   command: "/topurls-service/deploy-local.sh"
 
   elasticsearch:
     image: elasticsearch:5.1.1
