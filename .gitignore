@@ -39,6 +39,8 @@ webpack-dev-server
 seedtag-node-logger
 seedtag-request
 docker-images
+seedtag-queue
+express-prom-bundle
 
 angular2-boilerplate
 seedtag-ui2
