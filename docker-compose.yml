@@ -31,6 +31,10 @@ services:
       - studio-service
       - email-service
       - sherlock-service
+      - tagging-service
+      - event-bigdata-service
+      - error-service
+      - campaign-service
 
   ################
   ### Services ###
@@ -248,6 +252,8 @@ services:
       - "mongo:analytics-database"
     depends_on:
       - user-service
+      - mongo
+      - elasticsearch
       - tag-manager-service
 
 
@@ -294,6 +300,10 @@ services:
   #   image: gettyimages/spark
   #   environment:
   #     DEBUG_ENV: "true"
+  #   depends_on:
+  #     - elasticsearch
+  #     - zookeeper
+  #     - kafka
   #   volumes:
   #     - ./topurls-service:/topurls-service
   #   command: "/topurls-service/deploy-local.sh"
