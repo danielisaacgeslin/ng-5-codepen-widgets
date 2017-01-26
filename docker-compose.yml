@@ -308,6 +308,19 @@ services:
   #     - ./topurls-service:/topurls-service
   #   command: "/topurls-service/deploy-local.sh"
 
+  # # Requires having a build in ./aggregation-service/target/scala-2.11/aggregation-test_2.11-0.1-SNAPSHOT.jar
+  # aggregation-service:
+  #   image: gettyimages/spark
+  #   environment:
+  #     DEBUG_ENV: "true"
+  #   depends_on:
+  #     - mongo
+  #     - zookeeper
+  #     - kafka
+  #   volumes:
+  #     - ./aggregation-service:/aggregation-service
+  #   command: "/aggregation-service/deploy-local.sh"
+
   ###############
   ### Clients ###
   ###############
