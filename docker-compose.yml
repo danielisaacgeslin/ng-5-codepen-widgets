@@ -78,6 +78,12 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
 
+  # Mocked sherlock-service Edit api.md to return whatever you want
+  # sherlock-service:
+  #   image: ajnasz/api-mock
+  #   volumes:
+  #     - ./tag-manager-service/mock/sherlock/api.md:/usr/src/app/api.md
+
   sherlock-service:
     build: ./sherlock-service
     ports:
@@ -335,14 +341,14 @@ services:
   #     NODE_ENV: "development"
   #   command: npm run start
 
-  backoffice-client:
-    build: ./backoffice
-    volumes:
-      - ./backoffice:/code
-      - /code/node_modules
-    ports:
-      - "3060:3000"
-    command: yarn start
+  # backoffice-client:
+  #   build: ./backoffice
+  #   volumes:
+  #     - ./backoffice:/code
+  #     - /code/node_modules
+  #   ports:
+  #     - "3060:3000"
+  #   command: yarn start
 
   # publisher-panel-client:
   #   build: ./publisher-panel
