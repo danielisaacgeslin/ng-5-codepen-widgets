@@ -31,6 +31,7 @@ watson-service
 boilerplate-service
 boilerplate-swagger-service
 campaign-service
+custom-categories-service
 
 # Other repositories
 user-middleware
