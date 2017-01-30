@@ -19,6 +19,7 @@ repositories=(
 "error-service"
 "watson-service"
 "campaign-service"
+"custom-categories-service"
 "gohan"
 )
 
