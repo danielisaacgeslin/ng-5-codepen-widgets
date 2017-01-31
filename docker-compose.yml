@@ -37,6 +37,7 @@ services:
       - campaign-service
       - custom-categories-service
       - blacklist-service
+      - creative-preview-service
 
   ################
   ### Services ###
@@ -313,6 +314,17 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+
+  creative-preview-service:
+    build: ./creative-preview-service
+    ports:
+      - "3170:3000"
+    volumes:
+      - ./creative-preview-service:/code
+      - /code/node_modules
+    command: yarn run dev
+    environment:
+      NODE_ENV: 'development'
 
   ##################
   ### Spark apps ###
