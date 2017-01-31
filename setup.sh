@@ -20,6 +20,7 @@ repositories=(
 "watson-service"
 "campaign-service"
 "custom-categories-service"
+"blacklist-service"
 "gohan"
 )
 
