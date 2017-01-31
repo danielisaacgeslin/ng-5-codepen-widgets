@@ -14,24 +14,8 @@ gohan
 gohan-tests
 
 # Services
-tag-manager-service
-user-service
-sherlock-service
-email-service
-adserver-proxy-service
-tagging-service
-event-service
-error-service
-aggregation-service
-topurls-service
-event-bigdata-service
-analytics-service
+*-service/
 adserver-report-extraction-task
-watson-service
-boilerplate-service
-boilerplate-swagger-service
-campaign-service
-custom-categories-service
 
 # Other repositories
 user-middleware
