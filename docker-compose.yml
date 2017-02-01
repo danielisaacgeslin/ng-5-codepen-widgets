@@ -318,7 +318,7 @@ services:
   creative-preview-service:
     build: ./creative-preview-service
     ports:
-      - "3170:3000"
+      - "3180:3000"
     volumes:
       - ./creative-preview-service:/code
       - /code/node_modules
