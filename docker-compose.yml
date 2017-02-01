@@ -376,7 +376,7 @@ services:
   blacklist-service:
     build: ./blacklist-service
     ports:
-      - "3170:3000"
+      - "3180:3000"
     volumes:
       - ./blacklist-service:/code
       - /code/node_modules
