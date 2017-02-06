@@ -52,5 +52,5 @@ if [ ${#docker_changes[@]} -ne 0 ]; then
 fi
 
 for service in "${npm_changes[@]}"; do
-    docker-compose exec $service npm install
+    docker-compose exec $service yarn
 done
