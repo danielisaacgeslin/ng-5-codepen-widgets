@@ -27,6 +27,7 @@ services:
     volumes:
       - ./nginx/conf:/etc/nginx
     depends_on:
+      - analytics-service
       - user-service
       - studio-service
       - email-service
@@ -60,6 +61,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
     depends_on:
       - mongo
 
@@ -159,6 +161,7 @@ services:
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
     depends_on:
       - mongo
+      - sherlock-service
       - redis
     command: npm run start-dev
 
@@ -181,6 +184,7 @@ services:
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
     depends_on:
       - mongo
       - user-service
@@ -255,6 +259,7 @@ services:
       NODE_ENV: 'development'
       MONGO_ANALYTICS_HOSTS: "mongo:27017"
       MONGO_ANALYTICS_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
       ELASTIC_HOST: "elasticsearch:9200"
       SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
     links:
@@ -299,7 +304,8 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
-  
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+
   custom-categories-service:
     build: ./custom-categories-service
     ports:
@@ -314,6 +320,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
 
   creative-preview-service:
     build: ./creative-preview-service
@@ -343,7 +350,7 @@ services:
   #     - ./topurls-service:/topurls-service
   #   command: "/topurls-service/deploy-local.sh"
 
-  # # Requires having a build in ./aggregation-service/target/scala-2.11/aggregation-test_2.11-0.1-SNAPSHOT.jar
+  # Requires having a build in ./aggregation-service/target/scala-2.11/aggregation-test_2.11-0.1-SNAPSHOT.jar
   # aggregation-service:
   #   image: gettyimages/spark
   #   environment:
@@ -372,7 +379,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
-  
+
   blacklist-service:
     build: ./blacklist-service
     ports:
@@ -389,6 +396,7 @@ services:
       NODE_ENV: 'development'
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
 
   ###############
   ### Clients ###
