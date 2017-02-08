@@ -6,6 +6,8 @@ read -p "[Enter] if OK, [Ctrl+C] for abort"
 echo
 
 repositories=(
+"creative-preview-service"
+"analytics-service"
 "backoffice"
 "publisher-panel"
 "studio"
