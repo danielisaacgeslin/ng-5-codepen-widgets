@@ -2,13 +2,14 @@ version: '2'
 
 services:
   mongo:
-    image: mongo:3.0
+    image: mongo:3.2
     expose:
         - "27017"
     ports:
         - "27017:27017"
     volumes:
       - ./initial-data:/initial-data
+      - ./tag-manager-service/bin/load-test-data.js:/load-test-data.js
 
   elasticsearch:
     image: elasticsearch:5.1.1
@@ -163,6 +164,9 @@ services:
       - mongo
       - sherlock-service
       - redis
+      - blacklist-service
+      - custom-categories-service
+      - user-service
     command: npm run start-dev
 
   studio-service:
@@ -282,8 +286,8 @@ services:
       NODE_ENV: 'development'
       ZOOKEEPER_HOSTS: 'zookeeper:2181'
       DEBUG: 'kafka-node:ConsumerGroup'
-      PEER39_CLIENT_CODE: ''
-      PEER39_URL: ''
+      PEER39_CLIENT_CODE: 'asdf'
+      PEER39_URL: 'asdf'
 
   campaign-service:
     build: ./campaign-service
