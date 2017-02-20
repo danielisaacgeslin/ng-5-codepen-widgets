@@ -431,10 +431,10 @@ services:
   #   command: yarn start
 
   # gohan-client:
-  #   build: ./gohan
+  #   build: ./gohan/packages/client
   #   volumes:
-  #     - ./gohan:/code
-  #     - /code/node_modules
+  #     - ./gohan/packages/client:/code
+  #     - ./gohan/packages/client/node_modules:/code/node_modules
   #   ports:
   #     - "8886:8886"
   #   command: npm run start
