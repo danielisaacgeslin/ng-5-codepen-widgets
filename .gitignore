@@ -1,3 +1,4 @@
+node_modules
 .DS_Store
 
 #file with secret
@@ -27,7 +28,7 @@ docker-images
 seedtag-queue
 express-prom-bundle
 
-angular2-boilerplate
+angular-boilerplate
 seedtag-ui2
 ng2-components
 angular-2-dropdown-multiselect
