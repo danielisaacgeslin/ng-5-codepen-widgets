@@ -264,6 +264,7 @@ services:
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
       ELASTIC_HOST: "elasticsearch:9200"
       SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
     links:
       - "mongo:analytics-database"
     depends_on:
@@ -308,22 +309,7 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
-
-  custom-categories-service:
-    build: ./custom-categories-service
-    ports:
-      - "3160:3000"
-    volumes:
-      - ./custom-categories-service:/code
-      - /code/node_modules
-    command: npm run dev
-    depends_on:
-      - mongo
-    environment:
-      NODE_ENV: 'development'
-      MONGO_MAIN_HOSTS: "mongo:27017"
-      MONGO_MAIN_PARAMS: ""
-      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
 
   creative-preview-service:
     build: ./creative-preview-service
@@ -383,6 +369,7 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
 
   blacklist-service:
     build: ./blacklist-service
@@ -401,6 +388,7 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+      SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
 
   ###############
   ### Clients ###
