@@ -221,7 +221,7 @@ services:
     image: wurstmeister/zookeeper
 
   kafka:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:0.10.1.1
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafka"
       KAFKA_ADVERTISED_PORT: "9092"
@@ -351,6 +351,19 @@ services:
   #   volumes:
   #     - ./aggregation-service:/aggregation-service
   #   command: "/aggregation-service/deploy-local.sh"
+
+  # # Requires having a build in ./blacklisted-traffic-service/target/scala-2.11/topurls-service_2.11-0.1-SNAPSHOT.jar
+  # blacklisted-traffic-service:
+  #   image: gettyimages/spark
+  #   environment:
+  #     DEBUG_ENV: "true"
+  #   depends_on:
+  #     - elasticsearch
+  #     - zookeeper
+  #     - kafka
+  #   volumes:
+  #     - ./blacklisted-traffic-service:/blacklisted-traffic-service
+  #   command: "/blacklisted-traffic-service/deploy-local.sh"
 
   custom-categories-service:
     build: ./custom-categories-service
