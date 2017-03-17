@@ -31,7 +31,6 @@ services:
       - analytics-service
       - user-service
       - studio-service
-      - email-service
       - sherlock-service
       - tagging-service
       - event-bigdata-service
@@ -65,6 +64,12 @@ services:
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
     depends_on:
       - mongo
+
+  # Mocked user-service Edit api.md to return whatever you want
+  # user-service:
+  #   image: ajnasz/api-mock
+  #   volumes:
+  #     - ./tag-manager-service/mock/user/api.md:/usr/src/app/api.md
 
   email-service:
     build: ./email-service
@@ -284,6 +289,9 @@ services:
     command: npm run dev
     depends_on:
       - kafka
+      - custom-categories-service
+      - user-service
+      - blacklist-service
     environment:
       NODE_ENV: 'development'
       ZOOKEEPER_HOSTS: 'zookeeper:2181'
