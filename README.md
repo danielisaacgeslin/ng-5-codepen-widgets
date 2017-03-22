@@ -13,7 +13,7 @@ Ensure you have [docker environment](https://github.com/seedtag/docker-images) r
 
 `$ cd seedtag`
 
-`$ ./setup.sh`
+`$ ./bin/setup.sh`
 
 ## clients
 frontend clients are defined into *docker-compose.clients.yml*
