@@ -27,18 +27,6 @@ services:
       - "80:80"
     volumes:
       - ./nginx/conf:/etc/nginx
-    depends_on:
-      - analytics-service
-      - user-service
-      - studio-service
-      - sherlock-service
-      - tagging-service
-      - event-bigdata-service
-      - error-service
-      - campaign-service
-      - custom-categories-service
-      - blacklist-service
-      - creative-preview-service
 
   ################
   ### Services ###
