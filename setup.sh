@@ -23,7 +23,8 @@ repositories=(
 "campaign-service"
 "custom-categories-service"
 "blacklist-service"
-"gohan"
+"gohan",
+"blacklisted-traffic-service"
 )
 
 for repository in "${repositories[@]}"; do

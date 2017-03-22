@@ -27,6 +27,10 @@ seedtag-request
 docker-images
 seedtag-queue
 express-prom-bundle
+db_backup
+redis
+scraper
+twemproxy-docker
 
 angular-boilerplate
 seedtag-ui2

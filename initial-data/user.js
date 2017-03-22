@@ -4,7 +4,7 @@ var db = conn.getDB('user');
 db.users.insert({
   "_id": ObjectId("58515c872fcaaf2500479259"),
   "username": "seedtag",
-  "country": "es",
+  "country": "ES",
   "name": "seedtag",
   "surname": "dev",
   "password": "$2a$10$BSkHlfPvtN9791zpU0i7RO2gDMY5vY7rOxFDMrEnN4bLVFf5xuara", // "seedtag"
