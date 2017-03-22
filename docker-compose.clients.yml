@@ -1,7 +1,7 @@
   version: '2'
 
   services:
-    studio:
+    studio-client:
       build: ./studio/client
       volumes:
         - ./studio/client/src:/code/src
