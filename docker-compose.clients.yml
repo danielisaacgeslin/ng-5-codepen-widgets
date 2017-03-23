@@ -4,7 +4,7 @@
     studio-client:
       build: ./studio/client
       volumes:
-        - ./studio/client:/code
+        - ./studio/client/src:/code/src
       ports:
         - "3050:3000"
       environment:
