@@ -30,7 +30,7 @@
       command: yarn start
 
     gohan:
-      build: ./gohan/packages/client
+      build: ./gohan
       volumes:
         - ./gohan/packages/client:/code
         - ./gohan/packages/client/node_modules:/code/node_modules
