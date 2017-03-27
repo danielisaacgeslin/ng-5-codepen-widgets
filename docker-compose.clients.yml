@@ -32,8 +32,8 @@
     gohan:
       build: ./gohan
       volumes:
-        - ./gohan/packages/client:/code
-        - ./gohan/packages/client/node_modules:/code/node_modules
+        - ./gohan:/code
+        - /code/node_modules
       ports:
         - "8886:8886"
-      command: npm run start
+      command: yarn start
