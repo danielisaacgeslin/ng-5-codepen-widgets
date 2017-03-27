@@ -1,0 +1,30 @@
+{
+  "name": "dev-environment",
+  "version": "1.0.0",
+  "description": "Necessary files to setup a [TO DO] complete environment",
+  "main": "bin/st.js",
+  "bin": {
+    "st": "bin/st.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "moment": "^2.18.1",
+    "simple-git": "^1.67.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seedtag/dev-environment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seedtag/dev-environment/issues"
+  },
+  "homepage": "https://github.com/seedtag/dev-environment#readme"
+}

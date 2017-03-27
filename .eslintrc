@@ -1,0 +1,34 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    // disable requiring trailing commas because it might be nice to revert to
+    // being JSON at some point, and I dont want to make big changes now.
+    "comma-dangle": 0,
+    "space-before-function-paren": [2, "never"],
+    "no-console": 0,
+    "strict": 0,
+    "no-new-func": 0,
+    "no-param-reassign": 0,
+    # "global-require": 0,
+    "no-unused-vars": ["error", { "args": "none" }],
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+  },
+  "globals": {
+    //jasmine
+    "jasmine": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "beforeAll": true,
+    "afterAll": true,
+    "describe": true,
+    "it": true,
+    "xit": true,
+    "expect": true,
+    "sandbox": true,
+    "done": true,
+    "fail": true,
+    "spyOn": true,
+    //Primitive types
+    "int": true
+  }
+}
