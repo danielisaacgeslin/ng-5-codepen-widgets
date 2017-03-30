@@ -2,7 +2,6 @@
 
 const blessed = require('blessed');
 const services = require('./services');
-const childProcess = require('child_process');
 
 const screen = blessed.screen({ smartCSR: true });
 screen.title = 'seedtag CLI';
@@ -98,7 +97,6 @@ const mainForm = blessed.form({
   border: { type: 'line' },
 });
 
-const emptyBox = blessed.box();
 const actions = [
   {
     name: 'Sync',
@@ -112,28 +110,17 @@ const actions = [
   {
     name: 'DB Dump',
     callback: (cb) => {
-      box.remove(mainForm);
-      box.append(emptyBox);
       screen.destroy();
-      childProcess.exec('st db_dump', {}, () => process.exit());
-      // screen.exec('st', ['db_dump'], {}, () => {
-      //   process.exit();
-      //   screen.render();
-      //   box.append(mainForm);
-      // });
+      console.log('Dumping db');
+      screen.exec('st', ['db_dump'], {}, () => process.exit());
     }
   },
   {
     name: 'DB Restore',
     callback: (cb) => {
-      screen.realloc();
-      box.remove(mainForm);
-      box.append(emptyBox);
-      screen.exec('st', ['db_restore'], {}, () => {
-        // process.exit();
-        // box.append(mainForm);
-        // screen.render();
-      });
+      screen.destroy();
+      console.log('Restoring today\'s db');
+      screen.exec('st', ['db_restore'], {}, () => process.exit());
     }
   }
 ];
@@ -170,14 +157,8 @@ confirm.on('press', () => {
     box.setContent('You have to select at least one service');
     return screen.render();
   }
-  // Don't know how to clear screen
-  box.remove(syncForm);
-  box.append(emptyBox);
-  screen.render();
-  // screen.remove(box);
-  // screen.append(blessed.box());
-  // screen.realloc();
-  return screen.exec('st', ['sync'].concat(servicesToSync));
+  screen.destroy();
+  return screen.exec('st', ['sync'].concat(servicesToSync), {}, () => process.exit());
 });
 
 cancel.on('press', () => {

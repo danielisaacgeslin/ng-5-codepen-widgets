@@ -31,7 +31,7 @@ program
 program
   .command('db_dump')
   .description('Make a dump of production db in initial-data/backup-YYYYMMDD')
-  .action(() => runScript('bin/utils/dump-database.sh'));
+  .action(() => runScript('bin/utils/dump-database.sh', []));
 
 program
   .command('db_restore [backupName]')
