@@ -41,6 +41,12 @@ program
     return runScript('bin/utils/restore-database.sh', [backupName]);
   });
 
-program.command('*').action(() => program.outputHelp());
+
+program
+  .command('cli')
+  .action(() => {
+    console.log('hola');
+    runScript('node', ['bin/cli.js']);
+  });
 
 program.parse(process.argv);
