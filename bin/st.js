@@ -31,7 +31,7 @@ program
 program
   .command('db_dump')
   .description('Make a dump of production db in initial-data/backup-YYYYMMDD')
-  .action(() => runScript('bin/utils/dump-database.sh'));
+  .action(() => runScript('bin/utils/dump-database.sh', []));
 
 program
   .command('db_restore [backupName]')
@@ -41,6 +41,16 @@ program
     return runScript('bin/utils/restore-database.sh', [backupName]);
   });
 
-program.command('*').action(() => program.outputHelp());
+program
+  .command('ui')
+  .action(() => {
+    require('./ui'); // eslint-disable-line
+  });
+
+program
+  .command('*')
+  .action(() => {
+    program.help(); // eslint-disable-line
+  });
 
 program.parse(process.argv);
