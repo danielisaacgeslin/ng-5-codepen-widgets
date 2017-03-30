@@ -52,6 +52,10 @@ moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
+node-cmd@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/node-cmd/-/node-cmd-2.0.0.tgz#6345655774a3b3f80181b3e52421ba0d23f588f4"
+
 simple-git@^1.67.0:
   version "1.67.0"
   resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.67.0.tgz#b7b4f6ab268483899b8ed4f4da77af8671368df8"

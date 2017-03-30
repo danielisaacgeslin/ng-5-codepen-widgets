@@ -1,5 +1,8 @@
+#!/usr/bin/env node
+
 const blessed = require('blessed');
 const services = require('./services');
+const childProcess = require('child_process');
 
 const screen = blessed.screen({ smartCSR: true });
 screen.title = 'seedtag CLI';
@@ -8,7 +11,6 @@ const box = blessed.box({ content: '{center}seedtag CLI{/}', tags: true });
 
 /* Sync part */
 const syncForm = blessed.form({
-  parent: box,
   top: 'center',
   left: 'center',
   height: '90%',
@@ -65,15 +67,6 @@ const confirm = blessed.button({
   }
 });
 
-confirm.on('press', () => {
-  const servicesToSync = checkboxes.filter(c => c.value).map(c => c.text);
-  if (servicesToSync.length === 0) {
-    box.setContent('You have to select at least one service');
-    return screen.render();
-  }
-  return screen.exec('st', ['sync'].concat(servicesToSync));
-});
-
 const cancel = blessed.button({
   content: 'Cancel',
   parent: syncForm,
@@ -88,18 +81,6 @@ const cancel = blessed.button({
     focus: { fg: 'black', bg: 'white' },
     hover: { fg: 'black', bg: 'white' }
   }
-});
-
-cancel.on('press', () => {
-  screen.remove(box);
-  const newBox = blessed.box({ content: 'Cancelado', tags: true });
-  newBox.on('click', () => {
-    screen.remove(newBox);
-    screen.append(box);
-    screen.render();
-  });
-  screen.append(newBox);
-  screen.render();
 });
 
 screen.append(box);
@@ -117,81 +98,94 @@ const mainForm = blessed.form({
   border: { type: 'line' },
 });
 
+const emptyBox = blessed.box();
 const actions = [
   {
     name: 'Sync',
-    callback: () => {
+    callback: (cb) => {
       box.remove(mainForm);
       box.append(syncForm);
+      syncForm.focus();
       screen.render();
     },
   },
   {
     name: 'DB Dump',
-    callback: () => {
-      screen.exec('st', ['db_dump']);
+    callback: (cb) => {
+      box.remove(mainForm);
+      box.append(emptyBox);
+      screen.destroy();
+      childProcess.exec('st db_dump', {}, () => process.exit());
+      // screen.exec('st', ['db_dump'], {}, () => {
+      //   process.exit();
+      //   screen.render();
+      //   box.append(mainForm);
+      // });
     }
   },
   {
-    name: 'DB Dump',
-    callback: () => {
-      screen.exec('st', ['db_dump']);
+    name: 'DB Restore',
+    callback: (cb) => {
+      screen.realloc();
+      box.remove(mainForm);
+      box.append(emptyBox);
+      screen.exec('st', ['db_restore'], {}, () => {
+        // process.exit();
+        // box.append(mainForm);
+        // screen.render();
+      });
     }
   }
 ];
 
-// const DBDump = blessed.button({
-//   content: 'Cancel',
-//   parent: syncForm,
-//   bottom: 1,
-//   shrink: true,
-//   keys: true,
-//   border: { type: 'line' },
-//   left: 10,
-//   shadow: true,
-//   mouse: true,
-//   style: {
-//     focus: { fg: 'black', bg: 'white' },
-//     hover: { fg: 'black', bg: 'white' }
-//   }
-// });
 
-// DBDump.on('press', () => {
-//   screen.remove(box);
-//   const newBox = blessed.box({ content: 'Cancelado', tags: true });
-//   newBox.on('click', () => {
-//     screen.remove(newBox);
-//     screen.append(box);
-//     screen.render();
-//   });
-//   screen.append(newBox);
-//   screen.render();
-// });
+actions.map((a, i) => {
+  const button = blessed.button({
+    content: a.name,
+    parent: mainForm,
+    top: i * 3,
+    width: 15,
+    height: 3,
+    // shrink: true,
+    keys: true,
+    border: { type: 'line' },
+    left: 4,
+    shadow: true,
+    mouse: true,
+    style: {
+      focus: { fg: 'black', bg: 'white' },
+      hover: { fg: 'black', bg: 'white' }
+    }
+  });
+  button.on('press', () => a.callback());
+  return button;
+});
 
-// const DBRestore = blessed.button({
-//   content: 'Sync',
-//   parent: syncForm,
-//   bottom: 1,
-//   shrink: true,
-//   keys: true,
-//   border: { type: 'line' },
-//   left: 3,
-//   shadow: true,
-//   mouse: true,
-//   style: {
-//     focus: { fg: 'black', bg: 'white' },
-//     hover: { fg: 'black', bg: 'white' }
-//   }
-// });
+box.append(mainForm);
+mainForm.focus();
 
-// DBRestore.on('press', () => {
-//   const servicesToSync = checkboxes.filter(c => c.value).map(c => c.text);
-//   if (servicesToSync.length === 0) {
-//     box.setContent('You have to select at least one service');
-//     return screen.render();
-//   }
-//   return screen.exec('st', ['sync'].concat(servicesToSync));
-// });
+confirm.on('press', () => {
+  const servicesToSync = checkboxes.filter(c => c.value).map(c => c.text);
+  if (servicesToSync.length === 0) {
+    box.setContent('You have to select at least one service');
+    return screen.render();
+  }
+  // Don't know how to clear screen
+  box.remove(syncForm);
+  box.append(emptyBox);
+  screen.render();
+  // screen.remove(box);
+  // screen.append(blessed.box());
+  // screen.realloc();
+  return screen.exec('st', ['sync'].concat(servicesToSync));
+});
+
+cancel.on('press', () => {
+  box.remove(syncForm);
+  box.append(mainForm);
+  mainForm.focus();
+  screen.render();
+});
 
 screen.render();
 

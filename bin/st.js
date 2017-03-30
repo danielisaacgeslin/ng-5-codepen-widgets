@@ -41,12 +41,16 @@ program
     return runScript('bin/utils/restore-database.sh', [backupName]);
   });
 
+program
+  .command('ui')
+  .action(() => {
+    require('./ui'); // eslint-disable-line
+  });
 
 program
-  .command('cli')
+  .command('*')
   .action(() => {
-    console.log('hola');
-    runScript('node', ['bin/cli.js']);
+    program.help(); // eslint-disable-line
   });
 
 program.parse(process.argv);
