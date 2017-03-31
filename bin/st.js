@@ -7,6 +7,7 @@ const services = require('./services');
 const childProcess = require('child_process');
 const options = require('./utils/options');
 const moment = require('moment');
+const fs = require('fs');
 
 if (process.env.SEEDTAG_HOME && process.env.SEEDTAG_HOME.indexOf('~') !== -1) {
   throw new Error('SEEDTAG_HOME cannot contain ~, use absolute paths');
@@ -18,6 +19,20 @@ const runScript = (scriptPath, args) => {
   proc.stderr.on('data', data => process.stderr.write(chalk.yellow(data.toString())));
   proc.on('exit', code => console.log(code.toString()));
 };
+
+const PLUGINS_DIR = `${__dirname}/st-plugins`;
+const pluginFiles = fs.readdirSync(PLUGINS_DIR);
+pluginFiles.forEach(file => {
+  const name = file.replace('.js', '');
+  const plugin = require(`${PLUGINS_DIR}/${name}`);
+  Object.keys(plugin).forEach(key => {
+    const command = plugin[key];
+    program
+      .command(command.command)
+      .description(command.description)
+      .action(command.action);
+  });
+});
 
 program
   .command('sync [services...]')
@@ -54,3 +69,4 @@ program
   });
 
 program.parse(process.argv);
+
