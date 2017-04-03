@@ -1,7 +1,5 @@
-'use strict';
-
 const childProcess = require('child_process');
-const services = require('../services.js');
+const Repository = require('../utils/Repository');
 
 function run(cmd, args) {
   console.log(cmd, args);
@@ -9,21 +7,27 @@ function run(cmd, args) {
 }
 
 function findTier(n) {
-  return Object.keys(services).map(k => [k, services[k]])
-    .filter(([k, x]) => x.tier === n)
-    .map(([k, x]) => k);
+  const repos = Repository.getAll();
+  const servicesInTier = [];
+  for (const repo of repos) {
+    repo.services
+      .filter(svc => svc.tier === n)
+      .forEach(svc => servicesInTier.push(svc.name));
+  }
+  return servicesInTier;
 }
 
 const tier = {
   command: 'tier <n>',
   description: 'Starts tier <n>',
   action: (n) => {
-    let svcs = [];
+    n = parseInt(n, 10);
+    let servicesToRun = [];
     if (n === 0) {
-      svcs = svcs.concat(['kafka', 'zookeeper', 'mongo', 'redis']);
+      servicesToRun = servicesToRun.concat(['kafka', 'zookeeper', 'mongo', 'redis']);
     }
-    svcs = svcs.concat(findTier(n));
-    run('/bin/bash', ['-c', `docker-compose restart ${svcs.join(' ')}`]);
+    servicesToRun = servicesToRun.concat(findTier(n));
+    run('/bin/bash', ['-c', `docker-compose restart ${servicesToRun.join(' ')}`]);
   }
 };
 

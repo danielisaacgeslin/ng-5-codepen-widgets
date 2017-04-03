@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const blessed = require('blessed');
-const services = require('./services');
+const repositories = require('./repositories');
 const childProcess = require('child_process');
 
 const screen = blessed.screen({ smartCSR: true });
@@ -28,8 +28,8 @@ const selectAll = blessed.checkbox({
   mouse: true
 });
 
-const checkboxes = Object.keys(services).map((s, index) => blessed.checkbox({
-  text: s,
+const checkboxes = Object.keys(repositories).map((r, index) => blessed.checkbox({
+  text: r,
   parent: syncForm,
   top: index + 1,
   left: 2,
@@ -42,15 +42,15 @@ const checkboxes = Object.keys(services).map((s, index) => blessed.checkbox({
 
 const actions = [
   {
-    name: 'Sync selected services',
+    name: 'Sync selected repos',
     callback: (cb) => {
-      const servicesToSync = checkboxes.filter(c => c.value).map(c => c.text);
-      if (servicesToSync.length === 0) {
-        box.setContent('You have to select at least one service');
+      const reposToSync = checkboxes.filter(c => c.value).map(c => c.text);
+      if (reposToSync.length === 0) {
+        box.setContent('You have to select at least one repo');
         return screen.render();
       }
       screen.destroy();
-      return childProcess.spawn('st', ['sync'].concat(servicesToSync), { stdio: 'inherit' });
+      return childProcess.spawn('st', ['sync'].concat(reposToSync), { stdio: 'inherit' });
     },
   },
   {
