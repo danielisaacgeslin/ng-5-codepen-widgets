@@ -42,6 +42,12 @@ const stop = {
   action: () => run('/bin/bash', ['-i', '-c', 'docker-compose stop'])
 };
 
+const touch = {
+  command: 't',
+  description: 'Touches some .js file so that the app is restarted by nodemon',
+  action: () => run('/bin/bash', ['-i', '-c', 'find . src -d 1 -name \*.js | head -n 1 | xargs touch'])
+};
+
 const sh = {
   command: 'sh [command] [image]',
   description: 'default image: guessed by current directory; default command: bash',
@@ -95,5 +101,6 @@ module.exports = {
   sh,
   test,
   restart,
-  yarn
+  yarn,
+  touch
 };
