@@ -3,7 +3,7 @@
 const program = require('commander');
 const chalk = require('chalk');
 const syncServices = require('./utils/sync-service');
-const services = require('./services');
+const repositories = require('./repositories');
 const childProcess = require('child_process');
 const options = require('./utils/options');
 const moment = require('moment');
@@ -24,7 +24,7 @@ const PLUGINS_DIR = `${__dirname}/st-plugins`;
 const pluginFiles = fs.readdirSync(PLUGINS_DIR);
 pluginFiles.forEach(file => {
   const name = file.replace('.js', '');
-  const plugin = require(`${PLUGINS_DIR}/${name}`);
+  const plugin = require(`${PLUGINS_DIR}/${name}`); // eslint-disable-line
   Object.keys(plugin).forEach(key => {
     const command = plugin[key];
     program
@@ -35,12 +35,11 @@ pluginFiles.forEach(file => {
 });
 
 program
-  .command('sync [services...]')
-  .description('If no services option is provided, sync all services')
-  .action(servicesArg => {
-    console.log(servicesArg);
-    const servicesToSync = servicesArg.length !== 0 ? servicesArg : Object.keys(services);
-    return syncServices(servicesToSync);
+  .command('sync [repos...]')
+  .description('If no repos option is provided, sync all repos')
+  .action(repos => {
+    const reposToSync = repos.length !== 0 ? repos : Object.keys(repositories);
+    return syncServices(reposToSync);
   });
 
 program

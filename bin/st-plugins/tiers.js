@@ -1,30 +1,33 @@
 const childProcess = require('child_process');
-const Promise = require('bluebird');
-const exec = Promise.promisify(childProcess.exec);
-const fs = require('fs');
-const services = require('../services.js');
+const Repository = require('../utils/Repository');
 
 function run(cmd, args) {
   console.log(cmd, args);
-  const proc = childProcess.spawnSync(cmd, args, { stdio: 'inherit' });
-};
+  childProcess.spawnSync(cmd, args, { stdio: 'inherit' });
+}
 
 function findTier(n) {
-  return Object.keys(services).map(k => [k, services[k]])
-    .filter(([k, x]) => x.tier == n)
-    .map(([k, x]) => k)
+  const repos = Repository.getAll();
+  const servicesInTier = [];
+  for (const repo of repos) {
+    repo.services
+      .filter(svc => svc.tier === n)
+      .forEach(svc => servicesInTier.push(svc.name));
+  }
+  return servicesInTier;
 }
 
 const tier = {
   command: 'tier <n>',
   description: 'Starts tier <n>',
   action: (n) => {
-    let services = [];
-    if (n == 0) {
-      services = services.concat(['kafka', 'zookeeper', 'mongo', 'redis']);
+    n = parseInt(n, 10);
+    let servicesToRun = [];
+    if (n === 0) {
+      servicesToRun = servicesToRun.concat(['kafka', 'zookeeper', 'mongo', 'redis']);
     }
-    services = services.concat(findTier(n));
-    run('/bin/bash', ['-c', `docker-compose restart ${services.join(' ')}`]);
+    servicesToRun = servicesToRun.concat(findTier(n));
+    run('/bin/bash', ['-c', `docker-compose restart ${servicesToRun.join(' ')}`]);
   }
 };
 
