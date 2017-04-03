@@ -45,6 +45,9 @@ client
 web
 chrome-extension
 
+# Backups
+initial-data/backup*
+
 docker-compose.override.yml
 
 # IDES
