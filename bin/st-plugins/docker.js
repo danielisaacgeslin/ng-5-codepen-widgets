@@ -43,9 +43,9 @@ const stop = {
 };
 
 const sh = {
-  command: 'sh [image] [command]',
+  command: 'sh [command] [image]',
   description: 'default image: guessed by current directory; default command: bash',
-  action: (image, command) => {
+  action: (command, image) => {
     guess(image)
       .then((img) => {
         command = command || 'bash';
@@ -55,9 +55,9 @@ const sh = {
 };
 
 const test = {
-  command: 'test [image] [command]',
+  command: 'test [command] [image]',
   description: 'default image: guessed by current directory; default command: yarn test',
-  action: (image, command) => {
+  action: (command, image) => {
     guess(image)
       .then((img) => {
         command = command || 'yarn test';
@@ -77,11 +77,15 @@ const restart = {
   }
 };
 
-const blah = {
-  command: 'blah',
-  description: '',
-  action: () => {
-    run('/bin/bash', ['-i', '-c', 'docker-compose up']);
+const yarn = {
+  command: 'yarn [image]',
+  description: 'default image: guessed by current directory; default command: yarn',
+  action: (image) => {
+    guess(image)
+      .then((img) => {
+        command = 'yarn';
+        run('/bin/bash', ['-i', '-c', `docker-compose exec ${img} ${command}`]);
+      });
   }
 };
 
@@ -91,5 +95,5 @@ module.exports = {
   sh,
   test,
   restart,
-  blah
+  yarn
 };
