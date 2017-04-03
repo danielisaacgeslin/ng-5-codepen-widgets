@@ -12,6 +12,14 @@ const stat = Promise.promisify(require('fs').stat);
 const cwd = process.env.SEEDTAG_HOME || path.join(os.homedir(), 'seedtag');
 const execOpts = { cwd, maxBuffer: 200 * 1024 * 1024 };
 
+let loadedBaseServices = false;
+const loadBaseServicesIfNeeded = () => {
+  if (loadedBaseServices) return Promise.resolve();
+  loadedBaseServices = true;
+  console.log('Loading base services...');
+  return exec(`docker-compose up -d ${Repository.baseServices.join(' ')}`, execOpts);
+};
+
 const addToHosts = repo => {
   const domains = repo.services.filter(svc => svc.domain).map(svc => svc.domain);
   return Promise.all(
@@ -75,9 +83,10 @@ const syncRepo = repo => {
     .then(status => {
       const [canPull, reason] = canBePulled(status);
       if (!canPull) throw new Error(reason);
-      console.log('Pulling repo...');
+      console.log(`Pulling ${repo.name} repo...`);
       return gitRepo.pull();
     })
+    .then(loadBaseServicesIfNeeded)
     .then(() => Promise.all(repo.services.map(svc => syncService(svc))))
     .catch(err => {
       console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
@@ -86,11 +95,9 @@ const syncRepo = repo => {
 };
 
 module.exports = reposList => {
-  console.log('Loading base services...');
-  return exec(`docker-compose up -d --no-deps ${Repository.baseServices.join(' ')}`, execOpts)
-  .then(() => Promise.all(reposList.map(r => syncRepo(new Repository(r)))))
-  .then(() => {
-    console.log('Everything went perfect');
+  Promise.all(reposList.map(r => syncRepo(new Repository(r))))
+  .then(repos => {
+    console.log('Repositories updated');
     process.exit(0);
   })
   .catch(err => {
