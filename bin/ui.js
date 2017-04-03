@@ -5,9 +5,9 @@ const repositories = require('./repositories');
 const childProcess = require('child_process');
 
 const screen = blessed.screen({ smartCSR: true });
-screen.title = 'seedtag CLI';
+screen.title = 'seedtag UI';
 
-const box = blessed.box({ content: '{center}seedtag CLI{/}', tags: true });
+const box = blessed.box({ content: '{center}seedtag UI{/}', tags: true });
 
 const syncForm = blessed.form({
   top: 'center',
