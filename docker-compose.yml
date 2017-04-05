@@ -158,7 +158,6 @@ services:
       - mongo
       - sherlock-service
       - redis
-      - blacklist-service
       - custom-categories-service
       - user-service
     command: npm run start-dev
@@ -183,6 +182,8 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+    depends_on:
+      - mongo
 
   tagging-service:
     build: ./tagging-service
@@ -372,6 +373,7 @@ services:
     command: npm run dev
     depends_on:
       - mongo
+      - redis
     environment:
       ZOOKEEPER_HOSTS: 'zookeeper:2181'
       PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
@@ -381,6 +383,8 @@ services:
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
 
   blacklist-service:
     build: ./blacklist-service
