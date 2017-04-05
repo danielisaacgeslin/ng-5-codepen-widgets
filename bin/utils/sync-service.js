@@ -5,31 +5,40 @@ const childProcess = require('child_process');
 const exec = Promise.promisify(childProcess.exec);
 const os = require('os');
 const path = require('path');
-const Service = require('./Service');
+const Repository = require('./Repository');
 const stat = Promise.promisify(require('fs').stat);
 
 // SEEDTAG_HOME or ~/seedtag
 const cwd = process.env.SEEDTAG_HOME || path.join(os.homedir(), 'seedtag');
 const execOpts = { cwd, maxBuffer: 200 * 1024 * 1024 };
 
-const addToHosts = service => {
-  if (service.domain) return exec('echo "127.0.0.1 ${service.domain}" | sudo tee -a /etc/hosts');
-  return Promise.resolve();
+let loadedBaseServices = false;
+const loadBaseServicesIfNeeded = () => {
+  if (loadedBaseServices) return Promise.resolve();
+  loadedBaseServices = true;
+  console.log('Loading base services...');
+  return exec(`docker-compose up -d ${Repository.baseServices.join(' ')}`, execOpts);
 };
 
-const setup = service =>
-  exec(`git clone git@github.com:seedtag/${service.name}.git`, { cwd })
-    .then(() => addToHosts(service));
+const addToHosts = repo => {
+  const domains = repo.services.filter(svc => svc.domain).map(svc => svc.domain);
+  return Promise.all(
+    domains.map(domain => exec('echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts')));
+};
 
-const getOrSetupRepo = service => {
-  const repoDir = path.join(cwd, service.path);
+const setup = repo =>
+  exec(`git clone git@github.com:seedtag/${repo.name}.git`, { cwd })
+    .then(() => addToHosts(repo));
+
+const getOrSetupRepo = repo => {
+  const repoDir = path.join(cwd, repo.name);
   return stat(repoDir)
     // Directory exists, just return repo
     .then(() => git(repoDir))
     // Directory does not exist, setup it and return repo
     .catch(() => {
-      console.log('Repo of %s not present, cloning it', service.name);
-      return setup(service)
+      console.log('Repo of %s not present, cloning it', repo.name);
+      return setup(repo)
       .then(() => git(repoDir));
     });
 };
@@ -45,54 +54,50 @@ const canBePulled = status => {
   return [true, null];
 };
 
-const dbCommand = (service, command) => {
+const dcCommand = (service, command) => {
   let completeCommand = 'docker-compose ';
   if (service.dcFile) completeCommand += `-f ${service.dcFile} `;
   return completeCommand + command;
 };
 
-const pulledServices = [];
-const syncService = serviceName => {
-  const service = new Service(serviceName);
-  let repo;
-  return getOrSetupRepo(service)
-    .then(repo1 => {
-      repo = repo1;
-      return repo.status();
-    })
-    .then(status => {
-      if (pulledServices.indexOf(serviceName) !== -1) return null;
-      pulledServices.push(serviceName);
-      const [canPull, reason] = canBePulled(status);
-      if (!canPull) throw new Error(reason);
-      console.log('Pulling repo...');
-      return repo.pull();
-    })
-    .then(() => {
-      console.log('Building and loading %s', service.name);
-      return exec(dbCommand(service, `up -d --no-deps --build -t 300 ${service.name}`), execOpts);
-    })
+const syncService = service =>
+  exec(dcCommand(service, `up -d --no-deps --build -t 300 ${service.name}`), execOpts)
     .then(() => {
       console.log('Installing dependencies of %s', service.name);
-      return exec(dbCommand(service, `exec ${service.name} yarn`), execOpts);
+      return exec(dcCommand(service, `exec ${service.name} yarn`), execOpts);
     })
     .then(() => {
       console.log('Restarting %s to apply changes', service.name);
-      return exec(dbCommand(service, `restart ${service.name}`), execOpts);
+      return exec(dcCommand(service, `restart ${service.name}`), execOpts);
     })
-    .then(() => console.log(chalk.green(`${serviceName} successfully synced`)))
+    .then(() => console.log(chalk.green(`${service.name} successfully synced`)))
+    .catch(err => console.error(chalk.red(`${service.name} couldn't be synced due to ${err}`)));
+
+const syncRepo = repo => {
+  let gitRepo;
+  return getOrSetupRepo(repo)
+    .then(gitRepoArg => {
+      gitRepo = gitRepoArg;
+      return gitRepo.status();
+    })
+    .then(status => {
+      const [canPull, reason] = canBePulled(status);
+      if (!canPull) throw new Error(reason);
+      console.log(`Pulling ${repo.name} repo...`);
+      return gitRepo.pull();
+    })
+    .then(loadBaseServicesIfNeeded)
+    .then(() => Promise.all(repo.services.map(svc => syncService(svc))))
     .catch(err => {
-      console.log(chalk.red(`${serviceName} couldn't be synced due to ${err}`));
+      console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
       throw err;
     });
 };
 
-module.exports = serviceList => {
-  console.log('Loading base services...');
-  return exec(`docker-compose up -d --no-deps ${Service.baseServices.join(' ')}`, execOpts)
-  .then(() => Promise.all(serviceList.map(s => syncService(s))))
-  .then(() => {
-    console.log('Everything went perfect');
+module.exports = reposList => {
+  Promise.all(reposList.map(r => syncRepo(new Repository(r))))
+  .then(repos => {
+    console.log('Repositories updated');
     process.exit(0);
   })
   .catch(err => {

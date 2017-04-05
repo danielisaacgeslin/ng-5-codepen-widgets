@@ -363,6 +363,21 @@ services:
   #     - ./blacklisted-traffic-service:/blacklisted-traffic-service
   #   command: "/blacklisted-traffic-service/deploy-local.sh"
 
+  # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
+  # adserver-report-extraction-task:
+  #   image: gettyimages/spark
+  #   environment:
+  #     DEBUG_ENV: "true"
+  #     SEEDTAG_API_KEY: e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c
+  #   depends_on:
+  #     - elasticsearch
+  #     - zookeeper
+  #     - kafka
+  #   volumes:
+  #     - ./adserver-report-extraction-task:/adserver-report-extraction-task
+  #   # Change CsvFilePath!
+  #   command: ./deploy-local.sh <CsvFilePath>
+
   custom-categories-service:
     build: ./custom-categories-service
     ports:

@@ -1,78 +1,103 @@
+'use strict';
+
 const childProcess = require('child_process');
 const Promise = require('bluebird');
+
 const exec = Promise.promisify(childProcess.exec);
-const fs = require('fs');
+const baseExecOpts = require('../utils/options').execOpts;
+const execOpts = Object.assign({ stdio: 'inherit' }, baseExecOpts);
 
 function run(cmd, args) {
   console.log(cmd, args);
-  const proc = childProcess.spawnSync(cmd, args, { stdio: 'inherit' });
-};
+  childProcess.spawnSync(cmd, args, execOpts);
+}
 
-function guess(image) {
+function guess(service) {
   const dirName = process.env.PWD.replace(/.*\//, '');
-  if (!image || image === '_' || image === '-') {
-    image = dirName;
+  if (!service || service === '_' || service === '-') {
+    service = dirName;
   }
-  if (image === 'tms') {
-    image = 'tag-manager-service';
+  if (service === 'tms') {
+    service = 'tag-manager-service';
   }
-  return exec('docker-compose ps')
+  return exec('docker-compose ps', execOpts)
     .then(x => x.split('\n')
-      .filter(x => x && x.includes(`_${image}`))
-      .map(x => x.split(" ")[0]))
-    .then(x => {
+      .filter(y => y && y.includes(`_${service}`))
+      .map(y => y.split(' ')[0]))
+    .then((x) => {
       if (x && x.length === 1) {
-        return /.*_(.*)_.*/.exec(x[0])[1];
+        return /.*_(.*)_.*/.exec(x[0], execOpts)[1];
       }
-      throw new Error(`Can\'t find an image with name ${image}`);
+      throw new Error(`Can't find a service with name ${service}`);
     });
 }
 
 const up = {
-  command: 'up',
+  command: 'up [services...]',
   description: 'Starts docker-compose project in the current directory',
-  action: () => exec('docker-compose up -t 120')
+  action: (services) => run('/bin/bash', ['-i', '-c',
+    `"docker-compose up -t 120 ${services.join(' ')}"`])
 };
 
 const stop = {
-  command: 'stop',
+  command: 'stop [services...]',
   description: 'Stops docker-compose project in the current directory',
-  action: () => exec('docker-compose stop')
+  action: (services) => run('/bin/bash', ['-i', '-c',
+    `"docker-compose stop ${services.join(' ')}"`])
+};
+
+const touch = {
+  command: 't',
+  description: 'Touches some .js file so that the app is restarted by nodemon',
+  action: () =>
+    run('/bin/bash', ['-i', '-c', '"find . src -d 1 -name *.js | head -n 1 | xargs touch"'])
 };
 
 const sh = {
-  command: 'sh [image] [command]',
-  description: 'default image: guessed by current directory; default command: bash',
-  action: (image, command) => {
-    guess(image)
-      .then(img => {
+  command: 'sh [command] [service]',
+  description: 'default service: guessed by current directory; default command: bash',
+  action: (command, service) => {
+    guess(service)
+      .then((svc) => {
         command = command || 'bash';
-        run('/bin/bash', ['-c', `docker-compose exec ${img} ${command}`]);
-      })
-    }
+        run('/bin/bash', ['-i', '-c', `"docker-compose exec ${svc} ${command}"`]);
+      });
+  }
 };
 
 const test = {
-  command: 'test [image] [command]',
-  description: 'default image: guessed by current directory; default command: yarn test',
-  action: (image, command) => {
-    guess(image)
-      .then(img => {
+  command: 'test [service] [command]',
+  description: 'default service: guessed by current directory; default command: yarn test',
+  action: (service, command) => {
+    guess(service)
+      .then((svc) => {
         command = command || 'yarn test';
-        run('/bin/bash', ['-c', `docker-compose exec ${img} ${command}`]);
-      })
-    }  
+        run('/bin/bash', ['-i', '-c', `"docker-compose exec ${svc} ${command}"`]);
+      });
+  }
 };
 
 const restart = {
-  command: 'r [image]',
-  description: 'Restarts a service. default image: guessed by current directory',
-  action: (image) => {
-    guess(image)
-      .then(img => {
-        run('/bin/bash', ['-c', `docker-compose restart ${img}`]);
-      })
-    }
+  command: 'r [service]',
+  description: 'Restarts a service. default service: guessed by current directory',
+  action: (service) => {
+    guess(service)
+      .then((svc) => {
+        run('/bin/bash', ['-i', '-c', `"docker-compose restart ${svc}"`]);
+      });
+  }
+};
+
+const yarn = {
+  command: 'yarn [service]',
+  description: 'default service: guessed by current directory; default command: yarn',
+  action: (service) => {
+    guess(service)
+      .then((svc) => {
+        const command = 'yarn';
+        run('/bin/bash', ['-i', '-c', `"docker-compose exec ${svc} ${command}"`]);
+      });
+  }
 };
 
 module.exports = {
@@ -80,5 +105,7 @@ module.exports = {
   stop,
   sh,
   test,
-  restart
+  restart,
+  yarn,
+  touch
 };
