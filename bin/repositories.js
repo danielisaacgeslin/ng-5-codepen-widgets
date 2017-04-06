@@ -24,14 +24,14 @@ module.exports = {
     {
       name: 'backoffice',
       dcFile: 'docker-compose.clients.yml',
-      domain: 'admin',
-      tier: 0
+      domain: 'admin'
     }
   ],
   'blacklist-service': [
     {
       name: 'blacklist-service',
-      domain: 'blacklist'
+      domain: 'blacklist',
+      tier: 0
     }
   ],
   'campaign-service': [

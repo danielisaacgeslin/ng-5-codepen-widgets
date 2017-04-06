@@ -46,6 +46,12 @@ const stop = {
     `"docker-compose stop ${services.join(' ')}"`])
 };
 
+const kill = {
+  command: 'kill',
+  description: 'Stops all docker containers',
+  action: () => run('/bin/bash', ['-i', '-c', 'docker ps | grep -v CONTA | awk \'{print $1}\' | xargs docker stop'])
+};
+
 const touch = {
   command: 't',
   description: 'Touches some .js file so that the app is restarted by nodemon',
@@ -107,5 +113,6 @@ module.exports = {
   test,
   restart,
   yarn,
-  touch
+  touch,
+  kill
 };
