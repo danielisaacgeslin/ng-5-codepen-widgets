@@ -364,18 +364,21 @@ services:
 
   # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
   # adserver-report-extraction-task:
-  #   image: gettyimages/spark
+  #   build: ./adserver-report-extraction-task/job/.
   #   environment:
-  #     DEBUG_ENV: "true"
   #     SEEDTAG_API_KEY: e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c
   #   depends_on:
-  #     - elasticsearch
-  #     - zookeeper
-  #     - kafka
+  #     - mongo
+  #     - tag-manager-service
+  #     - user-service
   #   volumes:
   #     - ./adserver-report-extraction-task:/adserver-report-extraction-task
-  #   # Change CsvFilePath!
-  #   command: ./deploy-local.sh <CsvFilePath>
+  #   # By default do nothing, just run the container to do whatever you want in a shell
+  #   command: "tail -f /dev/null"
+  #   # If you want to run the job:
+  #   # command: ./deploy-local.sh <CsvFilePath>
+  #   # If you want to pass the tests
+  #   # command: "sbt test"
 
   custom-categories-service:
     build: ./custom-categories-service
