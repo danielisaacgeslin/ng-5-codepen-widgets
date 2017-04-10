@@ -128,5 +128,9 @@ module.exports = {
       name: 'watson-service',
       tier: 1
     }
-  ]
+  ],
+  'topurls-service': [],
+  'aggregation-service': [],
+  'blacklisted-traffic-service': [],
+  'adserver-report-extraction-task': [],
 };
