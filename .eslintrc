@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "rules": {
     // disable requiring trailing commas because it might be nice to revert to
     // being JSON at some point, and I dont want to make big changes now.
@@ -11,7 +11,8 @@
     "no-param-reassign": 0,
     # "global-require": 0,
     "no-unused-vars": ["error", { "args": "none" }],
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "arrow-parens": ["error", "as-needed"]
   },
   "globals": {
     //jasmine

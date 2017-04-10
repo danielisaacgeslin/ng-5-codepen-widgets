@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const git = require('simple-git/promise');
 const Promise = require('bluebird');
 const childProcess = require('child_process');
+
 const exec = Promise.promisify(childProcess.exec);
 const os = require('os');
 const path = require('path');
@@ -23,7 +24,7 @@ const loadBaseServicesIfNeeded = () => {
 const addToHosts = repo => {
   const domains = repo.services.filter(svc => svc.domain).map(svc => svc.domain);
   return Promise.all(
-    domains.map(domain => exec('echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts')));
+    domains.map(domain => exec(`echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts`)));
 };
 
 const setup = repo =>
