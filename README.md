@@ -15,6 +15,7 @@ For example, to install seedtag platform in ~/seedtag, simply do this:
 git clone git@github.com:seedtag/dev-environment.git seedtag
 cd seedtag
 npm i -g
+npm link # to have all your updates over st.js available instantly when running st
 st sync
 ```
 

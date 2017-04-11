@@ -1,10 +1,8 @@
 'use strict';
 
 const childProcess = require('child_process');
-const Promise = require('bluebird');
-
-const exec = Promise.promisify(childProcess.exec);
 const baseExecOpts = require('../utils/options').execOpts;
+
 const execOpts = Object.assign({ stdio: 'inherit' }, baseExecOpts);
 
 const KAFKA_SERVICE = 'kafka';
