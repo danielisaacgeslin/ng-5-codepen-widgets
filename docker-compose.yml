@@ -362,3 +362,5 @@ services:
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
