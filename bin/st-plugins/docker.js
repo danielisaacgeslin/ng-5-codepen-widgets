@@ -50,12 +50,13 @@ const stop = {
 };
 
 const touch = {
-  command: 't [services...]',
+  command: 't [service]',
   description: 'Touches some .js file so that the app is restarted by nodemon',
-  action: async (services) => {
-    if (services.length === 0) services = [await guess()];
+  action: async (service) => {
+    if (!service) service = await guess();
     run('/bin/bash', ['-i', '-c',
-      `"find ${services} -maxdepth 2 -name *.js | head -n 1 | xargs touch"`]);
+      `"find ${service} -maxdepth 2 ! -path '*node_modules/*' -name *.js | head -n 1 | \
+xargs touch"`]);
   }
 };
 

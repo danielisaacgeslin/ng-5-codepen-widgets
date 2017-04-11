@@ -17,9 +17,9 @@ const kc = {
   description: 'Starts a kafka consumer. Default queue: tasks, default image: kafka.*',
   action: (queue) => {
     queue = queue || 'tasks';
-    const command = `/opt/kafka_2.11-0.10.0.1/bin/kafka-console-consumer.sh --new-consumer \
+    const command = `/opt/kafka/bin/kafka-console-consumer.sh --new-consumer \
 --bootstrap-server localhost:9092 --topic ${queue}`;
-    run('/ bin/bash', ['-c', `docker-compose exec ${KAFKA_SERVICE} "${command}"`]);
+    run('/bin/bash', ['-c', '-i', `"docker-compose exec ${KAFKA_SERVICE} ${command}"`]);
   }
 };
 
@@ -28,9 +28,9 @@ const kp = {
   description: 'Starts a kafka producer. default queue: tasks, default image: kafka.*',
   action: (queue) => {
     queue = queue || 'tasks';
-    const command = `/opt/kafka_2.11-0.10.0.1/bin/kafka-console-producer.sh --topic ${queue} \
+    const command = `/opt/kafka/bin/kafka-console-producer.sh --topic ${queue} \
 --broker-list localhost:9092`;
-    run('/bin/bash', ['-c', `docker-compose exec ${KAFKA_SERVICE} "${command}"`]);
+    run('/bin/bash', ['-c', '-i', `"docker-compose exec ${KAFKA_SERVICE} ${command}"`]);
   }
 };
 
