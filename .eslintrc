@@ -1,5 +1,8 @@
 {
-  "extends": "airbnb-base",
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "rules": {
     // disable requiring trailing commas because it might be nice to revert to
     // being JSON at some point, and I dont want to make big changes now.
@@ -12,7 +15,8 @@
     # "global-require": 0,
     "no-unused-vars": ["error", { "args": "none" }],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-    "arrow-parens": ["error", "as-needed"]
+    //"arrow-parens": ["error", "as-needed"]
+    "arrow-parens": 0
   },
   "globals": {
     //jasmine
