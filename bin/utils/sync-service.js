@@ -5,6 +5,7 @@ const childProcess = require('child_process');
 const os = require('os');
 const path = require('path');
 const Repository = require('./Repository');
+const Service = require('./Service');
 const canBePulled = require('./repo-utils').canBePulled;
 
 const exec = Promise.promisify(childProcess.exec);
@@ -19,7 +20,7 @@ const loadBaseServicesIfNeeded = async () => {
   if (loadedBaseServices) return null;
   loadedBaseServices = true;
   console.log('Loading base services...');
-  return exec(`docker-compose up -d ${Repository.baseServices.join(' ')}`, execOpts);
+  return exec(`docker-compose up -d ${Service.baseServices.join(' ')}`, execOpts);
 };
 
 const addToHosts = repo => {

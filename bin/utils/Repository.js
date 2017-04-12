@@ -6,18 +6,10 @@ const repoUtils = require('./repo-utils');
 const options = require('./options');
 const Promise = require('bluebird');
 const emoji = require('node-emoji');
+const Service = require('./Service');
 
 const stat = Promise.promisify(require('fs').stat);
 const exec = Promise.promisify(require('child_process').exec);
-
-class Service {
-  constructor(serviceData) {
-    this.name = serviceData.name;
-    this.dcFile = serviceData.dcFile;
-    this.tier = serviceData.tier;
-    this.domain = serviceData.domain ? `${serviceData.domain}.seedtag.local` : null;
-  }
-}
 
 class Repository {
   constructor(repoName) {
@@ -68,4 +60,3 @@ class Repository {
 
 module.exports = Repository;
 module.exports.getAll = Repository.getAll;
-module.exports.baseServices = ['mongo', 'redis', 'kafka', 'zookeeper'];
