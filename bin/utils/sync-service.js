@@ -2,11 +2,12 @@ const chalk = require('chalk');
 const git = require('simple-git/promise');
 const Promise = require('bluebird');
 const childProcess = require('child_process');
-
-const exec = Promise.promisify(childProcess.exec);
 const os = require('os');
 const path = require('path');
 const Repository = require('./Repository');
+const canBePulled = require('./repo-utils').canBePulled;
+
+const exec = Promise.promisify(childProcess.exec);
 const stat = Promise.promisify(require('fs').stat);
 
 // SEEDTAG_HOME or ~/seedtag
@@ -41,17 +42,6 @@ const getOrSetupRepo = async repo => {
     await setup(repo);
   }
   return git(repoDir);
-};
-
-const canBePulled = status => {
-  if (status.current !== 'master') return [false, 'Could not sync service outside master'];
-  if (status.ahead > 0) return [false, 'You cannot be ahead master, please push'];
-  if (status.conflicted.length !== 0) return [false, 'You have conflicted files'];
-  if (status.created.length !== 0) return [false, 'You have created files'];
-  if (status.deleted.length !== 0) return [false, 'You have deleted files'];
-  if (status.modified.length !== 0) return [false, 'You have modified files'];
-  if (status.renamed.length !== 0) return [false, 'You have renamed files'];
-  return [true, null];
 };
 
 const dcCommand = (service, command) => {

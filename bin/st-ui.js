@@ -2,6 +2,7 @@
 
 const blessed = require('blessed');
 const repositories = require('./repositories');
+const Repository = require('./utils/Repository');
 const childProcess = require('child_process');
 
 const program = require('commander');
@@ -39,17 +40,29 @@ const checkboxes = Object.keys(repositories).map((r, index) => blessed.checkbox(
   top: index + 1,
   left: 2,
   mouse: true,
+  shrink: true,
   style: {
     focus: { fg: 'black', bg: 'white' },
     hover: { fg: 'black', bg: 'white' }
   }
 }));
 
+checkboxes.forEach(async c => {
+  try {
+    const repo = new Repository(c.text);
+    const status = await repo.prettyStatus();
+    c.text = `${c.text} ${status}`;
+    screen.render();
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 const actions = [
   {
     name: 'Sync selected repos',
     callback: (cb) => {
-      const reposToSync = checkboxes.filter(c => c.value).map(c => c.text);
+      const reposToSync = checkboxes.filter(c => c.value).map(c => c.text.split(' ')[0]);
       if (reposToSync.length === 0) {
         box.setContent('You have to select at least one repo');
         return screen.render();

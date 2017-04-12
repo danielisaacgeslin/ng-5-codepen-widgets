@@ -9,6 +9,7 @@ if (process.env.SEEDTAG_HOME && process.env.SEEDTAG_HOME.indexOf('~') !== -1) {
 program
   .version('0.1')
   .command('sync [repos]', 'If no repos option is provided, sync all repos')
+  .command('status [repos]', 'If no repos option is provided, status all')
   .command('dump', 'Make a dump of production db in initial-data/backup-YYYYMMDD')
   .command('restore [backupName]',
     'Restore a previously made backup. If no backupName it will restore today')
@@ -17,6 +18,7 @@ program
   .command('kp [queue]', 'Starts a kafka producer. Default queue: tasks')
   .command('fixture [fixtures...]', 'Load user fixture into the running Mongo, whatever it is')
   .command('up [services...]', 'Starts services, if svc arg not provided, svc of cwd')
+  .command('logs [services...]', 'Show logs of services, if svc arg not provided, svc of cwd')
   .command('stop [services...]', 'Stop services, if svc arg not provided, svc of cwd')
   .command('t [service]', 'Touches some .js file so that the app is restarted by nodemon')
   .command('sh [service] [command...]',

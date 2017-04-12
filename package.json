@@ -20,6 +20,7 @@
     "eslint-plugin-react": "^6.10.3",
     "moment": "^2.18.1",
     "node-cmd": "^2.0.0",
+    "node-emoji": "^1.5.1",
     "simple-git": "^1.67.0"
   },
   "devDependencies": {
