@@ -1,70 +1,25 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const chalk = require('chalk');
-const syncServices = require('./utils/sync-service');
-const repositories = require('./repositories');
-const childProcess = require('child_process');
-const options = require('./utils/options');
-const moment = require('moment');
-const fs = require('fs');
 
 if (process.env.SEEDTAG_HOME && process.env.SEEDTAG_HOME.indexOf('~') !== -1) {
   throw new Error('SEEDTAG_HOME cannot contain ~, use absolute paths');
 }
 
-const runScript = (scriptPath, args) => {
-  const proc = childProcess.spawn(scriptPath, args, options.execOpts);
-  proc.stdout.on('data', data => process.stdout.write(data.toString()));
-  proc.stderr.on('data', data => process.stderr.write(chalk.yellow(data.toString())));
-  proc.on('exit', code => console.log(code.toString()));
-};
-
-const PLUGINS_DIR = `${__dirname}/st-plugins`;
-const pluginFiles = fs.readdirSync(PLUGINS_DIR);
-pluginFiles.forEach(file => {
-  const name = file.replace('.js', '');
-  const plugin = require(`${PLUGINS_DIR}/${name}`); // eslint-disable-line
-  Object.keys(plugin).forEach(key => {
-    const command = plugin[key];
-    program
-      .command(command.command)
-      .description(command.description)
-      .action(command.action);
-  });
-});
-
 program
-  .command('sync [repos...]')
-  .description('If no repos option is provided, sync all repos')
-  .action(repos => {
-    const reposToSync = repos.length !== 0 ? repos : Object.keys(repositories);
-    return syncServices(reposToSync);
-  });
-
-program
-  .command('db_dump')
-  .description('Make a dump of production db in initial-data/backup-YYYYMMDD')
-  .action(() => runScript('bin/utils/dump-database.sh', []));
-
-program
-  .command('db_restore [backupName]')
-  .description('Restore a previously made backup. If no backupName it will restore today')
-  .action(() => {
-    const backupName = program.backupName || `backup-${moment().format('YYYYMMDD')}`;
-    return runScript('bin/utils/restore-database.sh', [backupName]);
-  });
-
-program
-  .command('ui')
-  .action(() => {
-    require('./ui'); // eslint-disable-line
-  });
-
-program
-  .command('*')
-  .action(() => {
-    program.help(); // eslint-disable-line
-  });
-
-program.parse(process.argv);
+  .version('0.1')
+  .command('sync [repos]', 'If no repos option is provided, sync all repos')
+  .command('dump', 'Make a dump of production db in initial-data/backup-YYYYMMDD')
+  .command('restore [backupName]',
+    'Restore a previously made backup. If no backupName it will restore today')
+  .command('ui', 'Launch graphical interface to manage repositories', { isDefault: true })
+  .command('kc [queue]', 'Starts a kafka consumer. Default queue: tasks')
+  .command('kp [queue]', 'Starts a kafka producer. Default queue: tasks')
+  .command('fixture [fixtures...]', 'Load user fixture into the running Mongo, whatever it is')
+  .command('up [services...]', 'Starts services, if svc arg not provided, svc of cwd')
+  .command('stop [services...]', 'Stop services, if svc arg not provided, svc of cwd')
+  .command('t [service]', 'Touches some .js file so that the app is restarted by nodemon')
+  .command('sh [service] [command...]',
+    'default service: guessed by current directory; default command: bash')
+  .command('r [service]', 'Restarts a service. default service: guessed by current directory')
+  .parse(process.argv);
