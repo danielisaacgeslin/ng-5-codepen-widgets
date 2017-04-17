@@ -1,7 +1,8 @@
 const options = require('./utils/options');
-const childProcess = require('child_process');
+const dcAction = require('./utils/dc-action');
 const program = require('commander');
 const guess = require('./utils/guess-service');
+const Service = require('./utils/Service');
 
 const execOpts = options.vexecOpts;
 
@@ -14,15 +15,18 @@ const getSelectedServices = () => {
   if (program.all) return [];
   let services = program.args;
   if (services.length === 0) services = [guess(null)];
-
   console.log(`Starting ${services.join(' ')}`);
   return services;
 };
 
 const run = async () => {
-  const baseCommandArr = program.detached ? ['-d'] : [];
-  const commandArr = baseCommandArr.concat(getSelectedServices());
-  childProcess.spawn('docker-compose', ['up'].concat(commandArr), execOpts);
+  const services = getSelectedServices()
+    .map(s => Service.get(s));
+
+  const actionsArr = ['up'];
+  if (program.detached) actionsArr.push('-d');
+
+  dcAction(actionsArr, services, execOpts);
 };
 
 run()

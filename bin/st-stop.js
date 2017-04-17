@@ -1,5 +1,6 @@
 const options = require('./utils/options');
-const childProcess = require('child_process');
+const dcAction = require('./utils/dc-action');
+const Service = require('./utils/Service');
 const program = require('commander');
 const guess = require('./utils/guess-service');
 
@@ -19,8 +20,11 @@ const getSelectedServices = () => {
 };
 
 const run = async () => {
-  const selectedServices = getSelectedServices();
-  childProcess.spawn('docker-compose', ['stop'].concat(selectedServices), execOpts);
+  const services = getSelectedServices()
+    .map(s => Service.get(s));
+
+  const actionsArr = ['stop'];
+  dcAction(actionsArr, services, execOpts);
 };
 
 run()

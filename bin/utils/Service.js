@@ -4,7 +4,6 @@ class Service {
   constructor(serviceData) {
     this.name = serviceData.name;
     this.dcFile = serviceData.dcFile;
-    this.tier = serviceData.tier;
     this.domain = serviceData.domain ? `${serviceData.domain}.seedtag.local` : null;
   }
 
