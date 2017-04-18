@@ -16,7 +16,9 @@ git clone git@github.com:seedtag/dev-environment.git seedtag
 cd seedtag
 npm i -g
 npm link # to have all your updates over st.js available instantly when running st
-st sync
+
+# And if you don't have the projects:
+st sync -a
 ```
 
 This will download all the services and build them. The st command is idempotent
