@@ -15,7 +15,6 @@
       build: ./backoffice
       volumes:
         - ./backoffice:/code
-        - /code/node_modules
       ports:
         - "3060:3000"
       command: yarn start
@@ -24,7 +23,6 @@
       build: ./publisher-panel
       volumes:
         - ./publisher-panel:/code
-        - /code/node_modules
       ports:
         - "3090:3000"
       command: yarn start
@@ -33,7 +31,6 @@
       build: ./gohan
       volumes:
         - ./gohan:/code
-        - /code/node_modules
       ports:
         - "8886:8886"
       command: yarn start
