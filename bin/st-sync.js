@@ -73,6 +73,9 @@ const syncService = async service => {
   }
 };
 
+const repoNames = getSelectedRepos();
+const repos = repoNames.map(repoName => new Repository(repoName));
+const remainingRepos = new Set(repoNames);
 const syncRepo = async repo => {
   try {
     const gitRepo = await getOrSetupRepo(repo);
@@ -80,6 +83,11 @@ const syncRepo = async repo => {
     if (!canPull) throw new Error(reason);
     await gitRepo.pull();
     await Promise.all(repo.services.map(svc => syncService(svc)));
+
+    remainingRepos.delete(repo.name);
+    if (remainingRepos.size) {
+      console.log(chalk.green(`Remaining: ${Array.from(remainingRepos).join(' ')}`));
+    }
   } catch (err) {
     console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
     throw err;
@@ -88,7 +96,6 @@ const syncRepo = async repo => {
 
 if (program.verbose) execOpts.stdio = 'inherit';
 
-const repos = getSelectedRepos().map(repoName => new Repository(repoName));
 console.log(`Syncing ${repos.map(r => r.name).join(' ')}`);
 Promise.all(repos.map(r => syncRepo(r)))
 .then(() => {
