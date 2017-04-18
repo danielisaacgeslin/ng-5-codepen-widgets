@@ -86,7 +86,8 @@ const syncRepo = async repo => {
 
     remainingRepos.delete(repo.name);
     if (remainingRepos.size) {
-      console.log(chalk.green(`Remaining: ${Array.from(remainingRepos).join(' ')}`));
+      console.log(chalk.green(`[${repoNames.length - remainingRepos.size}/${repoNames.length}] \
+Repos in progress: ${Array.from(remainingRepos).join(' ')}`));
     }
   } catch (err) {
     console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
