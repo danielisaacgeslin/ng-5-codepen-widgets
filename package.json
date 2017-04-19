@@ -18,6 +18,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "^6.10.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "node-cmd": "^2.0.0",
     "node-emoji": "^1.5.1",

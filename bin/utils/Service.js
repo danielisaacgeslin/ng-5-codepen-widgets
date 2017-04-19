@@ -1,4 +1,5 @@
 const repos = require('../repositories');
+const _ = require('lodash');
 
 class Service {
   constructor(serviceData) {
@@ -14,10 +15,12 @@ class Service {
   }
 
   static get(serviceName) {
-    const svcJson = Object.keys(repos)
+    const svcListFromRepoList = Object.keys(repos)
       .map(repoName => repos[repoName] // For each repo, get services list
         .filter(svc => svc.name === serviceName)) // Only return selected svc
-      .filter(svcs => svcs.length !== 0)[0][0]; // Exit from list of services in list of repos
+      .filter(svcs => svcs.length !== 0);
+    // SvcListFromRepoList is a list of a list conaining the service.
+    const svcJson = _.get(svcListFromRepoList, '0.0', { name: serviceName });
     return new Service(svcJson);
   }
 }
