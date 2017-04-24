@@ -277,6 +277,9 @@ services:
       DEBUG: 'kafka-node:ConsumerGroup'
       PEER39_CLIENT_CODE: 'asdf'
       PEER39_URL: 'asdf'
+      NODENAME: 'docker'
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
       SEEDTAG_API_KEY: 'e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c'
 
   campaign-service:
