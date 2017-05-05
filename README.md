@@ -18,7 +18,16 @@ npm i -g
 npm link # to have all your updates over st.js available instantly when running st
 
 # And if you don't have the projects:
+
+# OPTION A (Default SHH-KEY without Passphrse)
 st sync -a
+
+# OPTION B (Select SSH-KEY without Passphrse)
+SEEDTAG_SSH_KEY=/absolute/route/to/my-ssh-key st sync -a
+
+# Before launch is need to restore database with the following commands:
+st dump
+st restore
 ```
 
 This will download all the services and build them. The st command is idempotent
