@@ -19,13 +19,13 @@ npm link # to have all your updates over st.js available instantly when running 
 
 # And if you don't have the projects:
 
-# OPTION A (Default SHH-KEY without Passphrse)
+# OPTION A (Default SHH-KEY without Passphrase)
 st sync -a
 
-# OPTION B (Select SSH-KEY without Passphrse)
+# OPTION B (Select SSH-KEY without Passphrase)
 SEEDTAG_SSH_KEY=/absolute/route/to/my-ssh-key st sync -a
 
-# Before launch is need to restore database with the following commands:
+# Before launch is needed to restore database with the following commands:
 st dump
 st restore
 ```
