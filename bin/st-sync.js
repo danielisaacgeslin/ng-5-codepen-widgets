@@ -39,7 +39,7 @@ const addToHosts = repo => {
 const setup = async repo => {
   const argsStr = `clone git@github.com:seedtag/${repo.name}.git`;
   if (process.env.SEEDTAG_SSH_KEY) {
-    await exec(`ssh-agent bash -c "ssh-add ${process.env.SEEDTAG_SSH_KEY}; git ${argsStr}"`)
+    await exec(`ssh-agent bash -c "ssh-add ${process.env.SEEDTAG_SSH_KEY}; git ${argsStr}"`);
   } else {
     await spawnAsync('git', argsStr.split(' '), execOpts);
   }
@@ -111,4 +111,3 @@ Promise.all(repos.map(r => syncRepo(r)))
   console.log(chalk.red('Could not sync some service'));
   console.log(err);
 });
-
