@@ -162,7 +162,7 @@ services:
     build: ./studio/server
     ports:
       - "3010:3000"
-      - "3011:5858"
+      - "3011:9229"
       - "3012:8080"
     volumes:
       - ./studio/server:/code
