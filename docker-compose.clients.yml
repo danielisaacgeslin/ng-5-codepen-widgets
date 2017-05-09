@@ -5,6 +5,7 @@
       build: ./studio/client
       volumes:
         - ./studio/client/src:/code/src
+        - ./studio/client/gulpfile.js:/code/gulpfile.js
       ports:
         - "3050:3000"
       environment:

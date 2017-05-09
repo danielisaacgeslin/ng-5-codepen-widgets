@@ -87,7 +87,6 @@ const syncRepo = async repo => {
     if (!canPull) throw new Error(reason);
     await gitRepo.pull();
     await Promise.all(repo.services.map(svc => syncService(svc)));
-
   } catch (err) {
     console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
     throw err;
@@ -97,7 +96,6 @@ const syncRepo = async repo => {
       console.log(chalk.green(`[${repoNames.length - remainingRepos.size}/${repoNames.length}] \
 Repos in progress: ${Array.from(remainingRepos).join(' ')}`));
     }
-
   }
 };
 
