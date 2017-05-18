@@ -156,6 +156,7 @@ services:
       - redis
       - custom-categories-service
       - user-service
+      - geolocation-service
     command: npm run start-dev
 
   studio-service:
@@ -353,3 +354,11 @@ services:
       SEEDTAG_TLD: ".seedtag.local" # ".seedtag.com" in production
       REDIS_HOST: 'redis'
       REDIS_PORT: '6379'
+
+  geolocation-service:
+    build: ./geolocation-service
+    command: yarn dev
+    ports:
+      - 3190:3000
+    volumes:
+      - ./geolocation-service:/code
