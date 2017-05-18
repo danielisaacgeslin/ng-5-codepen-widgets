@@ -9,6 +9,7 @@ if (process.env.SEEDTAG_HOME && process.env.SEEDTAG_HOME.indexOf('~') !== -1) {
 program
   .version('0.1')
   .command('sync [repos]', 'If no repos option is provided, sync all repos')
+  .command('build [service]', 'Builds a service. default service: guessed by current directory')
   .command('status [repos]', 'If no repos option is provided, status all')
   .command('dump', 'Make a dump of production db in initial-data/backup-YYYYMMDD')
   .command('restore [backupName]',
