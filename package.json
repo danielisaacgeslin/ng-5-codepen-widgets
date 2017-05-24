@@ -25,7 +25,8 @@
     "simple-git": "^1.67.0"
   },
   "devDependencies": {
-    "eslint-plugin-babel": "^4.1.1"
+    "eslint-plugin-babel": "^4.1.1",
+    "sh": "0.0.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

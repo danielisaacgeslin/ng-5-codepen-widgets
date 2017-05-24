@@ -25,4 +25,5 @@ program
   .command('sh [service] [command...]',
     'default service: guessed by current directory; default command: bash')
   .command('r [service]', 'Restarts a service. default service: guessed by current directory')
+  .command('client [client]', 'Run a specified client')
   .parse(process.argv);
