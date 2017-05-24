@@ -1,4 +1,5 @@
 node_modules
+.yarnclean
 .DS_Store
 
 #file with secret
@@ -36,6 +37,7 @@ codetest-*
 angular-boilerplate
 seedtag-ui2
 ng2-components
+st-ng-forms
 angular-2-dropdown-multiselect
 eslint-config-seedtag-base
 
@@ -53,3 +55,4 @@ docker-compose.override.yml
 
 # IDES
 .idea
+
