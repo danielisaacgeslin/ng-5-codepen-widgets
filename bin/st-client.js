@@ -38,7 +38,8 @@ const run = async () => {
   } else {
     checkInvalidClient(CLIENT);
     const cientProject = CLIENT ? CLIENT : 'studio-service studio-client';
-    sh(`st up nginx ${BCG_SERVICES_PLAIN} ${cientProject}`);
+    sh(`st up -d nginx ${BCG_SERVICES_PLAIN}`); //Starting detached
+    sh(`st up ${cientProject}`);
   }
 
 };
