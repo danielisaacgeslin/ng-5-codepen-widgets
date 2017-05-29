@@ -68,6 +68,11 @@ module.exports = {
       domain: 'e2.api',
     }
   ],
+  'geolocation-service': [
+    {
+      name: 'geolocation-service'
+    }
+  ],
   gohan: [
     {
       name: 'gohan',
