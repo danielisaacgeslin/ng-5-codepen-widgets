@@ -12,7 +12,7 @@ const CLIENT = program.args && program.args[0];
 
 const BCG_SERVICES = [
   // 'adserver-proxy-service',
-  // 'analytics-service',
+  'analytics-service',
   'blacklist-service',
   'campaign-service',
   'custom-categories-service',
@@ -41,7 +41,9 @@ const run = async () => {
     sh(`st sync ${BCG_SERVICES_PLAIN} ${program.build}`);
   } else {
     checkInvalidClient(CLIENT);
-    const clientProject = checkInvalidClient(CLIENT) ? CLIENT : 'studio-service studio-client';
+    const clientProject =
+      checkInvalidClient(CLIENT) && CLIENT !== 'studio'
+        ? CLIENT : 'studio-service studio-client';
     sh(`st up -d nginx ${BCG_SERVICES_PLAIN}`); // Starting detached
     sh(`st up ${clientProject}`);
   }
