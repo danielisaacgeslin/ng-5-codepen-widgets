@@ -33,6 +33,7 @@ const run = async () => {
     if (Repositories[c] === undefined) {
       throw new Error('You need specified a valid CLIENT for this command');
     }
+    return true;
   };
 
   if (program.build) {
@@ -40,9 +41,9 @@ const run = async () => {
     sh(`st sync ${BCG_SERVICES_PLAIN} ${program.build}`);
   } else {
     checkInvalidClient(CLIENT);
-    const cientProject = CLIENT === true ? CLIENT : 'studio-service studio-client';
+    const clientProject = checkInvalidClient(CLIENT) ? CLIENT : 'studio-service studio-client';
     sh(`st up -d nginx ${BCG_SERVICES_PLAIN}`); // Starting detached
-    sh(`st up ${cientProject}`);
+    sh(`st up ${clientProject}`);
   }
 };
 
