@@ -9,6 +9,7 @@ program
 
 if (program.args.length !== 2) {
   program.outputHelp();
+  console.log('You have to provide repoType (i.e. node-service) and repoName');
   process.exit(-1);
 }
 
@@ -27,35 +28,3 @@ const main = async () => {
 main()
   .then(() => console.log('Done'))
   .catch(err => console.error(err));
-
-// const execOpts = Object.assign({ env: { COMPOSE_HTTP_TIMEOUT: '300' } },
-//     options.execOpts);
-
-// if (program.verbose) execOpts.stdio = 'inherit';
-
-// const generateDockerComposeArgs = (service, command) => {
-//   let completeCommand = [];
-//   if (service.dcFile) completeCommand = completeCommand.concat(['-f', service.dcFile]);
-//   completeCommand = completeCommand.concat(command.split(' '));
-//   return completeCommand;
-// };
-
-// const build = async (service, v) => {
-//   try {
-//     console.log(chalk.magenta('Building', service.name));
-//     await spawnAsync(
-//       'docker-compose',
-//       generateDockerComposeArgs(service, `build ${service.name}`),
-//       execOpts
-//     );
-//     console.log(chalk.magenta('Installing dependencies of', service.name));
-//     await spawnAsync('docker-compose', generateDockerComposeArgs(service, `run --no-deps --rm ${service.name} yarn --verbose`),
-//       execOpts);
-//     console.log(chalk.green(`${service.name} successfully built`));
-//   } catch (err) {
-//     console.error(chalk.red(`${service.name} couldn't be built due to ${err}`));
-//   }
-// };
-
-
-// getSelectedRepos(program.args, program.all).map(s => build(s));
