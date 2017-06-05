@@ -20,9 +20,9 @@ const main = async () => {
   await spawnAsync('git', ['clone', repoUrl, repoName],
     options.execOpts);
   const newPath = `${options.execOpts.cwd}/${repoName}`;
-  const newOpts = Object.assign({}, options.execOpts);
+  const newOpts = Object.assign({}, options.vexecOpts);
   newOpts.cwd = newPath;
-  await spawnAsync('bash', ['init.sh'], newOpts);
+  await spawnAsync('bash', ['init.sh', repoName], newOpts);
 };
 
 main()
