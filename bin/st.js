@@ -26,4 +26,5 @@ program
     'default service: guessed by current directory; default command: bash')
   .command('r [service]', 'Restarts a service. default service: guessed by current directory')
   .command('client [client]', 'Run a specified client')
+  .command('create <repoType> <name>', 'Create a new service for the given name')
   .parse(process.argv);

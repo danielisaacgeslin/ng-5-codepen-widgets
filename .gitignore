@@ -17,25 +17,23 @@ gohan-tests
 
 # Services
 *-service/
+seedtag-*
 adserver-report-extraction-task
 
 # Other repositories
 user-middleware
 systems
 webpack-dev-server
-seedtag-node-logger
-seedtag-request
 docker-images
-seedtag-queue
 express-prom-bundle
 db_backup
 redis
 scraper
 twemproxy-docker
 codetest-*
+st-scripts
 
 angular-boilerplate
-seedtag-ui2
 ng2-components
 st-ng-forms
 angular-2-dropdown-multiselect

@@ -11,16 +11,14 @@ program
 const CLIENT = program.args && program.args[0];
 
 const BCG_SERVICES = [
-  // 'aggregation-service',
-  // 'adserver-report-extraction-task',
-  'adserver-proxy-service',
+  // 'adserver-proxy-service',
   'analytics-service',
   'blacklist-service',
   'campaign-service',
   'custom-categories-service',
   'email-service',
   'event-bigdata-service',
-  'sherlock-service',
+  // 'sherlock-service',
   'tag-manager-service',
   'tagging-service',
   'user-service',
@@ -29,26 +27,27 @@ const BCG_SERVICES = [
 ];
 
 const run = async () => {
-
   const BCG_SERVICES_PLAIN = BCG_SERVICES.toString().replace(/(,)/gi, ' ');
+
+  const checkInvalidClient = (c) => {
+    if (Repositories[c] === undefined) {
+      throw new Error('You need specified a valid CLIENT for this command');
+    }
+    return true;
+  };
 
   if (program.build) {
     checkInvalidClient(program.build);
     sh(`st sync ${BCG_SERVICES_PLAIN} ${program.build}`);
   } else {
     checkInvalidClient(CLIENT);
-    const cientProject = CLIENT ? CLIENT : 'studio-service studio-client';
-    sh(`st up -d nginx ${BCG_SERVICES_PLAIN}`); //Starting detached
-    sh(`st up ${cientProject}`);
+    const clientProject =
+      checkInvalidClient(CLIENT) && CLIENT !== 'studio'
+        ? CLIENT : 'studio-service studio-client';
+    sh(`st up -d nginx ${BCG_SERVICES_PLAIN}`); // Starting detached
+    sh(`st up ${clientProject}`);
   }
-
 };
-
-const checkInvalidClient = (c) => {
-  if (Repositories[c] === undefined) {
-    throw new Error('You need specified a valid CLIENT for this command');
-  };
-}
 
 run()
   .catch(err => console.log(err));

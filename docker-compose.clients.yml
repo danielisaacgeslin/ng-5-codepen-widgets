@@ -1,37 +1,34 @@
-  version: '2'
+version: '2'
 
-  services:
-    studio-client:
-      build: ./studio/client
-      volumes:
-        - ./studio/client/src:/code/src
-        - ./studio/client/config:/code/config
-      ports:
-        - "3050:3000"
-      environment:
-        NODE_ENV: "development"
-      command: npm run start
+services:
+  studio-client:
+    build: ./studio/client
+    volumes:
+      - ./studio/client:/code
+    ports:
+      - "3050:3000"
+    command: yarn start
 
-    backoffice:
-      build: ./backoffice
-      volumes:
-        - ./backoffice:/code
-      ports:
-        - "3060:3000"
-      command: yarn start
+  backoffice:
+    build: ./backoffice
+    volumes:
+      - ./backoffice:/code
+    ports:
+      - "3060:3000"
+    command: yarn start
 
-    publisher-panel:
-      build: ./publisher-panel
-      volumes:
-        - ./publisher-panel:/code
-      ports:
-        - "3090:3000"
-      command: yarn start
+  publisher-panel:
+    build: ./publisher-panel
+    volumes:
+      - ./publisher-panel:/code
+    ports:
+      - "3090:3000"
+    command: yarn start
 
-    gohan:
-      build: ./gohan
-      volumes:
-        - ./gohan:/code
-      ports:
-        - "8886:8886"
-      command: yarn start
+  gohan:
+    build: ./gohan
+    volumes:
+      - ./gohan:/code
+    ports:
+      - "8886:8886"
+    command: yarn start
