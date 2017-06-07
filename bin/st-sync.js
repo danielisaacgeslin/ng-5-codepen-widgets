@@ -8,6 +8,7 @@ const childProcess = require('child_process');
 const path = require('path');
 const Repository = require('./utils/Repository');
 const options = require('./utils/options');
+const { Multilogger, Multispinner, Logger } = require('./utils/spinners');
 const spawnAsync = require('./utils/child-process').spawnAsync;
 const canBePulled = require('./utils/repo-utils').canBePulled;
 
@@ -46,12 +47,12 @@ const setup = async repo => {
   return addToHosts(repo);
 };
 
-const getOrSetupRepo = async repo => {
+const getOrSetupRepo = async (repo, logger) => {
   const repoDir = path.join(options.cwd, repo.name);
   try {
     await stat(repoDir);
   } catch (err) {
-    console.log('Repo of %s not present, cloning it', repo.name);
+    logger.text = 'Repo not present, cloning it';
     await setup(repo);
   }
   return git(repoDir);
@@ -66,48 +67,46 @@ const dcArgs = (service, command) => {
   return completeCommand;
 };
 
-const syncService = async service => {
+const syncService = async (service, logger) => {
   try {
-    console.log(chalk.magenta('Building', service.name));
+    logger.text = chalk.magenta('Building', service.name);
     await spawnAsync('docker-compose', dcArgs(service, `build ${service.name}`), execOpts);
-    console.log(chalk.magenta('Installing dependencies of', service.name));
+    logger.text = chalk.magenta('Installing dependencies of', service.name);
     await spawnAsync('docker-compose', dcArgs(service, `run --no-deps --rm ${service.name} yarn`),
       execOpts);
-    console.log(chalk.green(`${service.name} successfully synced`));
   } catch (err) {
-    console.error(chalk.red(`${service.name} couldn't be synced due to ${err}`));
+    logger.error(`${service.name} couldn't be synced due to ${err}`);
   }
 };
 
 const repoNames = getSelectedRepos();
 const repos = repoNames.map(repoName => new Repository(repoName));
-const remainingRepos = new Set(repoNames);
-const syncRepo = async repo => {
+const syncRepo = async (repo, logger) => {
   try {
-    const gitRepo = await getOrSetupRepo(repo);
+    const gitRepo = await getOrSetupRepo(repo, logger);
     const [canPull, reason] = canBePulled(await gitRepo.status());
     if (!canPull) throw new Error(reason);
+    logger.text = 'Pulling repo';
     await gitRepo.pull();
-    await Promise.all(repo.services.map(svc => syncService(svc)));
+    logger.text = 'Syncing services';
+    await Promise.all(repo.services.map(svc => syncService(svc, logger)));
+    logger.success('Repo in sync');
   } catch (err) {
-    console.log(chalk.red(`${repo.name} couldn't be synced due to ${err}`));
+    logger.error(`${repo.name} couldn't be synced due to ${err}`);
     throw err;
-  } finally {
-    remainingRepos.delete(repo.name);
-    if (remainingRepos.size) {
-      console.log(chalk.green(`[${repoNames.length - remainingRepos.size}/${repoNames.length}] \
-Repos in progress: ${Array.from(remainingRepos).join(' ')}`));
-    }
   }
 };
 
 if (program.verbose) execOpts.stdio = 'inherit';
 
 console.log(`Syncing ${repos.map(r => r.name).join(' ')}`);
-Promise.all(repos.map(r => syncRepo(r)))
+const multilogger = program.verbose ? new Multilogger() : new Multispinner();
+Promise.all(repos.map(r => {
+  const logger = new Logger(multilogger, r.name, 'Synchronizing');
+  return syncRepo(r, logger);
+}))
 .then(() => {
-  console.log('Repositories updated');
-  process.exit(0);
+  setTimeout(() => process.exit(0), 1000);
 })
 .catch(err => {
   console.log(chalk.red('Could not sync some service'));

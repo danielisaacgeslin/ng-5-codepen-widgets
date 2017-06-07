@@ -31,6 +31,7 @@ redis
 scraper
 twemproxy-docker
 codetest-*
+st-scripts
 
 angular-boilerplate
 ng2-components
