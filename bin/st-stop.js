@@ -3,6 +3,7 @@ const dcAction = require('./utils/dc-action');
 const Service = require('./utils/Service');
 const program = require('commander');
 const guess = require('./utils/guess-service');
+const repositories = require('./repositories');
 
 const execOpts = options.vexecOpts;
 
@@ -11,7 +12,12 @@ program
   .parse(process.argv);
 
 const getSelectedServices = () => {
-  if (program.all) return [];
+  if (program.all) {
+    return Object.keys(repositories).reduce((acc, act) => {
+      repositories[act].forEach(s => acc.push(s.name));
+      return acc;
+    }, []);
+  }
   let services = program.args;
   if (services.length === 0) services = [guess(null)];
 
