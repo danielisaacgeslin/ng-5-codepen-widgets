@@ -357,3 +357,15 @@ services:
       - 3190:3000
     volumes:
       - ./geolocation-service:/code
+
+  audit-service:
+    ports:
+      - 3200:3000
+      - 3201:9229
+    extends:
+      file: ./audit-service/service.yml
+      service: audit-service
+    volumes:
+      - ./audit-service:/code
+    depends_on:
+      - mongo

@@ -20,6 +20,12 @@ module.exports = {
       domain: 'analytics.api'
     }
   ],
+  'audit-service': [
+    {
+      name: 'audit-service',
+      domain: 'audit.api'
+    }
+  ],
   backoffice: [
     {
       name: 'backoffice',
