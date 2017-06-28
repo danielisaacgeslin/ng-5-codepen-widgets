@@ -6,6 +6,7 @@ const fs = require('fs');
 const FIXTURES_PATH = `${options.cwd}/initial-data`;
 
 program
+  .option('-a, --all', 'Load all available fixtures')
   .parse(process.argv);
 
 function getAvailableFixtures() {
@@ -13,6 +14,7 @@ function getAvailableFixtures() {
     .filter(file => file.endsWith('.js'))
     .map(file => file.replace('.js', ''));
 }
+const availableFixtures = getAvailableFixtures();
 
 function loadFixture(name) {
   console.log('Loading fixture', name);
@@ -20,13 +22,12 @@ function loadFixture(name) {
   childProcess.spawn('mongo', [name, file], options.vexecOpts);
 }
 
-const names = program.args;
+const names = program.all ? availableFixtures : program.args;
 if (names.length === 0) {
   console.log('Available fixtures:');
   getAvailableFixtures().forEach(file => console.log(file));
   process.exit();
 }
 
-const availableFixtures = getAvailableFixtures();
 names.filter(v => availableFixtures.includes(v))
   .forEach(name => loadFixture(name));

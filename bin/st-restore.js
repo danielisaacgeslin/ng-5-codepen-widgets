@@ -8,4 +8,7 @@ program
 
 const inputBackupName = program.args.length !== 0 && program.args[0];
 const backupName = inputBackupName || `backup-${moment().format('YYYYMMDD')}`;
-childProcess.spawn('bin/utils/restore-database.sh', [backupName], options.vexecOpts);
+const restoreProc = childProcess.spawn('bin/utils/restore-database.sh', [backupName], options.vexecOpts);
+restoreProc.on('close', code => {
+  childProcess.spawn('st', ['fixture', '-a'], options.vexecOpts);
+});
