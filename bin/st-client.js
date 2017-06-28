@@ -11,14 +11,14 @@ program
 const CLIENT = program.args && program.args[0];
 
 const BCG_SERVICES = [
-  // 'adserver-proxy-service',
+  'adserver-proxy-service',
+  'audit-service',
   'analytics-service',
   'blacklist-service',
   'campaign-service',
   'custom-categories-service',
   'email-service',
   'event-bigdata-service',
-  // 'sherlock-service',
   'tag-manager-service',
   'tagging-service',
   'user-service',
