@@ -155,7 +155,6 @@ services:
       - mongo
       - sherlock-service
       - redis
-      - custom-categories-service
       - user-service
       - audit-service
     command: yarn start-dev
@@ -406,7 +405,9 @@ services:
 
   # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
   adserver-report-extraction-task:
-    build: ./adserver-report-extraction-task/job/.
+    build: 
+      context: ./adserver-report-extraction-task/
+      dockerfile: Dockerfile-dev
     environment:
       SEEDTAG_API_KEY: e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c
       NODE_ENV: 'development'
@@ -416,7 +417,7 @@ services:
       - user-service
       - adserver-proxy-service
     volumes:
-      - ./adserver-report-extraction-task:/adserver-report-extraction-task
+      - ./adserver-report-extraction-task:/code
     # By default do nothing, just run the container to do whatever you want in a shell
     command: "tail -f /dev/null"
     # If you want to run the job:
