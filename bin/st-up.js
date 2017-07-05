@@ -13,14 +13,15 @@ program
   .parse(process.argv);
 
 const getSelectedServices = () => {
-  if (program.all) {
+  let services = program.args;
+  if (services.length === 0) services = [guess(null)];
+  const isInRoot = services.indexOf('seedtag') != -1;
+  if (program.all || isInRoot) {
     return Object.keys(repositories).reduce((acc, act) => {
       repositories[act].forEach(s => acc.push(s.name));
       return acc;
     }, []);
   }
-  let services = program.args;
-  if (services.length === 0) services = [guess(null)];
   console.log(`Starting ${services.join(' ')}`);
   return services;
 };

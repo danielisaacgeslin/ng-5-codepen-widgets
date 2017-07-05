@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKUP_NAME="backup-"`date +%Y%m%d`
-COLLECTIONS=(blacklist campaign customcategories email reporting seedtag_new studio user)
+COLLECTIONS=(blacklist campaign customcategories email reporting seedtag_new studio user audit)
 SERVER=mongodb1-instance-2
 
 ssh $SERVER "rm -Rf $BACKUP_NAME"

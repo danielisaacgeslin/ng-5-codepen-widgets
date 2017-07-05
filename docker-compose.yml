@@ -1,6 +1,9 @@
 version: '2'
 
 services:
+  s3:
+    image: lphoward/fake-s3
+
   mongo:
     image: mongo:3.2
     expose:
@@ -165,6 +168,7 @@ services:
       - mongo
       - nginx
       - user-service
+      - s3
     ports:
       - "3010:3000"
       - "3011:9229"
@@ -182,6 +186,8 @@ services:
       MONGO_MAIN_HOSTS: "mongo:27017"
       MONGO_MAIN_PARAMS: ""
       MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+      AWS_SECRET_ACCESS_KEY: 'accessKey'
+      AWS_ACCESS_KEY_ID: 'keyId'
 
   tagging-service:
     build: ./tagging-service
