@@ -411,7 +411,7 @@ services:
 
   # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
   adserver-report-extraction-task:
-    build: 
+    build:
       context: ./adserver-report-extraction-task/
       dockerfile: Dockerfile-dev
     environment:

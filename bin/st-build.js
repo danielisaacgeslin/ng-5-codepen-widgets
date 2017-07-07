@@ -39,5 +39,7 @@ const build = async (service, v) => {
   }
 };
 
-
-getSelectedRepos(program.args, program.all).map(s => build(s));
+getSelectedRepos(program.args, program.all)
+  .forEach(repo =>
+    repo.services.map(svc =>
+      build(svc)));
