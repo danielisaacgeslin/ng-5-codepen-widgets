@@ -9,7 +9,7 @@ For example, to install seedtag platform in ~/seedtag, simply do this:
 * Ensure you have [docker environment](https://github.com/seedtag/docker-images) ready
 * Ensure you have docker and docker-compose installed
 * If your installation is not "~/seedtag" you have to set $SEEDTAG_HOME as ENV pointing to the absolute path of your seedtag installation.
-* You have to install (docker-credentials)[https://github.com/docker/docker-credential-helpers] (just unpack-it somewhere in your path like /usr/local/bin)
+* You have to install [docker-credentials](https://github.com/docker/docker-credential-helpers) (just unpack-it somewhere in your path like /usr/local/bin)
 
 ## Setup
 ```
