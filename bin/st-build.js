@@ -4,39 +4,6 @@ const spawnAsync = require('./utils/child-process').spawnAsync;
 const options = require('./utils/options');
 const chalk = require('chalk');
 
-const removeDirectories = async (service) => {
-  await Promise.all(service.buildCopyDirs.map(async (d) => {
-    let dir = d.split(':');
-    const localDir = `./${service.name}/${dir[1]}`;
-    await spawnAsync('rm', ['-rf', localDir]);
-  }));
-};
-
-const copyFromContainer = async (service) => {
-  const seedtagProjectName = (process.env.SEEDTAG_HOME || '').split(/\/\\/).reverse()[0] || 'seedtag';
-  const imageName = `${seedtagProjectName}_${service.name}`;
-  const tempContainerName = `${imageName}_directories_cp`;
-
-  const cmd1 = [`docker`, ['run', '-d', '--name', tempContainerName, imageName, 'sleep', 100000]];
-  await spawnAsync('docker', ['rm', '-f', tempContainerName]);
-  await spawnAsync(...cmd1);
-
-  if (service.buildCopyDirs && service.buildCopyDirs.length) {
-    await Promise.all(service.buildCopyDirs.map(async (d) => {
-      let dir = d.split(':');
-      const containerDir = `${tempContainerName}:${dir[0]}`;
-      const localDir = `./${service.name}/${dir[1]}`;
-      console.log(chalk.magenta('Copy', containerDir, 'to', `local:${localDir}`));
-      await spawnAsync('rm', ['-rf', localDir]);
-      const cmd = ['docker', ['cp', containerDir, localDir]];
-      await spawnAsync(...cmd);
-    }));
-  }
-
-  const cmd3 = ['docker', ['rm', '-f', tempContainerName]];
-  await spawnAsync(...cmd3);
-};
-
 program
   .option('-v, --verbose', 'no comments')
   .option('-a, --all', 'Start all the services defined in the main docker-compose.yml file')
@@ -52,6 +19,39 @@ const generateDockerComposeArgs = (service, command) => {
   if (service.dcFile) completeCommand = completeCommand.concat(['-f', service.dcFile]);
   completeCommand = completeCommand.concat(command.split(' '));
   return completeCommand;
+};
+
+const removeDirectories = async (service) => {
+  await Promise.all(service.buildCopyDirs.map(async (d) => {
+    let dir = d.split(':');
+    const localDir = `./${service.name}/${dir[1]}`;
+    await spawnAsync('rm', ['-rf', localDir], execOpts);
+  }));
+};
+
+const copyFromContainer = async (service) => {
+  const seedtagProjectName = (process.env.SEEDTAG_HOME || '').split(/\/\\/).reverse()[0] || 'seedtag';
+  const imageName = `${seedtagProjectName}_${service.name}`;
+  const tempContainerName = `${imageName}_directories_cp`;
+
+  const cmd1 = [`docker`, ['run', '-d', '--name', tempContainerName, imageName, 'sleep', 100000], execOpts];
+  await spawnAsync('docker', ['rm', '-f', tempContainerName], execOpts);
+  await spawnAsync(...cmd1);
+
+  if (service.buildCopyDirs && service.buildCopyDirs.length) {
+    await Promise.all(service.buildCopyDirs.map(async (d) => {
+      let dir = d.split(':');
+      const containerDir = `${tempContainerName}:${dir[0]}`;
+      const localDir = `./${service.name}/${dir[1]}`;
+      console.log(chalk.magenta('Copy', containerDir, 'to', `local:${localDir}`));
+      await spawnAsync('rm', ['-rf', localDir], execOpts);
+      const cmd = ['docker', ['cp', containerDir, localDir], execOpts];
+      await spawnAsync(...cmd);
+    }));
+  }
+
+  const cmd3 = ['docker', ['rm', '-f', tempContainerName], execOpts];
+  await spawnAsync(...cmd3);
 };
 
 const build = async (service, v) => {
