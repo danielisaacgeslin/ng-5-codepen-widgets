@@ -21,11 +21,17 @@ const generateDockerComposeArgs = (service, command) => {
   return completeCommand;
 };
 
+const removeSafe = async (dir) => {
+  // Ensure it's a relative path and not root
+  if (!/^\.\/.+$/.test(dir)) return;
+  await spawnAsync('rm', ['-rf', dir], execOpts);
+};
+
 const removeDirectories = async (service) => {
   await Promise.all(service.buildCopyDirs.map(async (d) => {
     let dir = d.split(':');
     const localDir = `./${service.name}/${dir[1]}`;
-    await spawnAsync('rm', ['-rf', localDir], execOpts);
+    await removeSafe(localDir);
   }));
 };
 
@@ -44,7 +50,7 @@ const copyFromContainer = async (service) => {
       const containerDir = `${tempContainerName}:${dir[0]}`;
       const localDir = `./${service.name}/${dir[1]}`;
       console.log(chalk.magenta('Copy', containerDir, 'to', `local:${localDir}`));
-      await spawnAsync('rm', ['-rf', localDir], execOpts);
+      await removeSafe(localDir);
       const cmd = ['docker', ['cp', containerDir, localDir], execOpts];
       await spawnAsync(...cmd);
     }));
