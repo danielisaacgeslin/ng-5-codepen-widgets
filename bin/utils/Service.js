@@ -6,6 +6,7 @@ class Service {
     this.name = serviceData.name;
     this.dcFile = serviceData.dcFile;
     this.domain = serviceData.domain ? `${serviceData.domain}.seedtag.local` : null;
+    this.buildCopyDirs = serviceData.buildCopyDirs || ['/code/node_modules:node_modules'];
   }
 
   static getAll() {

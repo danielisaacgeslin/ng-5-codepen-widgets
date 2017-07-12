@@ -11,8 +11,8 @@ services:
     ports:
         - "27017:27017"
     volumes:
-      - ./initial-data:/initial-data
-      - ./tag-manager-service/bin/load-test-data.js:/load-test-data.js
+      - ./initial-data:/initial-data:cached
+      - ./tag-manager-service/bin/load-test-data.js:/load-test-data.js:cached
 
   elasticsearch:
     image: elasticsearch:5.1.1
@@ -29,7 +29,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/conf:/etc/nginx
+      - ./nginx/conf:/etc/nginx:cached
 
   ################
   ### Services ###
@@ -42,7 +42,7 @@ services:
       - "3041:5858"
       - "3042:8080"
     volumes:
-      - ./user-service:/code
+      - ./user-service:/code:cached
     command: npm run dev
     environment:
       SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
@@ -69,7 +69,7 @@ services:
       - "3021:5858"
       - "3022:8080"
     volumes:
-      - ./email-service:/code
+      - ./email-service:/code:cached
     command: npm run dev
     environment:
       NODE_ENV: 'development'
@@ -90,7 +90,7 @@ services:
     ports:
       - "3030:3000"
     volumes:
-      - ./sherlock-service:/code
+      - ./sherlock-service:/code:cached
     environment:
       NODE_ENV: 'development'
       DATASTORE_EMULATOR_HOST: 'google-cloud-emulator:8888'
@@ -125,7 +125,7 @@ services:
     ports:
      - "3070:3000"
     volumes:
-     - ./adserver-proxy-service:/code
+     - ./adserver-proxy-service:/code:cached
      - /code/node_modules
     environment:
       NODE_ENV: "development"
@@ -143,7 +143,7 @@ services:
       - "3001:9229"
       - "3002:8080"
     volumes:
-      - ./tag-manager-service:/code
+      - ./tag-manager-service:/code:cached
     environment:
       REDIS_HOST: 'redis'
       REDIS_PORT: '6379'
@@ -174,9 +174,9 @@ services:
       - "3011:9229"
       - "3012:8080"
     volumes:
-      - ./studio/server:/code
-      - ./studio/server/src/template/lib:/template_lib
-      - ./studio/creatives:/creatives
+      - ./studio/server:/code:cached
+      - ./studio/server/src/template/lib:/template_lib:cached
+      - ./studio/creatives:/creatives:cached
     command: npm run dev
     environment:
       NODE_ENV: "development"
@@ -194,7 +194,7 @@ services:
     ports:
       - "3080:3000"
     volumes:
-      - ./tagging-service:/code
+      - ./tagging-service:/code:cached
     command: npm run start-dev
     environment:
       NODE_ENV: "development"
@@ -208,7 +208,7 @@ services:
     ports:
       - "3100:3000"
     volumes:
-      - ./error-service:/code
+      - ./error-service:/code:cached
     environment:
       NODE_ENV: "development"
     command: npm run dev
@@ -234,7 +234,7 @@ services:
     ports:
       - "3110:3000"
     volumes:
-      - ./event-bigdata-service:/code
+      - ./event-bigdata-service:/code:cached
     environment:
       NODE_ENV: "development"
       ZOOKEEPER_HOST: 'zookeeper:2181'
@@ -247,7 +247,7 @@ services:
     ports:
       - "3130:3000"
     volumes:
-      - ./analytics-service:/code
+      - ./analytics-service:/code:cached
     command: sh -c "sleep 10; npm run dev"
     environment:
       PUBLIC_SIGNING_KEY: "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAlzeoxJWykxYJFVv4RnDtfooC9K3dXPWClQ/UER+z7Evg9RzwQc1W\nzsXkYc4R1SIKE1edy6SQNzlFZAcTnz+ICAlT7TcnCaA2VUU9z7W29d/He+e3Y4nw\n7uJOH1DUfgU7K1gZn/Abndk7GnDIJjXuBfaLQCDiKqDqcFNM+3f3Ir2u9gTOZALP\nQgDwZiWKiyj0V9gZEQcxOJA14vNARboMiewE63BhiDiBoU5HK7zw/ZgeXWJ8TSRg\nbe6YRsYSdmf1DL17AVxPxW9LHEKW4w4suDHcaLDOajORBGYqJc3FodvJvZSwg2N3\ngvaMukeh7j0nTJYlnXgddPaIxn64J5LghQIDAQAB\n-----END RSA PUBLIC KEY-----"
@@ -273,7 +273,7 @@ services:
     ports:
       - "3140:3000"
     volumes:
-      - ./watson-service:/code
+      - ./watson-service:/code:cached
     command: npm run dev
     depends_on:
       - kafka
@@ -296,7 +296,7 @@ services:
     ports:
       - "3150:3000"
     volumes:
-      - ./campaign-service:/code
+      - ./campaign-service:/code:cached
     command: npm run dev
     depends_on:
       - mongo
@@ -315,7 +315,7 @@ services:
     ports:
       - "3180:3000"
     volumes:
-      - ./creative-preview-service:/code
+      - ./creative-preview-service:/code:cached
     command: yarn run dev
     environment:
       NODE_ENV: 'development'
@@ -328,7 +328,7 @@ services:
       - "3160:3000"
       - "3161:9229"
     volumes:
-      - ./custom-categories-service:/code
+      - ./custom-categories-service:/code:cached
     depends_on:
       - mongo
       - redis
@@ -343,7 +343,7 @@ services:
       file: ./blacklist-service/service.yml
       service: blacklist-service
     volumes:
-      - ./blacklist-service:/code
+      - ./blacklist-service:/code:cached
     depends_on:
       - mongo
       - zookeeper
@@ -356,7 +356,7 @@ services:
     ports:
       - 3190:3000
     volumes:
-      - ./geolocation-service:/code
+      - ./geolocation-service:/code:cached
 
   audit-service:
     ports:
@@ -366,7 +366,7 @@ services:
       file: ./audit-service/service.yml
       service: audit-service
     volumes:
-      - ./audit-service:/code
+      - ./audit-service:/code:cached
     depends_on:
       - mongo
 
@@ -380,7 +380,7 @@ services:
       - zookeeper
       - kafka
     volumes:
-      - ./topurls-service:/topurls-service
+      - ./topurls-service:/topurls-service:cached
     command: "/topurls-service/deploy-local.sh"
 
   # Requires having a build in ./aggregation-service/target/scala-2.11/aggregation-test_2.11-0.1-SNAPSHOT.jar
@@ -393,7 +393,7 @@ services:
       - zookeeper
       - kafka
     volumes:
-      - ./aggregation-service:/aggregation-service
+      - ./aggregation-service:/aggregation-service:cached
     command: "/aggregation-service/deploy-local.sh"
 
   # Requires having a build in ./blacklisted-traffic-service/target/scala-2.11/topurls-service_2.11-0.1-SNAPSHOT.jar
@@ -406,7 +406,7 @@ services:
       - zookeeper
       - kafka
     volumes:
-      - ./blacklisted-traffic-service:/blacklisted-traffic-service
+      - ./blacklisted-traffic-service:/blacklisted-traffic-service:cached
     command: "/blacklisted-traffic-service/deploy-local.sh"
 
   # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
@@ -423,7 +423,7 @@ services:
       - user-service
       - adserver-proxy-service
     volumes:
-      - ./adserver-report-extraction-task:/code
+      - ./adserver-report-extraction-task:/code:cached
     # By default do nothing, just run the container to do whatever you want in a shell
     command: "tail -f /dev/null"
     # If you want to run the job:
