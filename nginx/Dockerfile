@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:1.11.3
 
 RUN mkdir /home/nginx
 
