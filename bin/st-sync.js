@@ -8,6 +8,7 @@ const childProcess = require('child_process');
 const path = require('path');
 const Repository = require('./utils/Repository');
 const options = require('./utils/options');
+const ServiceBuilder = require('./utils/ServiceBuilder');
 const { Multilogger, Multispinner, Logger } = require('./utils/spinners');
 const spawnAsync = require('./utils/child-process').spawnAsync;
 const canBePulled = require('./utils/repo-utils').canBePulled;
@@ -67,18 +68,6 @@ const dcArgs = (service, command) => {
   return completeCommand;
 };
 
-const syncService = async (service, logger) => {
-  try {
-    logger.text = chalk.magenta('Building', service.name);
-    await spawnAsync('docker-compose', dcArgs(service, `build ${service.name}`), execOpts);
-    logger.text = chalk.magenta('Installing dependencies of', service.name);
-    await spawnAsync('docker-compose', dcArgs(service, `run --no-deps --rm ${service.name} yarn`),
-      execOpts);
-  } catch (err) {
-    logger.error(`${service.name} couldn't be synced due to ${err}`);
-  }
-};
-
 const repoNames = getSelectedRepos();
 const repos = repoNames.map(repoName => new Repository(repoName));
 const syncRepo = async (repo, logger) => {
@@ -89,7 +78,8 @@ const syncRepo = async (repo, logger) => {
     logger.text = 'Pulling repo';
     await gitRepo.pull();
     logger.text = 'Syncing services';
-    await Promise.all(repo.services.map(svc => syncService(svc, logger)));
+    const serviceBuilder = new ServiceBuilder(program.verbose, logger);
+    await Promise.all(repo.services.map(svc => serviceBuilder.build(svc)));
     logger.success('Repo in sync');
   } catch (err) {
     logger.error(`${repo.name} couldn't be synced due to ${err}`);
