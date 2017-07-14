@@ -10,7 +10,7 @@ for collection in "${COLLECTIONS[@]}"; do
     ssh $SERVER "mongodump --gzip -d $collection -o $BACKUP_NAME"
 done
 
-ssh $SERVER "mongodump --gzip -d analytics -c PublisherReportData -o $BACKUP_NAME"
+# ssh $SERVER "mongodump --gzip -d analytics -c PublisherReportData -o $BACKUP_NAME"
 
 echo "Transfering backup"
 rsync --progress -a $SERVER:$BACKUP_NAME initial-data

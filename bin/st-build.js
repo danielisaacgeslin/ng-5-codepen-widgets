@@ -29,7 +29,7 @@ const removeSafe = async (dir) => {
 
 const removeDirectories = async (service) => {
   await Promise.all(service.buildCopyDirs.map(async (d) => {
-    let dir = d.split(':');
+    const dir = d.split(':');
     const localDir = `./${service.name}/${dir[1]}`;
     await removeSafe(localDir);
   }));
@@ -40,13 +40,17 @@ const copyFromContainer = async (service) => {
   const imageName = `${seedtagProjectName}_${service.name}`;
   const tempContainerName = `${imageName}_directories_cp`;
 
-  const cmd1 = [`docker`, ['run', '-d', '--name', tempContainerName, imageName, 'sleep', 100000], execOpts];
-  await spawnAsync('docker', ['rm', '-f', tempContainerName], execOpts);
+  const cmd1 = ['docker', ['run', '-d', '--name', tempContainerName, imageName, 'sleep', 100000], execOpts];
+  try {
+    await spawnAsync('docker', ['rm', '-f', tempContainerName], execOpts);
+  } catch (err) {
+    console.log('old container already deleted');
+  }
   await spawnAsync(...cmd1);
 
   if (service.buildCopyDirs && service.buildCopyDirs.length) {
     await Promise.all(service.buildCopyDirs.map(async (d) => {
-      let dir = d.split(':');
+      const dir = d.split(':');
       const containerDir = `${tempContainerName}:${dir[0]}`;
       const localDir = `./${service.name}/${dir[1]}`;
       console.log(chalk.magenta('Copy', containerDir, 'to', `local:${localDir}`));
@@ -60,7 +64,7 @@ const copyFromContainer = async (service) => {
   await spawnAsync(...cmd3);
 };
 
-const build = async (service, v) => {
+const build = async (service) => {
   try {
     console.log(chalk.magenta('Building', service.name));
     await spawnAsync(
@@ -71,7 +75,7 @@ const build = async (service, v) => {
     console.log(chalk.magenta('Synchronizing directories from service image', service.name));
     try {
       await copyFromContainer(service);
-    } catch(e) {
+    } catch (e) {
       console.log(chalk.magenta('Sync failed. Reinstalling dependencies from clean for', service.name));
       await removeDirectories(service);
       await spawnAsync('docker-compose', generateDockerComposeArgs(service, `run --no-deps --rm ${service.name} yarn --verbose`),

@@ -2,7 +2,9 @@ version: '2'
 
 services:
   studio-client:
-    build: ./studio/client
+    extends:
+      file: ./studio/service.yml
+      service: studio-client
     volumes:
       - ./studio/client:/code:cached
     ports:
