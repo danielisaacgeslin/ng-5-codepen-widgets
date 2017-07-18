@@ -36,7 +36,7 @@ module.exports = {
   'blacklist-service': [
     {
       name: 'blacklist-service',
-      domain: 'blacklist',
+      domain: 'blacklist'
     }
   ],
   'campaign-service': [
@@ -54,7 +54,7 @@ module.exports = {
   'custom-categories-service': [
     {
       name: 'custom-categories-service',
-      domain: 'custom-categories.api',
+      domain: 'custom-categories.api'
     }
   ],
   'email-service': [
@@ -71,7 +71,7 @@ module.exports = {
   'event-bigdata-service': [
     {
       name: 'event-bigdata-service',
-      domain: 'e2.api',
+      domain: 'e2.api'
     }
   ],
   'geolocation-service': [
@@ -83,7 +83,12 @@ module.exports = {
     {
       name: 'gohan',
       dcFile: 'docker-compose.clients.yml',
-      domain: 'client'
+      domain: 'client',
+      buildCopyDirs: [
+        '/code/node_modules:node_modules',
+        '/code/packages/creative-library/node_modules:packages/creative-library/node_modules',
+        '/code/packages/client/node_modules:packages/client/node_modules'
+      ]
     }
   ],
   'publisher-panel': [
@@ -96,7 +101,7 @@ module.exports = {
   'sherlock-service': [
     {
       name: 'sherlock-service',
-      domain: 'sherlock.api',
+      domain: 'sherlock.api'
     }
   ],
   studio: [
@@ -113,7 +118,7 @@ module.exports = {
   'tag-manager-service': [
     {
       name: 'tag-manager-service',
-      domain: 'tms.api',
+      domain: 'tms.api'
     }
   ],
   'tagging-service': [
@@ -125,16 +130,16 @@ module.exports = {
   'user-service': [
     {
       name: 'user-service',
-      domain: 'login',
+      domain: 'login'
     }
   ],
   'watson-service': [
     {
-      name: 'watson-service',
+      name: 'watson-service'
     }
   ],
   'topurls-service': [],
   'aggregation-service': [],
   'blacklisted-traffic-service': [],
-  'adserver-report-extraction-task': [],
+  'adserver-report-extraction-task': []
 };
