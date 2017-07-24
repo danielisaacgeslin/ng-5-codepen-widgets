@@ -54,4 +54,5 @@ docker-compose.override.yml
 
 # IDES
 .idea
+.vscode
 
