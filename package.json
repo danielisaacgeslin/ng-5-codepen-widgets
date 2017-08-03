@@ -19,6 +19,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "^6.10.3",
+    "find-in-files": "^0.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "multispinner": "^0.2.1",

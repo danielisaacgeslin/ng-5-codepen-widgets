@@ -27,4 +27,6 @@ program
   .command('r [service]', 'Restarts a service. default service: guessed by current directory')
   .command('client [client]', 'Run a specified client')
   .command('create <repoType> <name>', 'Create a new service for the given name')
+  .command('library [libraries...]', 'Check the use of these libraries in any service')
+  .command('constants', 'Show any service that use seedtag-constants')
   .parse(process.argv);
