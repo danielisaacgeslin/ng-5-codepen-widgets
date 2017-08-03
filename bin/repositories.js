@@ -104,6 +104,7 @@ module.exports = {
       domain: 'sherlock.api'
     }
   ],
+  'skynet-service': [],
   studio: [
     {
       name: 'studio-service',

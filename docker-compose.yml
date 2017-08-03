@@ -273,6 +273,19 @@ services:
       REDIS_PORT: '6379'
       SEEDTAG_API_KEY: 'e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c'
 
+
+  skynet-service:
+    build: ./skynet-service
+    ports:
+      - "3210:3000"
+    volumes:
+      - ./skynet-service:/app
+    environment:
+      MONGO_MAIN_HOSTS: 'mongo:27017'
+      MONGO_MAIN_PARAMS: ""
+      MONGO_JSON_OPTS: "{\"server\":{\"socketOptions\":{\"keepalive\":120}},\"replset\":{\"socketOptions\":{\"keepalive\":120}}}"
+
+
   campaign-service:
     build: ./campaign-service
     ports:
