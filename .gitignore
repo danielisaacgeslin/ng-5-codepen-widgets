@@ -33,6 +33,7 @@ twemproxy-docker
 codetest-*
 st-scripts
 create-*
+skynet-scraper
 
 angular-boilerplate
 ng2-components
