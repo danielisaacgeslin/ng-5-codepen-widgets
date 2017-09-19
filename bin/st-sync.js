@@ -32,10 +32,9 @@ const getSelectedRepos = () => {
   return repos;
 };
 
-const addToHosts = repo => {
+const getAddToHostsCmd = repo => {
   const domains = repo.services.filter(svc => svc.domain).map(svc => svc.domain);
-  return Promise.all(
-    domains.map(domain => exec(`echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts`)));
+  return domains.map(domain => ` add "127.0.0.1 ${domain}" to /etc/hosts`).join('and ');
 };
 
 const setup = async repo => {
@@ -45,34 +44,26 @@ const setup = async repo => {
   } else {
     await spawnAsync('git', argsStr.split(' '), execOpts);
   }
-  return addToHosts(repo);
 };
 
 const getOrSetupRepo = async (repo, logger) => {
   const repoDir = path.join(options.cwd, repo.name);
+  let isNew = false;
   try {
     await stat(repoDir);
   } catch (err) {
     logger.text = 'Repo not present, cloning it';
+    isNew = true;
     await setup(repo);
   }
-  return git(repoDir);
-};
-/**
-*
-*/
-const dcArgs = (service, command) => {
-  let completeCommand = [];
-  if (service.dcFile) completeCommand = completeCommand.concat(['-f', service.dcFile]);
-  completeCommand = completeCommand.concat(command.split(' '));
-  return completeCommand;
+  return [isNew, git(repoDir)];
 };
 
 const repoNames = getSelectedRepos();
 const repos = repoNames.map(repoName => new Repository(repoName));
 const syncRepo = async (repo, logger) => {
   try {
-    const gitRepo = await getOrSetupRepo(repo, logger);
+    const [isNew, gitRepo] = await getOrSetupRepo(repo, logger);
     const [canPull, reason] = canBePulled(await gitRepo.status());
     if (!canPull) throw new Error(reason);
     logger.text = 'Pulling repo';
@@ -80,9 +71,11 @@ const syncRepo = async (repo, logger) => {
     logger.text = 'Syncing services';
     const serviceBuilder = new ServiceBuilder(program.verbose, logger);
     await Promise.all(repo.services.map(svc => serviceBuilder.build(svc)));
-    logger.success('Repo in sync');
+    let successMsg = 'Repo in sync';
+    if (isNew) successMsg += `, ${getAddToHostsCmd(repo)}`;
+    logger.success(successMsg);
   } catch (err) {
-    logger.error(`${repo.name} couldn't be synced due to ${err}`);
+    logger.error(`${repo.name} couldn't be synced due to ${err}. Try to re run it with -v`);
     throw err;
   }
 };
@@ -91,6 +84,7 @@ if (program.verbose) execOpts.stdio = 'inherit';
 
 console.log(`Syncing ${repos.map(r => r.name).join(' ')}`);
 const multilogger = program.verbose ? new Multilogger() : new Multispinner();
+// const multilogger = new Multilogger();
 Promise.all(repos.map(r => {
   const logger = new Logger(multilogger, r.name, 'Synchronizing');
   return syncRepo(r, logger);

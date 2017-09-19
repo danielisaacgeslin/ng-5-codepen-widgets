@@ -15,7 +15,6 @@ module.exports.spawnAsync = (command, args, options) => new Promise((resolve, re
     }
     proc.on('close', code => {
       if (code === 0) return resolve(stdout);
-      console.log(code);
       return reject(stderr);
     });
   } catch (err) {

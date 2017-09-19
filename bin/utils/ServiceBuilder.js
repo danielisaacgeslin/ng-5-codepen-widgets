@@ -37,8 +37,8 @@ module.exports = class ServiceBuilder {
     return new Promise((resolve, reject) => {
       const check = async () => {
         const cmd = ['docker', ['inspect', '--format', '{{.Name}}', containerName], this.execOpts];
-        let result = await spawnAsync(...cmd);
-        return !(new RegExp("Error")).test(result);
+        const result = await spawnAsync(...cmd);
+        return !(new RegExp('Error')).test(result);
       };
 
       interval = setInterval(async () => {
@@ -85,7 +85,7 @@ module.exports = class ServiceBuilder {
           await spawnAsync(...cmd);
         }));
       }
-    } catch(e) {
+    } catch (e) {
       return 1;
     } finally {
       const cmd3 = ['docker', ['rm', '-f', tempContainerName], this.execOpts];
@@ -104,7 +104,7 @@ module.exports = class ServiceBuilder {
         this.execOpts
       );
       this.logger.text = chalk.magenta('Synchronizing directories from service image', service.name);
-      let cpStatus = await this.copyFromContainer(service);
+      const cpStatus = await this.copyFromContainer(service);
       if (cpStatus === 1) {
         this.logger.text = chalk.magenta('Sync failed. Reinstalling dependencies from clean for', service.name);
         await this.removeDirectories(service);
