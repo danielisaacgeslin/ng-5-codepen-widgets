@@ -7,7 +7,9 @@ For example, to install seedtag platform in ~/seedtag, simply do this:
 
 ## Requirements
 * Ensure you have docker and docker-compose installed
-# Disable docker-credential-osxkeychain with ![alt text](https://github.com/seedtag/dev-environment/images/disable-osx-keychain.png "Disable docker osxkeychain")
+* Disable docker-credential-osxkeychain with
+
+![alt text](./images/disable-osx-keychain.png "Disable docker osxkeychain")
 * Ensure that you have [docker environment](https://github.com/seedtag/docker-images) ready
 * If your installation is not "~/seedtag" you have to set $SEEDTAG_HOME as ENV pointing to the absolute path of your seedtag installation (for example in .bashrc or .bash_profile).
 
@@ -18,9 +20,10 @@ git clone git@github.com:seedtag/dev-environment.git seedtag
 cd seedtag
 npm i -g
 npm link # to have all your updates over st.js available instantly when running st
+```
+Then:
 
-# And if you don't have the projects:
-
+```
 # OPTION A (Default SHH-KEY without Passphrase)
 st sync -a
 
@@ -34,7 +37,7 @@ st dump
 st restore
 ```
 
-This will download all the services and build them. The st command is idempotent
+This will download all the services and build them. The st sync/build command is idempotent
 
 ## Usage
 ```
