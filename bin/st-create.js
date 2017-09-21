@@ -10,6 +10,8 @@ program
 if (program.args.length !== 2) {
   program.outputHelp();
   console.log('You have to provide repoType (i.e. node-service) and repoName');
+  console.log('Look for options in (remove "create-" from repository name)');
+  console.log('https://github.com/seedtag/?utf8=✓&q=create-&type=&language=');
   process.exit(-1);
 }
 
