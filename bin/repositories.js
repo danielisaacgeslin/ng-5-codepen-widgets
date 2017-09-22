@@ -36,7 +36,7 @@ module.exports = {
   'blacklist-service': [
     {
       name: 'blacklist-service',
-      domain: 'blacklist'
+      domain: 'blacklist.api'
     }
   ],
   'campaign-service': [
