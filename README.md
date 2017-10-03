@@ -7,10 +7,10 @@ For example, to install seedtag platform in ~/seedtag, simply do this:
 
 ## Requirements
 * Ensure you have docker and docker-compose installed
-* Disable docker-credential-osxkeychain with
-
-![alt text](./images/disable-osx-keychain.png "Disable docker osxkeychain")
-* Ensure that you have [docker environment](https://github.com/seedtag/docker-images) ready
+* Disable docker-credential-osxkeychain in the preference window of docker
+[See screenshot if you can't find it](./images/disable-osx-keychain.png "Disable docker osxkeychain")
+* Increase limits to 4 CPUs and RAM to 6GB
+* **IMPORTANT** Ensure that you have [docker environment](https://github.com/seedtag/docker-images) ready
 * If your installation is not "~/seedtag" you have to set $SEEDTAG_HOME as ENV pointing to the absolute path of your seedtag installation (for example in .bashrc or .bash_profile).
 
 ## Setup
