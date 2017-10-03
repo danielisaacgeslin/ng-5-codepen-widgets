@@ -27,11 +27,43 @@ Then:
 # OPTION A (Default SHH-KEY without Passphrase)
 st sync -a
 
-Retry if some service broke while building, this may be due to docker crash or st bug, please tell us.
-
 # OPTION B (Select SSH-KEY without Passphrase)
 SEEDTAG_SSH_KEY=/absolute/route/to/my-ssh-key st sync -a
 
+Retry if some service broke while building, this may be due to docker crash or st bug, please tell us.
+```
+
+Add the following to your /etc/hosts
+
+```
+127.0.0.1	tms.api.seedtag.local
+127.0.0.1	login.seedtag.local
+127.0.0.1	studio.seedtag.local
+127.0.0.1	studio.api.seedtag.local
+127.0.0.1	admin.seedtag.local
+127.0.0.1	publishers.seedtag.local
+127.0.0.1	backoffice.seedtag.local
+127.0.0.1	tagging.api.seedtag.local
+127.0.0.1	sherlock.seedtag.local
+127.0.0.1	e2.api.seedtag.local
+127.0.0.1	analytics.api.seedtag.local
+127.0.0.1	seedtag.local
+127.0.0.1	client.seedtag.local
+127.0.0.1	errors.api.seedtag.local
+127.0.0.1	campaigns.api.seedtag.local
+127.0.0.1	blacklist.api.seedtag.local
+127.0.0.1	preview.seedtag.local
+127.0.0.1	elasticsearch
+127.0.0.1	mongo
+127.0.0.1	tagging.api.seedtag.local
+127.0.0.1	custom-categories.api.seedtag.local
+127.0.0.1	audit.api.seedtag.local
+
+```
+
+## Prepare with data
+
+```
 # Before launch is needed to restore database with the following commands:
 st dump
 st restore
