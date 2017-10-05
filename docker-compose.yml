@@ -126,7 +126,6 @@ services:
      - "3070:3000"
     volumes:
      - ./adserver-proxy-service:/code:cached
-     - /code/node_modules
     environment:
       NODE_ENV: "development"
       APPNEXUS_ENDPOINT: http://api-test.appnexus.com
