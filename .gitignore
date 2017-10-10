@@ -19,6 +19,7 @@ gohan-tests
 *-service/
 seedtag-*
 adserver-report-extraction-task
+dsp-mock
 
 # Other repositories
 user-middleware

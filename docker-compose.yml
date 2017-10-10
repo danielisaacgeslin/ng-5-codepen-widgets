@@ -416,3 +416,33 @@ services:
     # command: ./deploy-local.sh <CsvFilePath>
     # If you want to pass the tests
     # command: "sbt test"
+
+  # ssp-service:
+  #   ports:
+  #     - "3220:3000"
+  #     - "3221:9229"
+  #   extends:
+  #     file: ./ssp-service/service.yml
+  #     service: ssp-service
+  #   volumes:
+  #     - ./ssp-service:/code:cached
+  #   depends_on:
+  #     - mongo
+  #     - dsp-mock
+
+  # dsp-mock:
+  #   build: ./dsp-mock
+  #   ports:
+  #     - 7000:3000
+  #     - 7001:8000
+  #   command: "gin -t /go/src -d . -a 8000" # Autoupdate, watching /go/src building /go/src/app
+  #   depends_on:
+  #     - redis
+  #     - fluent
+  #   volumes:
+  #     - ./dsp-mock:/go/src/github.com/satoshi03/go-dsp-api/
+
+  # fluent:
+  #   image: fluent/fluentd
+  #   logging:
+  #     driver: none
