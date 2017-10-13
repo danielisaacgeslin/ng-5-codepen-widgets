@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 
-import { metaReducer as reducer } from './states';
-
+import { reducer } from './states';
 import { RoutingModule } from './routing/routing.module';
 import { AppComponent } from './app.component';
 
@@ -12,8 +11,8 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    StoreModule.forRoot({ store: reducer }),
+    BrowserModule,  
+    StoreModule.provideStore(reducer),
     RoutingModule
   ],
   providers: [],

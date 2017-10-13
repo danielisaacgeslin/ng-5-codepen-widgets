@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
-import { compose } from '@ngrx/core';
-import { combineReducers } from '@ngrx/store';
-import { storeLogger } from 'ngrx-store-logger';
+import { compose } from '@ngrx/core/compose';
+import { combineReducers, ActionReducer } from '@ngrx/store';
 
 import { userDomain, IUserState } from './user';
 
@@ -13,6 +12,8 @@ export const reducers = {
     user: userDomain.reducer
 };
 
-const developmentReducer: Function = compose(storeLogger(), combineReducers)(reducers);
+const productionReducer: ActionReducer<AppState> = combineReducers(reducers);
 
-export const metaReducer = (state: any, action: any) => developmentReducer(state, action);
+export function reducer(state: any, action: any) {
+    return productionReducer(state, action);
+}

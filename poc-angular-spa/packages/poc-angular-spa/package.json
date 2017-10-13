@@ -23,12 +23,12 @@
     "@angular/router": "^4.2.4",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^4.0.5",
-    "@ngrx/store": "^4.0.3",
+    "@ngrx/store": "^2.2.2",
     "core-js": "^2.4.1",
+    "ngrx-store-freeze": "^0.2.0",
     "ngrx-store-logger": "^0.2.0",
     "poc-st-styles": "1.0.0",
     "portfinder": "^1.0.13",
-    "redux": "^3.7.2",
     "reflect-metadata": "^0.1.10",
     "reselect": "^3.0.1",
     "rxjs": "^5.4.2",
@@ -53,6 +53,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.3.3"
+    "typescript": "^2.3.3"
   }
 }
