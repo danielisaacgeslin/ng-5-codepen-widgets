@@ -120,19 +120,23 @@ services:
     environment:
       CLOUDSDK_CORE_PROJECT: 'testing-project'
 
+  smartadserver:
+    extends:
+      file: ./adserver-proxy-service/service.yml
+      service: smartadserver
+
   adserver-proxy-service:
-    build: ./adserver-proxy-service
+    extends:
+      file: ./adserver-proxy-service/service.yml
+      service: adserver-proxy-service
     ports:
      - "3070:3000"
+     - "3071:9229"
+     - "3072:9228"
     volumes:
      - ./adserver-proxy-service:/code:cached
-    environment:
-      NODE_ENV: "development"
-      APPNEXUS_ENDPOINT: http://api-test.appnexus.com
-      APPNEXUS_USERNAME:
-      APPNEXUS_PASSWORD:
-      MONGO_MAIN_HOSTS: "mongo:27017"
-      MONGO_MAIN_PARAMS: ""
+    depends_on:
+      - smartadserver
     command: npm run start-dev
 
   tag-manager-service:
