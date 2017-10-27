@@ -399,6 +399,20 @@ services:
       - ./blacklisted-traffic-service:/blacklisted-traffic-service:cached
     command: "/blacklisted-traffic-service/deploy-local.sh"
 
+  real-time-logs-service:
+    command: ./entrypoint.sh 'yarn dev'
+    extends:
+      file: ./real-time-logs-service/service.yml
+      service: real-time-logs-service
+    ports:
+      - "3090:3000"
+      - "3091:9229"
+    volumes:
+      - ./real-time-logs-service:/code
+    depends_on:
+      - mongo
+      - user-service
+
   # Requires having a build in ./adserver-report-extraction-task/job/target/scala-2.11/report-importer_2.11-1.0.jar
   adserver-report-extraction-task:
     build:
