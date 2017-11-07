@@ -362,7 +362,7 @@ services:
 
   # Requires having a build in ./topurls-service/target/scala-2.11/topurls-service_2.11-0.1-SNAPSHOT.jar
   topurls-service:
-    image: gettyimages/spark
+    image: gettyimages/spark:2.0.0-hadoop-2.7
     environment:
       DEBUG_ENV: "true"
     depends_on:
