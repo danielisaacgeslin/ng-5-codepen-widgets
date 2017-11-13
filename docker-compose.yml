@@ -83,7 +83,7 @@ services:
   # sherlock-service:
   #   image: ajnasz/api-mock
   #   volumes:
-  #     - ./tag-manager-service/mock/sherlock/api.md:/usr/src/app/api.md
+  #     - ./tag-manager-service/mock/sherlock-service/api.md:/usr/src/app/api.md
 
   sherlock-service:
     build: ./sherlock-service
@@ -159,6 +159,7 @@ services:
       SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
     depends_on:
       - mongo
+      - geolocation-service
       - sherlock-service
       - redis
       - user-service

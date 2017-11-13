@@ -35,6 +35,11 @@ codetest-*
 st-scripts
 create-*
 skynet-scraper
+alertmanager
+ansible
+business-etl
+prometheus
+vagrant
 
 angular-boilerplate
 ng2-components
