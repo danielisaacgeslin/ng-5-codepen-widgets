@@ -208,12 +208,16 @@ services:
 
   zookeeper:
     image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
 
   kafka:
     image: wurstmeister/kafka:1.0.0
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafka"
       KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_PORT: "9092"
+      KAFKA_INTER_BROKER_LISTENER_PORT: "9092"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CONTROLLED_SHUTDOWN_ENABLE: "true"
       KAFKA_CREATE_TOPICS: "tasks:1:1,events:1:1"
@@ -221,6 +225,8 @@ services:
       KAFKA_BROKER_ID: 1001
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
 
   event-bigdata-service:
     build: ./event-bigdata-service
