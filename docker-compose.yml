@@ -229,18 +229,16 @@ services:
     ports:
       - "9092:9092"
 
-  event-bigdata-service:
-    build: ./event-bigdata-service
+  event-service:
+    extends:
+      file: ./event-service/service.yml
+      service: event-service
     ports:
       - "3110:3000"
     volumes:
-      - ./event-bigdata-service:/code:cached
-    environment:
-      NODE_ENV: "development"
-      ZOOKEEPER_HOST: 'zookeeper:2181'
+      - ./event-service:/code:cached
     depends_on:
       - kafka
-    command: sh -c "sleep 5; npm run dev"
 
   analytics-service:
     command: ./entrypoint.sh 'yarn dev'
