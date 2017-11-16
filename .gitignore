@@ -40,6 +40,7 @@ ansible
 business-etl
 prometheus
 vagrant
+monitoring-scripts
 
 angular-boilerplate
 ng2-components
