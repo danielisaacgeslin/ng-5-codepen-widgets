@@ -18,7 +18,7 @@ const BCG_SERVICES = [
   'campaign-service',
   'custom-categories-service',
   'email-service',
-  'event-bigdata-service',
+  'event-service',
   'tag-manager-service',
   'tagging-service',
   'user-service',
