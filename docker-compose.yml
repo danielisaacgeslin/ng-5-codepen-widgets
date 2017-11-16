@@ -230,6 +230,7 @@ services:
       - "9092:9092"
 
   event-service:
+    command: yarn dev
     extends:
       file: ./event-service/service.yml
       service: event-service
