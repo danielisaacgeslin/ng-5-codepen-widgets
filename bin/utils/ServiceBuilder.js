@@ -59,7 +59,7 @@ module.exports = class ServiceBuilder {
   async copyFromContainer(service) {
     let tempContainerName;
     try {
-      const seedtagProjectName = (process.env.SEEDTAG_HOME || '').split(/\/\\/).reverse()[0] || 'seedtag';
+      const seedtagProjectName = (process.env.SEEDTAG_HOME || '').split(/\//).reverse()[0] || 'seedtag';
       const imageName = `${seedtagProjectName}_${service.name}`;
       tempContainerName = `${imageName}_directories_cp`;
 

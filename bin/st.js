@@ -14,7 +14,7 @@ program
   .command('status [repos]', 'If no repos option is provided, status all')
   .command('dump', 'Make a dump of production db in initial-data/backup-YYYYMMDD')
   .command('restore [backupName]',
-    'Restore a previously made backup. If no backupName it will restore today')
+    'Restore in local a previously made backup. If no backupName it will restore today')
   .command('ui', 'Launch graphical interface to manage repositories')
   .command('kc [queue]', 'Starts a kafka consumer. Default queue: tasks')
   .command('kp [queue]', 'Starts a kafka producer. Default queue: tasks')

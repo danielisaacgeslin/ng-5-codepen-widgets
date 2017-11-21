@@ -83,7 +83,7 @@ services:
   # sherlock-service:
   #   image: ajnasz/api-mock
   #   volumes:
-  #     - ./tag-manager-service/mock/sherlock/api.md:/usr/src/app/api.md
+  #     - ./tag-manager-service/mock/sherlock-service/api.md:/usr/src/app/api.md
 
   sherlock-service:
     build: ./sherlock-service
@@ -159,6 +159,7 @@ services:
       SEEDTAG_API_KEY: "e947f68afb0371afe92acf3fbcc541e31f0506b878ea765de51bea322ae8b56a6fb5e9efaa5236416fa14c6e27233e7c"
     depends_on:
       - mongo
+      - geolocation-service
       - sherlock-service
       - redis
       - user-service
@@ -208,12 +209,16 @@ services:
 
   zookeeper:
     image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
 
   kafka:
-    image: wurstmeister/kafka:0.10.1.1
+    image: wurstmeister/kafka:1.0.0
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafka"
       KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_PORT: "9092"
+      KAFKA_INTER_BROKER_LISTENER_PORT: "9092"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CONTROLLED_SHUTDOWN_ENABLE: "true"
       KAFKA_CREATE_TOPICS: "tasks:1:1,events:1:1"
@@ -221,19 +226,20 @@ services:
       KAFKA_BROKER_ID: 1001
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
 
-  event-bigdata-service:
-    build: ./event-bigdata-service
+  event-service:
+    command: yarn dev
+    extends:
+      file: ./event-service/service.yml
+      service: event-service
     ports:
       - "3110:3000"
     volumes:
-      - ./event-bigdata-service:/code:cached
-    environment:
-      NODE_ENV: "development"
-      ZOOKEEPER_HOST: 'zookeeper:2181'
+      - ./event-service:/code:cached
     depends_on:
       - kafka
-    command: sh -c "sleep 5; npm run dev"
 
   analytics-service:
     command: ./entrypoint.sh 'yarn dev'
@@ -268,6 +274,7 @@ services:
     environment:
       NODE_ENV: 'development'
       ZOOKEEPER_HOSTS: 'zookeeper:2181'
+      KAFKA_HOSTS: 'kafka:9092'
       DEBUG: 'kafka-node:ConsumerGroup'
       PEER39_CLIENT_CODE: 'asdf'
       PEER39_URL: 'asdf'
@@ -362,7 +369,7 @@ services:
 
   # Requires having a build in ./topurls-service/target/scala-2.11/topurls-service_2.11-0.1-SNAPSHOT.jar
   topurls-service:
-    image: gettyimages/spark
+    image: gettyimages/spark:2.0.0-hadoop-2.7
     environment:
       DEBUG_ENV: "true"
     depends_on:

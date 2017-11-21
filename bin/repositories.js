@@ -68,10 +68,10 @@ module.exports = {
       domain: 'errors.api'
     }
   ],
-  'event-bigdata-service': [
+  'event-service': [
     {
-      name: 'event-bigdata-service',
-      domain: 'e2.api'
+      name: 'event-service',
+      domain: 'e.api'
     }
   ],
   'geolocation-service': [
