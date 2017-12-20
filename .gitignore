@@ -1,66 +1,42 @@
-node_modules
-.yarnclean
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
 .DS_Store
-
-#file with secret
-servicekey.json
-
-loadbalancer
-
-backoffice
-publisher-panel
-studio
-landing
-client2
-gohan
-gohan-tests
-
-# Services
-*-service/
-seedtag-*
-adserver-report-extraction-task
-dsp-mock
-
-# Other repositories
-user-middleware
-systems
-webpack-dev-server
-docker-images
-express-prom-bundle
-db_backup
-redis
-scraper
-twemproxy-docker
-codetest-*
-st-scripts
-create-*
-skynet-scraper
-alertmanager
-ansible
-business-etl
-prometheus
-vagrant
-monitoring-scripts
-
-angular-boilerplate
-ng2-components
-st-ng-forms
-angular-2-dropdown-multiselect
-eslint-config-seedtag-base
-
-# Old repositories
-hoe
-environment
-client
-web
-chrome-extension
-
-# Backups
-initial-data/backup*
-
-docker-compose.override.yml
-
-# IDES
-.idea
-.vscode
-
+Thumbs.db

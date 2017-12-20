@@ -1,101 +1,27 @@
-# dev-environment
-Necessary files to setup a [TO DO] complete environment
+# POCSPA
 
-It will install every service where this repository has been cloned.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
 
-For example, to install seedtag platform in ~/seedtag, simply do this:
+## Development server
 
-## Requirements
-* Ensure you have docker and docker-compose installed
-* Disable docker-credential-osxkeychain in the preference window of docker
-[See screenshot if you can't find it](./images/disable-osx-keychain.png "Disable docker osxkeychain")
-* Increase limits to 4 CPUs and RAM to 6GB
-* **IMPORTANT** Ensure that you have [docker environment](https://github.com/seedtag/docker-images) ready
-* If your installation is not "~/seedtag" you have to set $SEEDTAG_HOME as ENV pointing to the absolute path of your seedtag installation (for example in .bashrc or .bash_profile).
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Setup
-```
-cd ~
-git clone git@github.com:seedtag/dev-environment.git seedtag
-cd seedtag
-npm i -g
-npm link # to have all your updates over st.js available instantly when running st
-```
-Then:
+## Code scaffolding
 
-```
-# OPTION A (Default SHH-KEY without Passphrase)
-st sync -a
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-# OPTION B (Select SSH-KEY without Passphrase)
-SEEDTAG_SSH_KEY=/absolute/route/to/my-ssh-key st sync -a
+## Build
 
-Retry if some service broke while building, this may be due to docker crash or st bug, please tell us.
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-Add the following to your /etc/hosts
+## Running unit tests
 
-```
-127.0.0.1	tms.api.seedtag.local
-127.0.0.1	login.seedtag.local
-127.0.0.1	studio.seedtag.local
-127.0.0.1	studio.api.seedtag.local
-127.0.0.1	admin.seedtag.local
-127.0.0.1	publishers.seedtag.local
-127.0.0.1	backoffice.seedtag.local
-127.0.0.1	tagging.api.seedtag.local
-127.0.0.1	sherlock.seedtag.local
-127.0.0.1	e2.api.seedtag.local
-127.0.0.1	analytics.api.seedtag.local
-127.0.0.1	seedtag.local
-127.0.0.1	client.seedtag.local
-127.0.0.1	errors.api.seedtag.local
-127.0.0.1	campaigns.api.seedtag.local
-127.0.0.1	blacklist.api.seedtag.local
-127.0.0.1	preview.seedtag.local
-127.0.0.1	elasticsearch
-127.0.0.1	mongo
-127.0.0.1	tagging.api.seedtag.local
-127.0.0.1	custom-categories.api.seedtag.local
-127.0.0.1	audit.api.seedtag.local
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-```
+## Running end-to-end tests
 
-## Prepare with data
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-```
-# Before launch is needed to restore database with the following commands:
-st dump
-st restore
-```
+## Further help
 
-This will download all the services and build them. The st sync/build command is idempotent
-
-## Usage
-```
-$ st --help
-
-  Usage: st [options] [command]
-
-
-  Commands:
-
-    sync [services...]       If no services option is provided, sync all services
-    db_dump                  Make a dump of production db in initial-data/backup-YYYYMMDD
-    db_restore [backupName]  Restore a previously made backup. If no backupName it will restore today
-    *
-
-  Options:
-
-    -h, --help  output usage information
-```
-
-You can sync some of the services providing the name of the services to sync
-
-In order to have db_dump and db_restore dump you have to add mongodb1-instance-2 pointing to the right ip in your /etc/hosts (at the moment 104.155.17.188)
-
-# Launch services
-To launch a service (backend or frontend), just do:
-`
-st up <service-name>
-`
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

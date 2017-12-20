@@ -1,8 +1,0 @@
-version: '2'
-
-services:
-  adserver-proxy-service:
-    environment:
-      APPNEXUS_ENDPOINT:
-      APPNEXUS_USERNAME:
-      APPNEXUS_PASSWORD:
