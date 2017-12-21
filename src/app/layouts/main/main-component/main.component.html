@@ -1,4 +1,32 @@
-<p>main component</p>
-<div>
-  {{articleList$ | async | json}}
+<div class="row">
+  <div class="col-xs-12">
+    <h3>main component</h3>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 article-form">
+      <form class="article-form__group" [formGroup]="newArticleFormGroup" (ngSubmit)="onSubmit()">
+        <input placeholder="Title" formControlName="title" class="form-control">
+        <input placeholder="Description" formControlName="description" class="form-control">
+        <button class="btn btn-success" [disabled]="newArticleFormGroup.invalid || progress['new-article']">
+          Create new Article
+        </button>
+      </form>
+      <div class="progress" [style.visibility]="progress['new-article'] ? 'visible' : 'hidden'">
+        <div class="progress-bar"
+             [ngClass]="{'bg-success': progress['new-article']?.percentage === 100}"
+             [style.width]="(progress['new-article']?.percentage || 0) + '%'">
+      </div>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+  <article class="col-sm-3 article-item" *ngFor="let article of (articleList$ | async)">
+    <div class="article-item__container">
+      <h4>{{article.title}}</h4>
+      <p>{{article.description}}</p>
+    </div>
+  </article>
 </div>

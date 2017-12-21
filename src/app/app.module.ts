@@ -8,7 +8,7 @@ import { reducers } from './reducers';
 import * as effects from './effects';
 
 import { RoutingModule } from './routing.module';
-
+import { ArticleService } from './services/api';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -19,10 +19,10 @@ import { AppComponent } from './app.component';
     BrowserModule,
     RoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([effects.ArticleEffects]),
+    EffectsModule.forRoot([effects.ArticleEffects, effects.ProgressEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 10})
   ],
-  providers: [],
+  providers: [ArticleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
