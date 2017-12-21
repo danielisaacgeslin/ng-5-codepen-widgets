@@ -13,4 +13,5 @@ import 'rxjs/add/operator/takeUntil';
 })
 export class ProgressBarComponent {
   @Input() progress: ProgressModels.Progress;
+  public readonly status = ProgressModels.ProgressStatus;
 }

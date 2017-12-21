@@ -17,9 +17,12 @@ export class ProgressEffects {
   @Effect()
   create$: Observable<Action> = this.actions$
     .ofType(progressActions.progressActionTypes.UPDATE)
-    .filter((action: progressActions.Update) => action.payload.progress.status === ProgressModels.ProgressStatus.COMPLETE)
+    .filter((action: progressActions.Update) =>
+      action.payload.progress.status === ProgressModels.ProgressStatus.COMPLETE ||
+      action.payload.progress.status === ProgressModels.ProgressStatus.ERROR
+    )
     .map((action: progressActions.Update) => new progressActions.Remove({ key: action.payload.key }))
-    .delay(500);
+    .delay(750);
 
   constructor(private actions$: Actions) { }
 }

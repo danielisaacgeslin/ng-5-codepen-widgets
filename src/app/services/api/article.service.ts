@@ -28,14 +28,24 @@ export class ArticleService {
       type: HttpEventType.DownloadProgress,
       data: new ProgressModels.Progress({ status: ProgressModels.ProgressStatus.IN_PROGRESS, percentage: 50 })
     }), 200);
-    setTimeout(() => dummy.next({
-      type: HttpEventType.DownloadProgress,
-      data: new ProgressModels.Progress({ status: ProgressModels.ProgressStatus.COMPLETE, percentage: 100 })
-    }), 500);
-    setTimeout(() => {
-      dummy.next({ type: HttpEventType.Response, data: article });
-      dummy.complete();
-    }, 500);
+    if (Math.random() > .5) {
+      setTimeout(() => dummy.next({
+        type: HttpEventType.DownloadProgress,
+        data: new ProgressModels.Progress({ status: ProgressModels.ProgressStatus.COMPLETE, percentage: 100 })
+      }), 500);
+      setTimeout(() => {
+        dummy.next({ type: HttpEventType.Response, data: article });
+        dummy.complete();
+      }, 500);
+    } else {
+      setTimeout(() => {
+        dummy.next({
+          type: HttpEventType.DownloadProgress,
+          data: new ProgressModels.Progress({ status: ProgressModels.ProgressStatus.ERROR, percentage: 75 })
+        });
+        dummy.complete();
+      }, 500);
+    }
     return dummy;
   }
 
