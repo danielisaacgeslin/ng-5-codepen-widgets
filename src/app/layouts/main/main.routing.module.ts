@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MainComponent } from './main-component/main.component';
+import { MainContainerComponent } from './main-ct-component/main-ct.component';
 
 const routes: Routes = [
     {
         path: '',
         children: [
-            { path: '', component: MainComponent }
+            { path: '', component: MainContainerComponent }
         ]
     }
 ];

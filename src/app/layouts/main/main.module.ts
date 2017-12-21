@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MainRoutingModule } from './main.routing.module';
+import { SharedModule } from '../../shared/shared.module';
 
-import { MainComponent } from './main-component/main.component';
+import { MainContainerComponent } from './main-ct-component/main-ct.component';
+import { MainFormComponent } from './main-form-component/main-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MainRoutingModule,
+    SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [MainComponent],
+  declarations: [MainContainerComponent, MainFormComponent],
   providers: []
 })
 export class MainModule { }

@@ -1,0 +1,6 @@
+<div class="progress" [style.visibility]="progress ? 'visible' : 'hidden'">
+  <div class="progress-bar"
+        [ngClass]="{'bg-success': progress?.percentage === 100}"
+        [style.width]="(progress?.percentage || 0) + '%'">
+  </div>
+</div>

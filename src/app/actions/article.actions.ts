@@ -13,7 +13,7 @@ export type actionTypes = typeof articleActionTypes;
 export class Create implements Action {
   public type: string = articleActionTypes.CREATE;
 
-  constructor(public payload: Article) { }
+  constructor(public payload: { article: Article, progressKey: string }) { }
 }
 
 export class CreateSuccess implements Action {

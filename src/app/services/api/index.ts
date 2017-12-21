@@ -1,1 +1,1 @@
-export { ArticleService } from './article.service';
+export { ArticleService, IDummyResponse } from './article.service';

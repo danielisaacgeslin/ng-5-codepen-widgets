@@ -5,7 +5,6 @@ import { HttpEventType } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/delay';
 
@@ -20,7 +19,7 @@ export class ProgressEffects {
     .ofType(progressActions.progressActionTypes.UPDATE)
     .filter((action: progressActions.Update) => action.payload.progress.status === ProgressModels.ProgressStatus.COMPLETE)
     .map((action: progressActions.Update) => new progressActions.Remove({ key: action.payload.key }))
-    .delay(1000);
+    .delay(500);
 
   constructor(private actions$: Actions) { }
 }

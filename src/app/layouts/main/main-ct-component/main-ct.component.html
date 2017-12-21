@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3>main component</h3>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+      <main-form #mainForm (submitForm)="onSubmit($event)" [disabled]="!!(articleProgress$ | async)"></main-form>
+      <progress-bar [progress]="(articleProgress$ | async)"></progress-bar>
+    </div>
+  </div>
+
+<div class="row">
+  <article class="col-sm-3 article-item" *ngFor="let article of (articleList$ | async)">
+    <div class="article-item__container">
+      <h4>{{article.title}}</h4>
+      <p>{{article.description}}</p>
+    </div>
+  </article>
+</div>

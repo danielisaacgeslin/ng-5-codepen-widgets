@@ -8,6 +8,7 @@ import { reducers } from './reducers';
 import * as effects from './effects';
 
 import { RoutingModule } from './routing.module';
+import { SharedModule } from './shared/shared.module';
 import { ArticleService } from './services/api';
 import { AppComponent } from './app.component';
 
@@ -20,7 +21,8 @@ import { AppComponent } from './app.component';
     RoutingModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([effects.ArticleEffects, effects.ProgressEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 10})
+    StoreDevtoolsModule.instrument({ maxAge: 10}),
+    SharedModule
   ],
   providers: [ArticleService],
   bootstrap: [AppComponent]

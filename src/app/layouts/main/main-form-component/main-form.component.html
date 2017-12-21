@@ -1,0 +1,9 @@
+<div class="article-form">
+  <form class="article-form__group" [formGroup]="newArticleFormGroup" (ngSubmit)="onSubmit()">
+    <input placeholder="Title" formControlName="title" class="form-control">
+    <input placeholder="Description" formControlName="description" class="form-control">
+    <button class="btn btn-success" [disabled]="newArticleFormGroup.invalid || disabled">
+      Create new Article
+    </button>
+  </form>
+</div>
