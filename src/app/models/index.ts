@@ -1,7 +1,7 @@
 import * as ProgressModels from './Progress';
-import { Article } from './Article';
+import * as WidgetModels from './Widget';
 
 export {
-  Article,
+  WidgetModels,
   ProgressModels
 };

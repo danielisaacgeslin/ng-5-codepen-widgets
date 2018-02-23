@@ -1,21 +1,15 @@
 <div class="row">
   <div class="col-xs-12">
-    <h3>main component</h3>
+    <h3>Widgets</h3>
+    <main-form (submitForm)="onSubmit($event)"></main-form>
   </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
-      <main-form #mainForm (submitForm)="onSubmit($event)" [disabled]="!!(articleProgress$ | async)"></main-form>
-      <progress-bar [progress]="(articleProgress$ | async)"></progress-bar>
-    </div>
+  <div class="col-xs-6" *ngFor="let widget of (widgets$ | async)">
+    <p><strong>ID</strong> {{widget.id}}</p>
+    <widget [data]="widget"></widget>
   </div>
-
-<div class="row">
-  <article class="col-sm-3 article-item" *ngFor="let article of (articleList$ | async)">
-    <div class="article-item__container">
-      <h4>{{article.title}}</h4>
-      <p>{{article.description}}</p>
-    </div>
-  </article>
 </div>
+
+<div class="row"></div>

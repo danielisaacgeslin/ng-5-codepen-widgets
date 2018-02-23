@@ -8,15 +8,15 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/delay';
 
-import { ProgressModels } from '../models';
-import { progressActions } from '../actions';
+import { ProgressModels } from '../../models';
+import * as progressActions from './progress.actions';
 
 
 @Injectable()
-export class ProgressEffects {
+export class Effects {
   @Effect()
   create$: Observable<Action> = this.actions$
-    .ofType(progressActions.progressActionTypes.UPDATE)
+    .ofType(progressActions.actionTypes.UPDATE)
     .filter((action: progressActions.Update) =>
       action.payload.progress.status === ProgressModels.ProgressStatus.COMPLETE ||
       action.payload.progress.status === ProgressModels.ProgressStatus.ERROR

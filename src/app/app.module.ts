@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { reducers } from './reducers';
-import * as effects from './effects';
+import { reducers, progressEffects, widgetEffects } from './state-mgmt';
 
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './shared/shared.module';
-import { ArticleService } from './services/api';
+import { CodepenService } from './services/api';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -18,13 +18,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([effects.ArticleEffects, effects.ProgressEffects]),
+    EffectsModule.forRoot([progressEffects.Effects, widgetEffects.Effects]),
     StoreDevtoolsModule.instrument({ maxAge: 10}),
     SharedModule
   ],
-  providers: [ArticleService],
+  providers: [CodepenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
