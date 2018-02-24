@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { reducers, progressEffects, widgetEffects } from './state-mgmt';
+import { reducers, WidgetEffects } from './state-mgmt';
 
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './shared/shared.module';
@@ -21,7 +21,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     RoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([progressEffects.Effects, widgetEffects.Effects]),
+    EffectsModule.forRoot([WidgetEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 10}),
     SharedModule
   ],

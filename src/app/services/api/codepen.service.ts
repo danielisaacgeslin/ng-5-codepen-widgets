@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/zip';
-
+import { zip } from 'rxjs/observable/zip';
 import { map } from 'rxjs/operators';
 
-import { WidgetModels, ProgressModels } from '../../models';
+import { WidgetModels } from '../../models';
 
 @Injectable()
 export class CodepenService {
@@ -21,7 +20,7 @@ export class CodepenService {
         { responseType: 'text' })
       );
 
-    return Observable.zip(...requests).pipe(
+    return zip(...requests).pipe(
       map(data => {
         const args = { id };
         extensions.forEach((ext, index) => args[ext] = data[index]);
