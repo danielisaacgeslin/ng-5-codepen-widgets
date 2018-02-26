@@ -18,15 +18,22 @@ export class Effects {
   @Effect()
   public fetchWidget$: Observable<Action> = this.actions$
     .ofType<widgetActions.Fetch>(widgetActions.actionTypes.FETCH).pipe(
-      flatMap((action: widgetActions.Fetch) => this.codepenService.fetch(action.payload.id)),
-      map((widget: WidgetModels.Widget) => new widgetActions.Add(widget))
+    flatMap((action: widgetActions.Fetch) => this.codepenService.fetch(action.payload.id)),
+    map((widget: WidgetModels.Widget) => new widgetActions.Add(widget))
     );
 
   @Effect({ dispatch: false })
   public addWidget$: Observable<any> = this.actions$
     .ofType<widgetActions.Add>(widgetActions.actionTypes.ADD).pipe(
-      switchMap(() => this.store.select(queries.getState)),
-      tap((state: State) => localStorage.setItem(localStorageKeys.WIDGET, JSON.stringify(state)))
+    switchMap(() => this.store.select(queries.getState)),
+    tap((state: State) => localStorage.setItem(localStorageKeys.WIDGET, JSON.stringify(state)))
+    );
+
+  @Effect({ dispatch: false })
+  public removeWidget$: Observable<any> = this.actions$
+    .ofType<widgetActions.Add>(widgetActions.actionTypes.REMOVE).pipe(
+    switchMap(() => this.store.select(queries.getState)),
+    tap((state: State) => localStorage.setItem(localStorageKeys.WIDGET, JSON.stringify(state)))
     );
 
   constructor(

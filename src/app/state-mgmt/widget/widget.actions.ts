@@ -19,6 +19,6 @@ export class Add implements Action {
 }
 
 export class Remove implements Action {
-  public type: string = actionTypes.ADD;
+  public type: string = actionTypes.REMOVE;
   constructor(public payload: { id: string }) { }
 }

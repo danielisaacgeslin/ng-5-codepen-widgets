@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-xs-6" *ngFor="let widget of (widgets$ | async)">
     <p><strong>ID</strong> {{widget.id}}</p>
-    <widget [data]="widget"></widget>
+    <widget (remove)="onRemove(widget.id)" [data]="widget"></widget>
   </div>
 </div>
 

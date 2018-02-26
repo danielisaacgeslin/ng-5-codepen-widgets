@@ -12,4 +12,8 @@ export class MainPage {
   public getWidgetCount() {
     return element.all(by.css('widget')).count();
   }
+
+  public getWidgetRemoveBtn() {
+    return element(by.css('widget .remove'));
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 
 import { WidgetModels } from '../../models';
 
@@ -15,7 +15,12 @@ export class WidgetComponent {
     this.widget = widget;
     this.processWidget();
   }
+  @Output() remove: EventEmitter<void> = new EventEmitter<void>();
   private widget: WidgetModels.Widget;
+
+  public onRemove(): void {
+    this.remove.next();
+  }
 
   private processWidget(): void {
     const nativeElement: HTMLIFrameElement = this.iframe.nativeElement;

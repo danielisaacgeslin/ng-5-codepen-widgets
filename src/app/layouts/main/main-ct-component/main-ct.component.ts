@@ -18,4 +18,8 @@ export class MainContainerComponent {
     this.store.dispatch(new widgetActions.Fetch({ id }));
   }
 
+  public onRemove(id: string): void {
+    this.store.dispatch(new widgetActions.Remove({ id }));
+  }
+
 }
